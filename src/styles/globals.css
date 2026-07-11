@@ -1,21 +1,125 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
+/* ================================================================== */
+/*  Theme tokens                                                        */
+/* ================================================================== */
+
 @theme {
-  --color-pink: #FF2D78;
-  --color-yellow: #FFD600;
-  --color-orange: #FF6B35;
-  --color-dark: #1A1A2E;
+  /* ── Core palette ── */
+  --color-pink:          #FF2D78;
+  --color-pink-light:    #FF6FA3;
+  --color-pink-dark:     #C4005A;
+  --color-yellow:        #FFD600;
+  --color-yellow-light:  #FFE566;
+  --color-yellow-dark:   #C9A900;
+  --color-orange:        #FF6B35;
+  --color-orange-light:  #FF9A6C;
+  --color-dark:          #1A1A2E;
+  --color-dark-mid:      #16213E;
+  --color-dark-deep:     #0F0F23;
+  --color-surface:       #22223A;
+  --color-surface-light: #2E2E50;
 
-  --font-bebas: "Bebas Neue", sans-serif;
+  /* ── Typography ── */
+  --font-bebas:  "Bebas Neue", sans-serif;
+  --font-body:   "Poppins", system-ui, sans-serif;
 
-  --animate-pulse-slow: pulseSlow 6s ease-in-out infinite;
+  /* ── Shadows ── */
+  --shadow-pink:    0 0 24px rgba(255, 45, 120, 0.45);
+  --shadow-yellow:  0 0 24px rgba(255, 214, 0, 0.40);
+  --shadow-orange:  0 0 24px rgba(255, 107, 53, 0.40);
+  --shadow-glow-lg: 0 0 60px rgba(255, 45, 120, 0.30);
+
+  /* ── Named animations (usable as animate-* classes) ── */
+  --animate-pulse-slow:    pulseSlow    6s  ease-in-out  infinite;
+  --animate-float:         float        5s  ease-in-out  infinite;
+  --animate-float-slow:    float        8s  ease-in-out  infinite;
+  --animate-shimmer:       shimmer      2.4s linear       infinite;
+  --animate-glow-ping:     glowPing     2s  ease-out     infinite;
+  --animate-bounce-soft:   bounceSoft   2s  ease-in-out  infinite;
+  --animate-spin-slow:     spin         8s  linear       infinite;
+  --animate-slide-up:      slideUp      0.6s ease-out    both;
+  --animate-slide-down:    slideDown    0.6s ease-out    both;
+  --animate-fade-in:       fadeIn       0.5s ease-out    both;
+  --animate-scale-in:      scaleIn      0.4s cubic-bezier(.34,1.56,.64,1) both;
+  --animate-ticker:        ticker       22s  linear       infinite;
+  --animate-morph:         morph        8s  ease-in-out  infinite;
 }
 
+/* ================================================================== */
+/*  Keyframes                                                           */
+/* ================================================================== */
+
+/* Original */
 @keyframes pulseSlow {
-  0%, 100% { transform: scale(1); opacity: 0.12; }
-  50% { transform: scale(1.08); opacity: 0.2; }
+  0%, 100% { transform: scale(1);    opacity: 0.12; }
+  50%       { transform: scale(1.08); opacity: 0.22; }
 }
+
+/* Vertical float */
+@keyframes float {
+  0%, 100% { transform: translateY(0px)   rotate(0deg); }
+  33%       { transform: translateY(-12px) rotate(1deg); }
+  66%       { transform: translateY(6px)  rotate(-1deg); }
+}
+
+/* Shimmer sweep — use on pseudo-element or overlay span */
+@keyframes shimmer {
+  0%   { transform: translateX(-100%) skewX(-15deg); }
+  100% { transform: translateX(250%)  skewX(-15deg); }
+}
+
+/* Expanding glow ring */
+@keyframes glowPing {
+  0%        { transform: scale(0.85); opacity: 0.8; }
+  70%, 100% { transform: scale(1.6);  opacity: 0;   }
+}
+
+/* Gentle vertical bounce */
+@keyframes bounceSoft {
+  0%, 100% { transform: translateY(0);   }
+  50%       { transform: translateY(-8px); }
+}
+
+/* Horizontal ticker */
+@keyframes ticker {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Border-radius morph (blob shapes) */
+@keyframes morph {
+  0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  25%       { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+  50%       { border-radius: 50% 60% 30% 60% / 30% 40% 70% 50%; }
+  75%       { border-radius: 60% 30% 50% 40% / 40% 70% 30% 60%; }
+}
+
+/* Entrance animations */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-28px); }
+  to   { opacity: 1; transform: translateY(0);     }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.88); }
+  to   { opacity: 1; transform: scale(1);    }
+}
+
+/* ================================================================== */
+/*  Base layer                                                          */
+/* ================================================================== */
 
 @layer base {
   html {
@@ -24,7 +128,7 @@
 
   body {
     @apply bg-dark text-white antialiased;
-    font-family: 'Poppins', system-ui, sans-serif;
+    font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -33,26 +137,194 @@
     @apply bg-pink text-white;
   }
 
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: #1A1A2E;
-  }
-
+  /* Scrollbar */
+  ::-webkit-scrollbar       { width: 8px; }
+  ::-webkit-scrollbar-track { background: var(--color-dark); }
   ::-webkit-scrollbar-thumb {
-    background: #FF2D78;
+    background: linear-gradient(to bottom, var(--color-pink), var(--color-orange));
     border-radius: 4px;
   }
+  ::-webkit-scrollbar-thumb:hover { background: var(--color-orange); }
 
-  ::-webkit-scrollbar-thumb:hover {
-    background: #FF6B35;
+  /* Focus ring */
+  :focus-visible {
+    outline: 2px solid var(--color-pink);
+    outline-offset: 3px;
+    border-radius: 4px;
   }
 }
 
+/* ================================================================== */
+/*  Utility layer                                                       */
+/* ================================================================== */
+
 @layer utilities {
+
+  /* ── Gradients & text ── */
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-linear-to-r from-pink via-orange to-yellow;
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(to right, var(--color-pink), var(--color-orange), var(--color-yellow));
+  }
+
+  .text-gradient-pink {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, var(--color-pink-light), var(--color-pink-dark));
+  }
+
+  .text-gradient-warm {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(to right, var(--color-orange), var(--color-yellow));
+  }
+
+  .bg-gradient-brand {
+    background-image: linear-gradient(135deg, var(--color-pink), var(--color-orange));
+  }
+
+  .bg-gradient-warm {
+    background-image: linear-gradient(135deg, var(--color-orange), var(--color-yellow));
+  }
+
+  .bg-gradient-dark {
+    background-image: linear-gradient(180deg, var(--color-dark-deep), var(--color-dark-mid));
+  }
+
+  .bg-gradient-radial-pink {
+    background: radial-gradient(ellipse at center, rgba(255,45,120,0.18) 0%, transparent 70%);
+  }
+
+  .bg-gradient-radial-yellow {
+    background: radial-gradient(ellipse at center, rgba(255,214,0,0.15) 0%, transparent 70%);
+  }
+
+  /* ── Glassmorphism ── */
+  .glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+  }
+
+  .glass-pink {
+    background: rgba(255, 45, 120, 0.08);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 45, 120, 0.20);
+  }
+
+  .glass-dark {
+    background: rgba(15, 15, 35, 0.65);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .glass-surface {
+    background: rgba(34, 34, 58, 0.70);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  /* ── Neon shadows ── */
+  .shadow-neon-pink {
+    box-shadow: 0 0 12px rgba(255,45,120,0.6),
+                0 0 32px rgba(255,45,120,0.3),
+                0 0 64px rgba(255,45,120,0.12);
+  }
+
+  .shadow-neon-yellow {
+    box-shadow: 0 0 12px rgba(255,214,0,0.55),
+                0 0 32px rgba(255,214,0,0.28),
+                0 0 64px rgba(255,214,0,0.10);
+  }
+
+  .shadow-neon-orange {
+    box-shadow: 0 0 12px rgba(255,107,53,0.55),
+                0 0 32px rgba(255,107,53,0.28),
+                0 0 64px rgba(255,107,53,0.10);
+  }
+
+  .shadow-card {
+    box-shadow: 0 4px 24px rgba(0,0,0,0.35),
+                0 1px 4px  rgba(0,0,0,0.20);
+  }
+
+  .shadow-card-hover {
+    box-shadow: 0 12px 48px rgba(255,45,120,0.22),
+                0 4px 16px rgba(0,0,0,0.30);
+  }
+
+  /* ── Borders ── */
+  .border-gradient-pink {
+    border: 1.5px solid transparent;
+    background-clip: padding-box;
+    background-image: linear-gradient(var(--color-surface), var(--color-surface)),
+                      linear-gradient(135deg, var(--color-pink), var(--color-orange));
+    background-origin: border-box;
+  }
+
+  /* ── Shimmer overlay (apply to parent, add pseudo-element via ::before) ── */
+  .shimmer-parent {
+    position: relative;
+    overflow: hidden;
+    
+  }
+
+  .shimmer-parent::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      105deg,
+      transparent 35%,
+      rgba(255,255,255,0.18) 50%,
+      transparent 65%
+    );
+    animation: var(--animate-shimmer);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* ── Section spacing ── */
+  .section-pad {
+    @apply py-20 px-4 sm:px-6 lg:px-8;
+  }
+
+  /* ── Ticker ── */
+  .animate-ticker {
+    animation: var(--animate-ticker);
+  }
+
+  /* ── Morphing blob ── */
+  .blob {
+    animation: var(--animate-morph);
+
+  }
+
+  /* ── Spin ── */
+  .animate-spin-slow {
+    animation: var(--animate-spin-slow);
+  }
+
+  /* ── Entrance helpers (pair with animation-delay-* via inline style) ── */
+  .animate-slide-up   { animation: var(--animate-slide-up);   }
+  .animate-slide-down { animation: var(--animate-slide-down); }
+  .animate-fade-in    { animation: var(--animate-fade-in);    }
+  .animate-scale-in   { animation: var(--animate-scale-in);   }
+  .animate-float      { animation: var(--animate-float);      }
+  .animate-float-slow { animation: var(--animate-float-slow); }
+  .animate-glow-ping  { animation: var(--animate-glow-ping);  }
+  .animate-bounce-soft{ animation: var(--animate-bounce-soft);}
+  .animate-shimmer    { animation: var(--animate-shimmer);    }
+  .animate-spin-slow  { animation: var(--animate-spin-slow);  }
+  .animate-morph      { animation: var(--animate-morph);      }
+
+  /* ── Reduced-motion safety ── */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }

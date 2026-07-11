@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { MapPin, Clock, Phone, ParkingSquare, Copy, Check, Navigation, MessageCircle } from 'lucide-react'
+import { MapPin, Clock, Phone, ParkingSquare, Copy, Check, Navigation, MessageCircle, Map as MapIcon, ChevronDown } from 'lucide-react'
 import SectionLabel from '../ui/SectionLabel'
 import Button from '../ui/Button'
 
@@ -21,6 +21,12 @@ const locations = [
 const directionsUrl = address =>
   `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${address}, Sri Lanka`)}`
 
+// No API key / place ID required — this query-based embed works with
+// just an address. Swap in a `.../maps/embed?pb=...` URL later if you
+// generate proper place-ID embeds from Google Maps' "Share > Embed a map".
+const mapEmbedUrl = address =>
+  `https://www.google.com/maps?q=${encodeURIComponent(`${address}, Sri Lanka`)}&output=embed`
+
 const contactRows = [
   {
     icon: Clock,
@@ -30,8 +36,8 @@ const contactRows = [
   {
     icon: Phone,
     label: 'Phone & Email',
-    value: '+1 (555) 867-5309\nhello@zumbafit.studio',
-    copy: ['+15558675309', 'hello@zumbafit.studio'],
+    value: '+94 70 344 4430\nhello@zumbafit.studio',
+   copy: ['+94 70 344 4430', 'hello@zumbafit.studio'],
   },
   {
     icon: ParkingSquare,
@@ -73,7 +79,7 @@ function CopyableLine({ display, copyValue, label }) {
       className="
         group/copy relative inline-flex items-center gap-1.5
         text-navy text-[15px] font-medium
-        hover:text-pink transition-colors
+        hover:text-orange-300 transition-colors
         focus-visible:outline-2 focus-visible:outline-pink focus-visible:outline-offset-2 rounded
       "
     >
@@ -120,6 +126,9 @@ function CopyableLine({ display, copyValue, label }) {
 
 export default function Location() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.15 })
+  const [openMapIndex, setOpenMapIndex] = useState(null)
+
+  const toggleMap = i => setOpenMapIndex(prev => (prev === i ? null : i))
 
   return (
     <section id="location" className="section-pad bg-cream" ref={ref}>
@@ -143,80 +152,117 @@ export default function Location() {
             Our studios
           </p>
 
-          {locations.map((loc, i) => (
-            <motion.div
-              key={loc.name}
-              variants={rowVariants}
-              className="
-                relative rounded-2xl overflow-hidden
-                bg-linear-to-br from-indigo-100 to-purple-100
-                border-2 border-dashed border-purple/30
-                flex items-center gap-4
-                px-6 py-6
-              "
-            >
-              {/* Pulsing pin — rhythm-themed signature */}
-              <div className="relative flex items-center justify-center h-14 w-14 shrink-0">
-                {[0, 1].map(r => (
-                  <motion.span
-                    key={r}
-                    className="absolute inset-0 rounded-full border-2 border-pink/50"
-                    animate={{ scale: [1, 2.1], opacity: [0.6, 0] }}
-                    transition={{
-                      duration: 2.2,
-                      repeat: Infinity,
-                      delay: r * 1.1 + i * 0.4,
-                      ease: 'easeOut',
-                    }}
-                  />
-                ))}
-                <div
-                  className="
-                    relative z-10 w-10 h-10 rounded-full
-                    [background:linear-gradient(135deg,#FF2D78,#FF6B35)]
-                    flex items-center justify-center shadow-md
-                  "
-                >
-                  <MapPin size={19} className="text-white" strokeWidth={2.25} />
+          {locations.map((loc, i) => {
+            const mapOpen = openMapIndex === i
+
+            return (
+              <motion.div
+                key={loc.name}
+                variants={rowVariants}
+                className="
+                  relative rounded-2xl overflow-hidden
+                  bg-linear-to-br from-navy to-dark-mid
+                  border-2 border-dashed border-purple-light/25
+                  shadow-card
+                "
+              >
+                <div className="flex items-center gap-4 px-6 py-6">
+                  {/* Pulsing pin — rhythm-themed signature */}
+                  <div className="relative flex items-center justify-center h-14 w-14 shrink-0">
+                    {[0, 1].map(r => (
+                      <motion.span
+                        key={r}
+                        className="absolute inset-0 rounded-full border-2 border-pink/50"
+                        animate={{ scale: [1, 2.1], opacity: [0.6, 0] }}
+                        transition={{
+                          duration: 2.2,
+                          repeat: Infinity,
+                          delay: r * 1.1 + i * 0.4,
+                          ease: 'easeOut',
+                        }}
+                      />
+                    ))}
+                    <div
+                      className="
+                        relative z-10 w-10 h-10 rounded-full
+                        [background:linear-gradient(135deg,#FF2D78,#FF6B35)]
+                        flex items-center justify-center shadow-md
+                      "
+                    >
+                      <MapPin size={19} className="text-white" strokeWidth={2.25} />
+                    </div>
+                  </div>
+
+                  <div className="text-left flex-1 min-w-0">
+                    <p className="text-white font-bold text-[15px] leading-snug">
+                      {loc.shortName}
+                    </p>
+                    <p className="text-purple-light/70 text-xs leading-relaxed mt-0.5">
+                      {loc.address}
+                    </p>
+                    <div className="flex flex-wrap items-center gap-2 mt-3">
+                      <a
+                        href={directionsUrl(loc.address)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="
+                          inline-flex items-center gap-1.5
+                          text-xs font-bold uppercase tracking-wide text-white
+                          bg-gradient-brand hover:opacity-90 transition-opacity
+                          px-4 py-2 rounded-full shadow-neon-pink
+                          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink
+                        "
+                      >
+                        <Navigation size={13} strokeWidth={2.5} />
+                        Get directions
+                      </a>
+                      <button
+                        type="button"
+                        onClick={() => toggleMap(i)}
+                        aria-expanded={mapOpen}
+                        className="
+                          inline-flex items-center gap-1.5
+                          text-xs font-bold uppercase tracking-wide text-white
+                          bg-white/10 hover:bg-white/20 transition-colors
+                          px-4 py-2 rounded-full border border-white/15
+                          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink
+                        "
+                      >
+                        <MapIcon size={13} strokeWidth={2.5} />
+                        {mapOpen ? 'Hide map' : 'View map'}
+                        <ChevronDown
+                          size={13}
+                          strokeWidth={2.5}
+                          className={`transition-transform duration-300 ${mapOpen ? 'rotate-180' : ''}`}
+                        />
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </div>
 
-              <div className="text-left flex-1 min-w-0">
-                <p className="text-navy font-bold text-[15px] leading-snug">
-                  {loc.shortName}
-                </p>
-                <p className="text-purple/70 text-xs leading-relaxed mt-0.5">
-                  {loc.address}
-                </p>
-                <a
-                  href={directionsUrl(loc.address)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="
-                    inline-flex items-center gap-1.5 mt-3
-                    text-xs font-bold uppercase tracking-wide text-white
-                    bg-navy hover:bg-navy/90 transition-colors
-                    px-4 py-2 rounded-full
-                    focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink
-                  "
-                >
-                  <Navigation size={13} strokeWidth={2.5} />
-                  Get directions
-                </a>
-              </div>
-            </motion.div>
-          ))}
-
-          {/*
-            Replace either card above with a real Google Maps embed once you have place IDs:
-            <iframe
-              src="https://www.google.com/maps/embed?pb=..."
-              className="w-full h-[220px] rounded-2xl border-0"
-              allowFullScreen
-              loading="lazy"
-              title={loc.shortName}
-            />
-          */}
+                <AnimatePresence initial={false}>
+                  {mapOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.35, ease: 'easeInOut' }}
+                      className="overflow-hidden border-t border-white/10"
+                    >
+                      <iframe
+                        src={mapEmbedUrl(loc.address)}
+                        className="w-full h-56 md:h-64 border-0 block"
+                        allowFullScreen
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                        title={`Map to ${loc.shortName}`}
+                      />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            )
+          })}
         </motion.div>
 
         {/* Contact info */}
@@ -277,7 +323,7 @@ export default function Location() {
           <motion.div variants={rowVariants}>
             <Button
               variant="whatsapp"
-              href="https://wa.me/15558675309"
+              href="https://wa.me/94703444430"
               size="md"
               className="mt-2 self-start inline-flex items-center gap-2"
             >
@@ -291,7 +337,7 @@ export default function Location() {
             variants={rowVariants}
             className="text-gray-400 text-sm leading-relaxed"
           >
-            💡 Walk-ins always welcome. For popular classes like Saturday
+            Walk-ins always welcome. For popular classes like Saturday
             Weekend Warrior, book at least 24h ahead — they fill fast.
           </motion.p>
         </motion.div>

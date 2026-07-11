@@ -14,14 +14,20 @@
   animation-play-state: paused;
 }
 
-/* Gentle float — for decorative elements, badges, icons */
-@keyframes float {
+/* Gentle float — for decorative elements, badges, icons
+   NOTE: named `float-soft` (not `float`) because src/index.css already
+   defines its own `@keyframes float` with different motion (rotate +
+   larger translate) for `.animate-float` / `.animate-float-slow`. Two
+   same-named keyframes across stylesheets silently collide — whichever
+   file loads last wins everywhere, including in components that expected
+   the other one. */
+@keyframes floatSoft {
   0%, 100% { transform: translateY(0); }
   50%      { transform: translateY(-10px); }
 }
 
-.animate-float {
-  animation: float 4s ease-in-out infinite;
+.animate-float-soft {
+  animation: floatSoft 4s ease-in-out infinite;
 }
 
 /* Fade-in-up on scroll — fallback for elements not using framer-motion */
@@ -32,4 +38,16 @@
 
 .animate-fade-in-up {
   animation: fadeInUp 0.7s ease-out forwards;
+}
+
+/* Reduced-motion safety net — kept local to this file so it still applies
+   even if src/index.css (which has its own site-wide version) isn't
+   loaded on whatever page/bundle pulls this file in. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-float-soft,
+  .animate-fade-in-up {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }

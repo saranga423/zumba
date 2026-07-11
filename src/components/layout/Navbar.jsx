@@ -120,9 +120,7 @@ export default function Navbar() {
                 transition={{ delay: 0.4 }}
                 className="mt-4"
               >
-                <Button href="#schedule" size="lg" onClick={() => setMobileOpen(false)}>
-                  Book Free Trial 🎉
-                </Button>
+                
               </motion.div>
             </div>
           </motion.div>

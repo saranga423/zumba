@@ -1,35 +1,68 @@
 [
   {
-    "id": 1,
+    "id": "se-kala-tue",
     "day": "Tue",
     "dayFull": "Tuesday",
     "time": "5:00 PM",
     "name": "Zumba Fitness",
     "type": "zumba",
-    "description": "High-energy cardio dance workout designed to burn calories while having fun with Latin and international rhythms.",
+    "description": "High-energy Latin dance cardio for all levels — no experience needed, just bring your energy.",
     "level": "All Levels",
-    "location": "Nimal Senanayake Academy of Performing Arts, Resh Dance Studio, Kandy"
+    "location": "Nimal Senanayake Academy of Performing Arts"
   },
   {
-    "id": 2,
+    "id": "se-kala-thu",
     "day": "Thu",
     "dayFull": "Thursday",
     "time": "5:00 PM",
     "name": "Zumba Fitness",
     "type": "zumba",
-    "description": "A fun, energetic full-body workout combining dance and fitness to improve endurance, coordination, and confidence.",
+    "description": "High-energy Latin dance cardio for all levels — no experience needed, just bring your energy.",
     "level": "All Levels",
-    "location": "Nimal Senanayake Academy of Performing Arts, Resh Dance Studio, Kandy"
+    "location": "Nimal Senanayake Academy of Performing Arts"
   },
   {
-    "id": 3,
+    "id": "se-kala-sun",
     "day": "Sun",
     "dayFull": "Sunday",
     "time": "9:00 AM",
-    "name": "Weekend Zumba Party",
+    "name": "Family Zumba",
     "type": "zumba",
-    "description": "Start your Sunday with an exciting Zumba session full of music, movement, and positive energy.",
+    "description": "A lighter-paced session the whole family can join — parents, kids, and grandparents dancing together.",
+    "level": "All Levels",
+    "location": "Nimal Senanayake Academy of Performing Arts"
+  },
+  {
+    "id": "resh-mon",
+    "day": "Mon",
+    "dayFull": "Monday",
+    "time": "6:00 PM",
+    "name": "Zumba Fitness",
+    "type": "zumba",
+    "description": "High-energy Latin dance cardio for all levels — no experience needed, just bring your energy.",
+    "level": "All Levels",
+    "location": "Resh Dance Studio Kandy"
+  },
+  {
+    "id": "resh-wed",
+    "day": "Wed",
+    "dayFull": "Wednesday",
+    "time": "6:00 PM",
+    "name": "Zumba Toning",
+    "type": "zumba",
+    "description": "Same great choreography with light hand weights added — tone while you dance.",
+    "level": "Intermediate",
+    "location": "Resh Dance Studio Kandy"
+  },
+  {
+    "id": "resh-sat",
+    "day": "Sat",
+    "dayFull": "Saturday",
+    "time": "10:00 AM",
+    "name": "Zumba Gold",
+    "type": "zumba",
+    "description": "Lower-impact Zumba with all the energy — built for joints that still want to move.",
     "level": "Beginner Friendly",
-    "location": "Nimal Senanayake Academy of Performing Arts, Resh Dance Studio, Kandy"
+    "location": "Resh Dance Studio Kandy"
   }
 ]

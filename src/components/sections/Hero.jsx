@@ -10,16 +10,14 @@ import {
   useReducedMotion,
 } from "framer-motion";
 import {
-  ArrowRight,
   Play,
   X,
-  Sparkles,
   Users,
   Star,
   CalendarCheck,
   Flame,
 } from "lucide-react";
-import Button from "../ui/Button";
+//import Button from "../ui/Button";
 import heroImg from "../../assets/hero.jpg";
 import previewReel from "../../assets/videos/v1.mp4";
 
@@ -34,7 +32,10 @@ const stats = [
   { num: "12", label: "Weekly Classes", icon: Flame },
 ];
 
-const headlineWords = ["MOVE.", "SWEAT.", "SHINE."];
+// Synced to the studio's actual tagline (used in Footer's ticker and the
+// other Hero component) — was "MOVE. SWEAT. SHINE." here, which didn't
+// match the rest of the site.
+const headlineWords = ["DANCE.", "SWEAT.", "REPEAT."];
 
 // TODO: replace with your real daily schedule (e.g. from data/classes.js).
 // Times are 24h "HH:MM", durationMins is how long the class runs.
@@ -200,11 +201,11 @@ function StatCard({ item, index }) {
       "
     >
       {/* top accent line, brightens on hover */}
-      <span className="absolute top-0 left-0 right-0 h-0.5 bg-linear-to-r from-pink via-orange-400 to-yellow opacity-40 group-hover:opacity-100 transition-opacity" />
+      <span className="absolute top-0 left-0 right-0 h-0.5 bg-linear-to-r from-pink via-orange to-yellow opacity-40 group-hover:opacity-100 transition-opacity" />
 
       <Icon size={20} className="mx-auto mb-3 text-yellow/80" strokeWidth={2} />
 
-      <div className="font-bebas text-5xl md:text-6xl bg-linear-to-r from-yellow to-orange-400 bg-clip-text text-transparent">
+      <div className="font-bebas text-5xl md:text-6xl bg-linear-to-r from-yellow to-orange bg-clip-text text-transparent">
         {item.num}
       </div>
 
@@ -404,7 +405,7 @@ export default function Hero() {
         <motion.div
           animate={prefersReducedMotion ? {} : { scale: [1, 1.15, 1] }}
           transition={{ repeat: Infinity, duration: 8 }}
-          className="absolute top-1/3 left-1/3 w-64 h-64 rounded-full blur-[80px] bg-orange-500/15 transform-gpu"
+          className="absolute top-1/3 left-1/3 w-64 h-64 rounded-full blur-[80px] bg-orange/15 transform-gpu"
         />
       </div>
 
@@ -449,15 +450,15 @@ export default function Hero() {
               aria-hidden="true"
             />
           )}
-          <Sparkles size={14} className="text-yellow shrink-0" strokeWidth={2.5} />
           <span className="text-xs md:text-sm tracking-[2px] md:tracking-[3px] uppercase text-yellow font-semibold">
-            Sri Lanka's Most Energetic Zumba Studio
+           ................................
           </span>
         </motion.div>
 
         {/* Next class / live indicator */}
         <div>
           <LiveClassCard nextClass={nextClass} />
+          
         </div>
 
         {/* Heading — word-by-word reveal */}
@@ -474,7 +475,7 @@ export default function Hero() {
               variants={headlineWord}
               className={`block ${
                 i === 1
-                  ? "bg-linear-to-r from-pink via-orange-400 to-yellow bg-clip-text text-transparent"
+                  ? "bg-linear-to-r from-lime-500 via-orange to-yellow bg-clip-text text-transparent"
                   : "text-white"
               }`}
             >
@@ -511,17 +512,12 @@ export default function Hero() {
           <div className="group relative">
             <div
               className="
-                absolute -inset-1 rounded-full bg-linear-to-r from-pink to-orange-400
+                absolute -inset-1 rounded-full bg-linear-to-r from-pink to-orange
                 opacity-0 group-hover:opacity-60 blur-lg transition-opacity duration-300
               "
               aria-hidden="true"
             />
-            <Button href="#schedule" size="lg" className="relative">
-              <span className="flex items-center gap-2">
-                Book Free Class
-                <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
-              </span>
-            </Button>
+            
           </div>
 
           {/* Secondary CTA with glow-on-hover */}
@@ -559,6 +555,8 @@ export default function Hero() {
           ))}
         </div>
       </motion.div>
+
+      
 
       {/* Scroll indicator */}
       
