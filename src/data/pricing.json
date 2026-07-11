@@ -1,0 +1,56 @@
+[
+  {
+    "id": "dropin",
+    "name": "Drop-In",
+    "price": 18,
+    "period": "per class",
+    "subtext": "No commitment needed",
+    "featured": false,
+    "badge": null,
+    "features": [
+      "One class, any type",
+      "Book same day",
+      "All class types included",
+      "Your first class is FREE"
+    ],
+    "cta": "Book a Class",
+    "ctaVariant": "ghost"
+  },
+  {
+    "id": "monthly",
+    "name": "Monthly Unlimited",
+    "price": 79,
+    "period": "per month",
+    "subtext": "Save 50%+ vs drop-in",
+    "featured": true,
+    "badge": "★ Most Popular",
+    "features": [
+      "Unlimited classes",
+      "All class types included",
+      "Priority booking access",
+      "Cancel anytime — no lock-in",
+      "One free guest pass per month",
+      "Member-only workshops"
+    ],
+    "cta": "Join Now",
+    "ctaVariant": "primary"
+  },
+  {
+    "id": "punchcard",
+    "name": "10-Class Card",
+    "price": 140,
+    "period": "10 classes",
+    "subtext": "$14/class — save 22%",
+    "featured": false,
+    "badge": null,
+    "features": [
+      "10 class credits",
+      "Valid for 6 months",
+      "Share with a friend",
+      "All class types",
+      "Never expires if unused"
+    ],
+    "cta": "Buy Card",
+    "ctaVariant": "ghost"
+  }
+]

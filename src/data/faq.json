@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "question": "Do I need any dance experience?",
+    "answer": "Absolutely not! Zumba is designed for everyone. Our instructors break down every move and the whole vibe is about having fun, not being perfect. Walk in a beginner, leave feeling like a dancer. Seriously — we see it every week."
+  },
+  {
+    "id": 2,
+    "question": "What should I wear and bring?",
+    "answer": "Comfortable athletic wear and supportive shoes — dance sneakers are ideal (they allow lateral pivots better than running shoes). Bring a water bottle and a small towel. We have changing rooms and secure lockers on-site. A big smile is mandatory."
+  },
+  {
+    "id": 3,
+    "question": "What is Zumba Gold?",
+    "answer": "Zumba Gold is a lower-impact version of our regular classes, designed for active older adults, those returning from injury, or anyone who prefers a gentler pace. It's still full of energy, great music, and Latin rhythm — just easier on your joints."
+  },
+  {
+    "id": 4,
+    "question": "Is my first class really free?",
+    "answer": "Yes, completely free, no card required. Just show up to any regular Zumba class, tell us it's your first time, and you're in. No pressure to sign up for anything afterward — though most people do!"
+  },
+  {
+    "id": 5,
+    "question": "What is your cancellation policy?",
+    "answer": "For drop-ins and punch cards, you can cancel up to 2 hours before class for a full credit back. Monthly memberships can be cancelled any time with 30 days' notice. No cancellation fees, ever. We keep it simple."
+  },
+  {
+    "id": 6,
+    "question": "Are there classes for children?",
+    "answer": "Yes! Kids Zumba runs on Wednesday afternoons (ages 4–12) and Family Zumba runs Saturday mornings (all ages together). Kids absolutely love it, and parents can join adult classes happening at the same time."
+  },
+  {
+    "id": 7,
+    "question": "How do I book a class?",
+    "answer": "You can book directly through this site, WhatsApp us, or just walk in — we always try to accommodate walk-ins. For popular classes like Saturday's Weekend Warrior, we recommend booking at least 24 hours ahead as they fill up fast."
+  },
+  {
+    "id": 8,
+    "question": "What if I have an injury or health condition?",
+    "answer": "Please let Sofia know before class. She'll modify moves to suit your needs and can recommend whether Zumba Gold might be a better fit. We also recommend checking with your doctor if you have any concerns — your safety comes first."
+  }
+]

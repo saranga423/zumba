@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "Saranga Rasingolla",
+    "rating": 5,
+    "avatarColor": "#FF2D78",
+    "quote": "You don't just teach Zumba. You teach confidence, self-love, and the joy of movement. Every class is a celebration of life, and I leave feeling empowered and uplifted.",
+    "transformation": "-10kg in 4 months"
+  },
+  {
+    "id": 2,
+    "name": "Rosi",
+    "rating": 5,
+    "avatarColor": "#FF6B35",
+    "quote": "The perfect combination of fitness and fun. Every class is well-organized, motivating, and full of positive vibes. I've improved my fitness while making great friends.",
+    "transformation": "–12kg in 5 months"
+  },
+  {
+    "id": 3,
+    "name": "Aisha L.",
+    "rating": 5,
+    "avatarColor": "#7B2FBE",
+    "quote": "I brought my 60-year-old mum to Zumba Gold and she's completely obsessed. Sofia adapts the class so everyone feels included. Genuinely the highlight of our week.",
+    "transformation": null
+  }
+]
