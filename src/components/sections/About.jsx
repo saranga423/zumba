@@ -123,7 +123,7 @@ export default function About() {
             </h3>
 
             <p className="text-white/80 leading-8 text-lg">
-              I began my Zumba journey over eight years ago with a simple goal—to
+              I began my Zumba journey over eight years ago with a simple goal to
               stay active and enjoy dancing. What started as a fitness routine
               quickly became a lifelong passion for inspiring others to move,
               smile, and feel confident.

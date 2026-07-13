@@ -18,9 +18,8 @@ import {
   Flame,
   ChevronDown,
 } from "lucide-react";
-import Button from "../ui/Button";
 import heroImg from "../../assets/hero.jpg";
-import heroImg2 from "../../assets/g1.jpg";
+import heroImg2 from "../../assets/g7.jpg";
 import heroImg3 from "../../assets/g2.jpg";
 import heroImg4 from "../../assets/g9.jpg";
 import heroImg5 from "../../assets/g10.jpg";
@@ -46,7 +45,6 @@ const SLIDE_INTERVAL_MS = 6000;
 const stats = [
   { num: "4+", label: "Years Experience", icon: CalendarCheck },
   { num: "100+", label: "Happy Members", icon: Users },
-  { num: "4.9★", label: "Google Rating", icon: Star },
   { num: "12", label: "Weekly Classes", icon: Flame },
 ];
 
@@ -108,6 +106,7 @@ function useHoverCapable() {
 function FloatingParticles({ count = 14 }) {
   const shouldReduceMotion = useReducedMotion();
   const [particles, setParticles] = useState([]);
+
 
   useEffect(() => {
     if (shouldReduceMotion) {
@@ -560,10 +559,7 @@ export default function Hero() {
               "
               aria-hidden="true"
             />
-            <Button href="#schedule" size="lg" className="relative shadow-[0_4px_24px_rgba(200,240,60,0.35)]">
-              <CalendarCheck size={18} />
-              Book Free Trial Class
-            </Button>
+            
           </div>
 
           {/* Secondary CTA with glow-on-hover */}
