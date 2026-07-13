@@ -16,14 +16,32 @@ import {
   Star,
   CalendarCheck,
   Flame,
+  ChevronDown,
 } from "lucide-react";
-//import Button from "../ui/Button";
+import Button from "../ui/Button";
 import heroImg from "../../assets/hero.jpg";
+import heroImg2 from "../../assets/g1.jpg";
+import heroImg3 from "../../assets/g2.jpg";
+import heroImg4 from "../../assets/g9.jpg";
+import heroImg5 from "../../assets/g10.jpg";
+import heroImg6 from "../../assets/g11.png";
+
 import previewReel from "../../assets/videos/v1.mp4";
 
 /* -------------------------------------------------------------------- */
 /*  Data                                                                  */
 /* -------------------------------------------------------------------- */
+
+// TODO(assets): hero-2.jpg / hero-3.jpg are placeholder filenames — swap
+// in real studio photos. Keep all three roughly the same crop/exposure so
+// the slide transition doesn't jump in brightness.
+const heroSlides = [heroImg, heroImg2, heroImg3, heroImg4, heroImg5, heroImg6];
+
+const SLIDE_INTERVAL_MS = 6000;
+
+// TODO(design-tokens): raw hex values stand in for the real @theme tokens
+// (cream / hibiscus / mango / plum / lime) — swap once confirmed against
+// globals.css.
 
 const stats = [
   { num: "4+", label: "Years Experience", icon: CalendarCheck },
@@ -37,7 +55,7 @@ const stats = [
 // match the rest of the site.
 const headlineWords = ["DANCE.", "SWEAT.", "REPEAT."];
 
-// TODO: replace with your real daily schedule (e.g. from data/classes.js).
+// TODO: replace with your real daily schedule (e.g. from data/schedule.json).
 // Times are 24h "HH:MM", durationMins is how long the class runs.
 const todaySchedule = [
   { time: "06:00", label: "Morning Burn", durationMins: 50 },
@@ -113,7 +131,7 @@ function FloatingParticles({ count = 14 }) {
       {particles.map((p) => (
         <motion.span
           key={p.id}
-          className="absolute rounded-full bg-yellow/50 blur-[1px]"
+          className="absolute rounded-full bg-[#C8F03C]/50 blur-[1px]"
           style={{
             left: `${p.left}%`,
             width: p.size,
@@ -153,27 +171,27 @@ function LiveClassCard({ nextClass }) {
       transition={{ duration: 0.6, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
       className="
         inline-flex items-center gap-3
-        rounded-2xl border border-white/15 bg-white/[0.07] backdrop-blur-2xl
+        rounded-2xl border border-[#FAF4E9]/15 bg-[#FAF4E9]/[0.07] backdrop-blur-2xl
         shadow-[0_8px_32px_rgba(0,0,0,0.35)]
         px-5 py-3 mb-6
       "
     >
       <span className="relative flex h-2.5 w-2.5 shrink-0">
         {isLive && (
-          <span className="absolute inline-flex h-full w-full rounded-full bg-pink opacity-75 animate-ping" />
+          <span className="absolute inline-flex h-full w-full rounded-full bg-[#E23F73] opacity-75 animate-ping" />
         )}
         <span
           className={`relative inline-flex rounded-full h-2.5 w-2.5 ${
-            isLive ? "bg-pink" : "bg-yellow"
+            isLive ? "bg-[#E23F73]" : "bg-[#FF9736]"
           }`}
         />
       </span>
 
-      <span className="text-left text-sm text-white/85">
-        <span className="font-bold text-white">
+      <span className="text-left text-sm text-[#FAF4E9]/85">
+        <span className="font-bold text-[#FAF4E9]">
           {isLive ? "Live Now" : "Next Class Today"}
         </span>
-        <span className="text-white/60"> · {nextClass.label} · {nextClass.time}</span>
+        <span className="text-[#FAF4E9]/60"> · {nextClass.label} · {nextClass.time}</span>
       </span>
     </motion.div>
   );
@@ -194,22 +212,22 @@ function StatCard({ item, index }) {
       whileHover={{ y: -8, scale: 1.04 }}
       className="
         group relative overflow-hidden rounded-2xl
-        border border-white/10 bg-white/5 backdrop-blur-xl
+        border border-[#FAF4E9]/10 bg-[#FAF4E9]/5 backdrop-blur-xl
         py-8 px-5 shadow-[0_4px_24px_rgba(0,0,0,0.25)]
         transition-shadow duration-300
-        hover:shadow-[0_8px_40px_rgba(255,45,120,0.25)]
+        hover:shadow-[0_8px_40px_rgba(226,63,115,0.25)]
       "
     >
       {/* top accent line, brightens on hover */}
-      <span className="absolute top-0 left-0 right-0 h-0.5 bg-linear-to-r from-pink via-orange to-yellow opacity-40 group-hover:opacity-100 transition-opacity" />
+      <span className="absolute top-0 left-0 right-0 h-0.5 bg-linear-to-r from-[#E23F73] via-[#FF9736] to-[#C8F03C] opacity-40 group-hover:opacity-100 transition-opacity" />
 
-      <Icon size={20} className="mx-auto mb-3 text-yellow/80" strokeWidth={2} />
+      <Icon size={20} className="mx-auto mb-3 text-[#C8F03C]/80" strokeWidth={2} />
 
-      <div className="font-bebas text-5xl md:text-6xl bg-linear-to-r from-yellow to-orange bg-clip-text text-transparent">
+      <div className="font-[Bricolage_Grotesque] font-bold text-5xl md:text-6xl bg-linear-to-r from-[#C8F03C] to-[#FF9736] bg-clip-text text-transparent">
         {item.num}
       </div>
 
-      <div className="mt-2 text-sm tracking-[2px] uppercase text-white/60">
+      <div className="mt-2 text-sm tracking-[2px] uppercase text-[#FAF4E9]/60">
         {item.label}
       </div>
     </motion.div>
@@ -278,10 +296,10 @@ function VideoModal({ isOpen, onClose, triggerRef }) {
               aria-label="Close video"
               className="
                 absolute -top-12 right-0 md:-right-12
-                w-10 h-10 rounded-full bg-white/10 hover:bg-white/20
-                flex items-center justify-center text-white
+                w-10 h-10 rounded-full bg-[#FAF4E9]/10 hover:bg-[#FAF4E9]/20
+                flex items-center justify-center text-[#FAF4E9]
                 transition-colors
-                focus-visible:outline-2 focus-visible:outline-yellow focus-visible:outline-offset-2
+                focus-visible:outline-2 focus-visible:outline-[#C8F03C] focus-visible:outline-offset-2
               "
             >
               <X size={20} />
@@ -315,6 +333,18 @@ export default function Hero() {
   const enableParallax = canHover && !prefersReducedMotion;
 
   const nextClass = useMemo(() => getNextClass(todaySchedule), []);
+
+  /* Background slideshow — auto-advances; stays on the first image and
+     never animates if the person prefers reduced motion. */
+  const [slideIndex, setSlideIndex] = useState(0);
+
+  useEffect(() => {
+    if (prefersReducedMotion || heroSlides.length < 2) return;
+    const id = setTimeout(() => {
+      setSlideIndex((i) => (i + 1) % heroSlides.length);
+    }, SLIDE_INTERVAL_MS);
+    return () => clearTimeout(id);
+  }, [prefersReducedMotion, slideIndex]);
 
   /* Mouse parallax — subtle depth shift on the background & glow layers */
   const mouseX = useMotionValue(0);
@@ -353,34 +383,46 @@ export default function Hero() {
     },
   };
 
-  
-
   return (
     <section
       id="hero"
       onMouseMove={handleMouseMove}
       className="relative isolate min-h-screen flex items-center justify-center overflow-hidden text-center"
     >
-      {/* Background */}
-      <motion.div
-        className="absolute inset-0 bg-cover bg-center scale-110 transform-gpu"
-        style={{
-          backgroundImage: `url(${heroImg})`,
-          x: enableParallax ? bgX : 0,
-          y: enableParallax ? bgY : 0,
-        }}
-        animate={
-          prefersReducedMotion
-            ? {}
-            : { scale: [1.08, 1.12, 1.08] }
-        }
-        transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-        aria-hidden="true"
-      />
+      {/* Background slideshow */}
+      <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
+        <AnimatePresence initial={false}>
+          <motion.div
+            key={slideIndex}
+            className="absolute inset-0"
+            initial={{ x: prefersReducedMotion ? 0 : "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: prefersReducedMotion ? 0 : "-100%" }}
+            transition={{ duration: prefersReducedMotion ? 0 : 1.1, ease: [0.65, 0, 0.35, 1] }}
+          >
+            {/* Parallax + slow zoom live on this inner layer so they don't
+                fight the outer slide-in/out transform. */}
+            <motion.div
+              className="absolute inset-0 bg-cover bg-center scale-110 transform-gpu"
+              style={{
+                backgroundImage: `url(${heroSlides[slideIndex]})`,
+                x: enableParallax ? bgX : 0,
+                y: enableParallax ? bgY : 0,
+              }}
+              animate={
+                prefersReducedMotion
+                  ? {}
+                  : { scale: [1.08, 1.12, 1.08] }
+              }
+              transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+            />
+          </motion.div>
+        </AnimatePresence>
+      </div>
 
-      {/* Dark gradient, animated shift */}
+      {/* Dark gradient, animated shift — deep plum instead of generic indigo */}
       <motion.div
-        className="absolute inset-0 bg-linear-to-br from-[#09091A]/95 via-[#2D1B6E]/80 to-[#09091A]/95 bg-size-[200%_200%] transform-gpu"
+        className="absolute inset-0 bg-linear-to-br from-[#150A19]/95 via-[#2B1330]/85 to-[#150A19]/95 bg-size-[200%_200%] transform-gpu"
         animate={
           prefersReducedMotion
             ? {}
@@ -395,17 +437,17 @@ export default function Hero() {
         <motion.div
           animate={prefersReducedMotion ? {} : { x: [0, 40, 0], y: [0, -30, 0] }}
           transition={{ repeat: Infinity, duration: 10 }}
-          className="absolute -top-48 -right-48 w-162.5 h-162.5 rounded-full blur-[120px] bg-pink/20 transform-gpu"
+          className="absolute -top-48 -right-48 w-162.5 h-162.5 rounded-full blur-[120px] bg-[#E23F73]/20 transform-gpu"
         />
         <motion.div
           animate={prefersReducedMotion ? {} : { x: [0, -30, 0], y: [0, 40, 0] }}
           transition={{ repeat: Infinity, duration: 12 }}
-          className="absolute -bottom-40 -left-40 w-112.5 h-112.5 rounded-full blur-[100px] bg-yellow/20 transform-gpu"
+          className="absolute -bottom-40 -left-40 w-112.5 h-112.5 rounded-full blur-[100px] bg-[#C8F03C]/20 transform-gpu"
         />
         <motion.div
           animate={prefersReducedMotion ? {} : { scale: [1, 1.15, 1] }}
           transition={{ repeat: Infinity, duration: 8 }}
-          className="absolute top-1/3 left-1/3 w-64 h-64 rounded-full blur-[80px] bg-orange/15 transform-gpu"
+          className="absolute top-1/3 left-1/3 w-64 h-64 rounded-full blur-[80px] bg-[#FF9736]/15 transform-gpu"
         />
       </div>
 
@@ -417,7 +459,7 @@ export default function Hero() {
         className="absolute inset-0 opacity-[0.05]"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px)",
+            "linear-gradient(rgba(250,244,233,.08) 1px, transparent 1px),linear-gradient(90deg, rgba(250,244,233,.08) 1px, transparent 1px)",
           backgroundSize: "70px 70px",
         }}
         aria-hidden="true"
@@ -438,27 +480,28 @@ export default function Hero() {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="
             relative inline-flex items-center gap-2 overflow-hidden
-            rounded-full border border-white/20 bg-white/10 backdrop-blur-xl
-            px-5 py-2 mb-6 shadow-[0_4px_20px_rgba(255,45,120,0.15)]
+            rounded-full border border-[#FAF4E9]/20 bg-[#FAF4E9]/10 backdrop-blur-xl
+            px-5 py-2 mb-6 shadow-[0_4px_20px_rgba(226,63,115,0.15)]
           "
         >
           {!prefersReducedMotion && (
             <motion.span
-              className="absolute inset-y-0 -left-1/2 w-1/2 bg-linear-to-r from-transparent via-white/20 to-transparent skew-x-[-20deg]"
+              className="absolute inset-y-0 -left-1/2 w-1/2 bg-linear-to-r from-transparent via-[#FAF4E9]/20 to-transparent skew-x-[-20deg]"
               animate={{ x: ["0%", "300%"] }}
               transition={{ duration: 3.5, repeat: Infinity, repeatDelay: 1.5, ease: "easeInOut" }}
               aria-hidden="true"
             />
           )}
-          <span className="text-xs md:text-sm tracking-[2px] md:tracking-[3px] uppercase text-yellow font-semibold">
-           ................................
+          {/* TODO: confirm exact rating/copy with Hanna — placeholder pulled from the stats below */}
+          <Star size={14} className="text-[#C8F03C] fill-[#C8F03C]" />
+          <span className="text-xs md:text-sm tracking-[2px] md:tracking-[3px] uppercase text-[#C8F03C] font-semibold">
+            Kandy's Favorite Zumba Studio
           </span>
         </motion.div>
 
         {/* Next class / live indicator */}
         <div>
           <LiveClassCard nextClass={nextClass} />
-          
         </div>
 
         {/* Heading — word-by-word reveal */}
@@ -467,7 +510,7 @@ export default function Hero() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}
-          className="font-bebas text-[clamp(5rem,13vw,10rem)] leading-[0.88] tracking-wide"
+          className="font-[Bricolage_Grotesque] font-extrabold text-[clamp(4rem,12vw,9rem)] leading-[0.9] tracking-tight"
         >
           {headlineWords.map((word, i) => (
             <motion.span
@@ -475,8 +518,8 @@ export default function Hero() {
               variants={headlineWord}
               className={`block ${
                 i === 1
-                  ? "bg-linear-to-r from-lime-500 via-orange to-yellow bg-clip-text text-transparent"
-                  : "text-white"
+                  ? "bg-linear-to-r from-[#C8F03C] via-[#FF9736] to-[#E23F73] bg-clip-text text-transparent"
+                  : "text-[#FAF4E9]"
               }`}
             >
               {word}
@@ -490,12 +533,12 @@ export default function Hero() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.75, ease: [0.22, 1, 0.36, 1] }}
-          className="mx-auto mt-8 max-w-2xl text-lg md:text-xl text-white/70 leading-relaxed"
+          className="mx-auto mt-8 max-w-2xl text-lg md:text-xl text-[#FAF4E9]/70 leading-relaxed"
         >
           Transform your fitness journey through energetic dance workouts,
           incredible music, and a community that motivates you every step
           of the way.
-          <span className="block mt-3 text-white font-semibold">
+          <span className="block mt-3 text-[#FAF4E9] font-semibold">
             First Trial Class Completely FREE
           </span>
         </motion.p>
@@ -508,23 +551,26 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}
           className="mt-12 flex flex-wrap justify-center gap-5"
         >
-          {/* Primary CTA with glow-on-hover wrapper */}
+          {/* Primary CTA — lime, on-brand, glow-on-hover wrapper */}
           <div className="group relative">
             <div
               className="
-                absolute -inset-1 rounded-full bg-linear-to-r from-pink to-orange
+                absolute -inset-1 rounded-full bg-linear-to-r from-[#E23F73] to-[#FF9736]
                 opacity-0 group-hover:opacity-60 blur-lg transition-opacity duration-300
               "
               aria-hidden="true"
             />
-            
+            <Button href="#schedule" size="lg" className="relative shadow-[0_4px_24px_rgba(200,240,60,0.35)]">
+              <CalendarCheck size={18} />
+              Book Free Trial Class
+            </Button>
           </div>
 
           {/* Secondary CTA with glow-on-hover */}
           <div className="group relative">
             <div
               className="
-                absolute -inset-1 rounded-full bg-white/30
+                absolute -inset-1 rounded-full bg-[#FAF4E9]/30
                 opacity-0 group-hover:opacity-40 blur-lg transition-opacity duration-300
               "
               aria-hidden="true"
@@ -535,11 +581,11 @@ export default function Hero() {
               onClick={() => setIsVideoOpen(true)}
               className="
                 relative inline-flex items-center gap-2
-                rounded-full border border-white/25 bg-white/10 backdrop-blur-xl
-                px-8 py-4 text-sm md:text-base font-semibold uppercase tracking-wide text-white
+                rounded-full border border-[#FAF4E9]/25 bg-[#FAF4E9]/10 backdrop-blur-xl
+                px-8 py-4 text-sm md:text-base font-semibold uppercase tracking-wide text-[#FAF4E9]
                 shadow-[0_4px_24px_rgba(0,0,0,0.3)]
-                hover:bg-white/20 hover:border-white/40 transition-colors
-                focus-visible:outline-2 focus-visible:outline-yellow focus-visible:outline-offset-2
+                hover:bg-[#FAF4E9]/20 hover:border-[#FAF4E9]/40 transition-colors
+                focus-visible:outline-2 focus-visible:outline-[#C8F03C] focus-visible:outline-offset-2
               "
             >
               <Play size={18} />
@@ -556,10 +602,49 @@ export default function Hero() {
         </div>
       </motion.div>
 
-      
+      {/* Slide indicators */}
+      {heroSlides.length > 1 && (
+        <div
+          className="absolute bottom-24 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2"
+          role="tablist"
+          aria-label="Background image"
+        >
+          {heroSlides.map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              role="tab"
+              aria-selected={i === slideIndex}
+              aria-label={`Show background image ${i + 1}`}
+              onClick={() => setSlideIndex(i)}
+              className={`h-1.5 rounded-full transition-all duration-300 focus-visible:outline-2 focus-visible:outline-[#C8F03C] focus-visible:outline-offset-2 ${
+                i === slideIndex ? "w-6 bg-[#C8F03C]" : "w-1.5 bg-[#FAF4E9]/35 hover:bg-[#FAF4E9]/60"
+              }`}
+            />
+          ))}
+        </div>
+      )}
 
       {/* Scroll indicator */}
-      
+      <motion.a
+        href="#about"
+        aria-label="Scroll to learn more"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1, y: prefersReducedMotion ? 0 : [0, 8, 0] }}
+        viewport={{ once: true }}
+        transition={
+          prefersReducedMotion
+            ? { duration: 0.6, delay: 1.6 }
+            : {
+                opacity: { duration: 0.6, delay: 1.6 },
+                y: { repeat: Infinity, duration: 2, ease: "easeInOut", delay: 1.6 },
+              }
+        }
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-1 text-[#FAF4E9]/50 hover:text-[#FAF4E9] transition-colors focus-visible:outline-2 focus-visible:outline-[#C8F03C] focus-visible:outline-offset-4 rounded-full"
+      >
+        <span className="text-[10px] uppercase tracking-[3px]">Scroll</span>
+        <ChevronDown size={20} />
+      </motion.a>
 
       <VideoModal
         isOpen={isVideoOpen}

@@ -25,6 +25,8 @@ export default function FloatingCTA() {
           transition={{ type: 'spring', stiffness: 300, damping: 22 }}
           // Hidden from tab order and screen readers while off-screen, so
           // keyboard focus can't land on an invisible link below the fold.
+
+          
           tabIndex={visible ? 0 : -1}
           aria-hidden={!visible}
           className="

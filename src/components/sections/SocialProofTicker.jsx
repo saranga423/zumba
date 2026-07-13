@@ -1,24 +1,23 @@
 const items = [
-  { icon: '🔥', text: '120+ dancers this month' },
-  { icon: '⭐', text: '4.9 star average rating' },
-  { icon: '🎉', text: 'First class completely free' },
-  { icon: '🎵', text: 'Classes 7 days a week' },
-  { icon: '🏆', text: 'ZIN™ Certified instructor' },
-  { icon: '✅', text: 'No experience needed' },
+  {text: '120+ dancers this month' },
+  { text: '4.9 star average rating' },
+  { text: 'First class completely free' },
+  { text: 'Classes 7 days a week' },
+  { text: 'ZIN™ Certified instructor' },
+  { text: 'No experience needed' },
 ]
 
-function TickerContent() {
+function TickerContent () {
   return (
     <>
-      {items.map((item, i) => (
-        <span
-          key={i}
-          className="flex items-center gap-2 mx-6 text-white/80 text-sm font-medium tracking-wide whitespace-nowrap"
+      {items.map((item, index) => (
+        <div
+          key={index}
+          className="flex items-center gap-3 px-6 py-2 text-sm font-semibold text-white/80"
         >
-          <span className="text-base">{item.icon}</span>
+          <span className="text-pink-400">•</span>
           {item.text}
-          <span className="text-pink mx-4">•</span>
-        </span>
+        </div>
       ))}
     </>
   )

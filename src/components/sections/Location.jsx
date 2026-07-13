@@ -68,6 +68,7 @@ function CopyableLine({ display, copyValue, label }) {
       setTimeout(() => setCopied(false), 1600)
     } catch {
       // Clipboard unavailable — fail silently, text is still visible/selectable
+      
     }
   }
 

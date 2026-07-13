@@ -8,8 +8,9 @@ import Schedule        from './components/sections/Schedule'
 import Gallery         from './components/sections/Gallery'
 import Testimonials    from './components/sections/Testimonials'
 import Location        from './components/sections/Location'
-import FAQ             from './components/sections/FAQ'
-import FloatingCTA     from './components/ui/FloatingCTA'
+import FAQ from './components/sections/FAQ'
+import FloatingCTA from './components/ui/FloatingCTA'
+// import Privacy from './components/sections/Privacy'
 
 export default function App() {
   return (
@@ -41,6 +42,9 @@ export default function App() {
 
         {/* FAQ */}
         <FAQ />
+
+        {/* Privacy */}
+        {/* <Privacy /> */}
       </main>
 
       <Footer />

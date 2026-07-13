@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Button from '../ui/Button';
+import logo from '../../assets/ZUMBA6.png';
 
 const navLinks = [
   { label: 'Home', href: '#hero' },
@@ -45,9 +45,11 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo */}
             <a href="#hero" className="flex items-center gap-2 group no-underline">
-              <span className="font-bebas text-2xl sm:text-3xl text-white tracking-wide">
-                ZUMBA <span className="text-pink">with HANNA</span>
-              </span>
+              <img
+                src={logo}
+                alt="Zumba with Hanna"
+                className="h-14 sm:h-16 md:h-20 w-auto object-contain"
+              />
             </a>
 
             {/* Desktop links */}
@@ -62,11 +64,7 @@ export default function Navbar() {
                   <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-pink group-hover:w-3/4 transition-all duration-300" />
                 </a>
               ))}
-              <div className="ml-4">
-                <Button href="#schedule" size="sm">
-                  Book Free Trial
-                </Button>
-              </div>
+              
             </div>
 
             {/* Mobile toggle */}
