@@ -36,8 +36,8 @@ const contactRows = [
   {
     icon: Phone,
     label: 'Phone & Email',
-    value: '+94 70 344 4430\nhello@zumbafit.studio',
-   copy: ['+94 70 344 4430', 'hello@zumbafit.studio'],
+    value: '+94 70 344 4430\nhannawaththalage39@gmail.com',
+    copy: ['+94 70 344 4430', 'hannawaththalage39@gmail.com'],
   },
   {
     icon: ParkingSquare,
