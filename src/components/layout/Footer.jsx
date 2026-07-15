@@ -43,6 +43,18 @@ const socials = [
       </svg>
     ),
   },
+
+  {
+    label: 'email',
+    href: 'mailto: hannawaththalage39@gmail.com',
+    hoverClasses: 'hover:bg-white/10 hover:border-white/10',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"> 
+        <path d="M12 12.713l11.985-9.713H.015L12 12.713zm0 2.574L.015 5.001v13.998h23.97V5.001L12 15.287z" />
+      </svg>
+    ),
+
+  }
 ]
 
 export default function Footer() {
@@ -50,10 +62,8 @@ export default function Footer() {
     <footer className="bg-navy text-white pt-16 pb-10 px-[8%]">
       <div className="max-w-5xl mx-auto text-center">
         {/* Logo */}
-        <p className="font-bebas text-5xl tracking-widest text-yellow mb-1">
-          ZUMBA <span className="text-pink">with HANNA</span>
-        </p>
-        <p className="font-dancing text-2xl text-white/50 mb-10">
+        
+        <p className="font-times text-2xl text-cream/50 mb-10 tracking-wide">
           Dance. Sweat. Repeat.
         </p>
 
