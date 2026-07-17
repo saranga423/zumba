@@ -16,6 +16,10 @@ import g5 from '../../assets/g5.jpg'
 import g7 from '../../assets/g7.jpg'
 import g8 from '../../assets/g8.jpeg'
 
+import i1 from '../../assets/i1.jpg'
+import i2 from '../../assets/i2.jpg'
+
+
 import reel1  from '../../assets/videos/v1.mp4'
 import reel2  from '../../assets/videos/v2.mp4'
 import reel3  from '../../assets/videos/v3.mp4'
@@ -52,7 +56,9 @@ const galleryItems = [
   { id: 15, type: 'reel',  src: reel8,  alt: 'Zumba Gold reel'          },
   { id: 16, type: 'reel',  src: reel9,  alt: 'Studio vibe reel'         },
   { id: 17, type: 'reel',  src: reel10, alt: 'Member moments reel'      },
-  { id: 18, type: 'photo', src: g8,     alt: 'Additional class moment'  },
+  { id: 18, type: 'photo', src: g8, alt: 'Additional class moment' },
+  { id: 19, type: 'photo', src: i1, alt: 'Instructor leading class' },
+  { id: 20, type: 'photo', src: i2, alt: 'Instructor demonstrating moves' },
 ]
 
 const categories = ['All', 'Reels', 'Photos']

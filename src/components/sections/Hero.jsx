@@ -15,12 +15,10 @@ import {
   Users,
   CalendarCheck,
   Flame,
-  ChevronDown,
   Trophy,
 } from "lucide-react";
 
 import previewReel from "../../assets/videos/v1.mp4";
-
 
 const heroSlides = [
   "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=1600&q=80",
@@ -30,12 +28,11 @@ const heroSlides = [
 
 const SLIDE_INTERVAL_MS = 6000;
 
-// 4 cards — fills the md:grid-cols-4 grid correctly
 const stats = [
   { num: "4+",   label: "Years Experience", icon: CalendarCheck },
   { num: "100+", label: "Happy Members",    icon: Users          },
   { num: "12",   label: "Weekly Classes",   icon: Flame          },
-  { num: "4.9★", label: "Avg. Rating",      icon: Trophy         }, 
+  { num: "4.9★", label: "Avg. Rating",      icon: Trophy         },
 ];
 
 const headlineWords = ["DANCE.", "SWEAT.", "REPEAT."];
@@ -80,10 +77,16 @@ function useHoverCapable() {
 }
 
 // ---------------------------------------------------------------------------
-// FloatingParticles — yellow (#FFD600) tint instead of lime
+// FloatingParticles — multi-colour: pink / yellow / coral mix
 // ---------------------------------------------------------------------------
 
-function FloatingParticles({ count = 14 }) {
+const PARTICLE_COLORS = [
+  "bg-pink/40",
+  "bg-yellow/35",
+  "bg-orange/30",
+];
+
+function FloatingParticles({ count = 18 }) {
   const shouldReduceMotion = useReducedMotion();
   const [particles, setParticles] = useState([]);
 
@@ -95,10 +98,12 @@ function FloatingParticles({ count = 14 }) {
         Array.from({ length: count }, (_, i) => ({
           id:       i,
           left:     Math.random() * 100,
-          size:     2 + Math.random() * 3,
-          duration: 10 + Math.random() * 10,
-          delay:    Math.random() * 8,
-          drift:    (Math.random() - 0.5) * 60,
+          size:     1.5 + Math.random() * 3.5,
+          duration: 9 + Math.random() * 12,
+          delay:    Math.random() * 10,
+          drift:    (Math.random() - 0.5) * 70,
+          // alternate colours so particles feel varied, not monochrome
+          color:    PARTICLE_COLORS[i % PARTICLE_COLORS.length],
         }))
       );
     }
@@ -109,15 +114,20 @@ function FloatingParticles({ count = 14 }) {
       {particles.map((p) => (
         <motion.span
           key={p.id}
-          // ── #FFD600 (Maracas Yellow) replaces #C8F03C (lime) ──
-          className="absolute rounded-full bg-purple/50 blur-[1px]"
+          className={`absolute rounded-full blur-[1px] ${p.color}`}
           style={{ left: `${p.left}%`, width: p.size, height: p.size, bottom: -20 }}
           animate={{
-            y:       [0, -window.innerHeight * 0.9],
+            y:       [0, -(window.innerHeight * 0.92)],
             x:       [0, p.drift],
-            opacity: [0, 0.8, 0],
+            opacity: [0, 0.9, 0.6, 0],
+            scale:   [0.8, 1.2, 0.9],
           }}
-          transition={{ duration: p.duration, delay: p.delay, repeat: Infinity, ease: "linear" }}
+          transition={{
+            duration: p.duration,
+            delay:    p.delay,
+            repeat:   Infinity,
+            ease:     [0.22, 1, 0.36, 1],
+          }}
         />
       ))}
     </div>
@@ -125,7 +135,7 @@ function FloatingParticles({ count = 14 }) {
 }
 
 // ---------------------------------------------------------------------------
-// LiveClassCard
+// LiveClassCard — with animate-live-pulse glow ring
 // ---------------------------------------------------------------------------
 
 function LiveClassCard({ nextClass }) {
@@ -134,8 +144,8 @@ function LiveClassCard({ nextClass }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 20, scale: 0.96 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
       className="
@@ -147,12 +157,11 @@ function LiveClassCard({ nextClass }) {
     >
       <span className="relative flex h-2.5 w-2.5 shrink-0">
         {isLive && (
-          // ── #FF2D78 (Fiesta Pink) ping replaces #E23F73 ──
-          <span className="absolute inline-flex h-full w-full rounded-full bg-pink opacity-75 animate-ping" />
+          /* animate-live-pulse: coloured glow ring-out, more vivid than plain ping */
+          <span className="absolute inline-flex h-full w-full rounded-full bg-pink animate-live-pulse" />
         )}
         <span
           className={`relative inline-flex rounded-full h-2.5 w-2.5 ${
-            // ── live = pink, upcoming = coral ──
             isLive ? "bg-pink" : "bg-orange"
           }`}
         />
@@ -171,42 +180,59 @@ function LiveClassCard({ nextClass }) {
 }
 
 // ---------------------------------------------------------------------------
-// StatCard — 4-up grid, yellow gradient numbers, pink top-accent
+// StatCard — line-reveal accent, flip-in number, border-spin on hover
 // ---------------------------------------------------------------------------
 
 function StatCard({ item, index }) {
   const Icon = item.icon;
+  const staggerDelay = `${1 + index * 0.1}s`;
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: 1 + index * 0.08, ease: [0.22, 1, 0.36, 1] }}
-      whileHover={{ y: -8, scale: 1.04 }}
+      transition={{ duration: 0.55, delay: 1 + index * 0.1, ease: [0.34, 1.4, 0.64, 1] }}
+      whileHover={{ y: -10, scale: 1.05 }}
+      /* border-spin: conic gradient border rotates in on hover */
       className="
+        border-spin
         group relative overflow-hidden rounded-2xl
         border border-[#FFF8F0]/10 bg-[#FFF8F0]/5 backdrop-blur-xl
         py-8 px-5 shadow-[0_4px_24px_rgba(0,0,0,0.25)]
         transition-shadow duration-300
-        hover:shadow-[0_8px_40px_rgba(255,45,120,0.25)]
+        hover:shadow-[0_8px_40px_rgba(255,45,120,0.28)]
       "
     >
-      {/* Top accent line — pink → coral → yellow */}
+      {/* Top accent line — animate-line-reveal: grows left→right on load */}
       <span
         className="
           absolute top-0 left-0 right-0 h-0.5
-          opacity-40 group-hover:opacity-100 transition-opacity
+          opacity-40 group-hover:opacity-100 transition-opacity duration-300
           [background:linear-gradient(to_right,#FF2D78,#FF6B35,#FFD600)]
+          animate-line-reveal
         "
+        style={{ "--stagger-delay": staggerDelay }}
       />
 
-      {/* ── Icon: yellow tint ── */}
-      <Icon size={20} className="mx-auto mb-3 text-yellow/80" strokeWidth={2} />
+      {/* Icon — breathe animation so it feels alive */}
+      <Icon
+        size={22}
+        className="mx-auto mb-3 text-yellow/80 animate-breathe"
+        style={{ animationDelay: staggerDelay }}
+        strokeWidth={2}
+      />
 
-      {/* ── Stat number: yellow → coral gradient ── */}
+      {/* Stat number — animate-flip-in: 3D perspective entrance */}
       <div
-        className="font-[Bricolage_Grotesque] font-bold text-5xl md:text-6xl bg-clip-text text-transparent"
-        style={{ backgroundImage: "linear-gradient(135deg,#FFD600,#FF6B35)" }}
+        className="
+          font-[Bricolage_Grotesque] font-bold text-5xl md:text-6xl
+          bg-clip-text text-transparent animate-flip-in
+        "
+        style={{
+          backgroundImage:  "linear-gradient(135deg,#FFD600,#FF6B35)",
+          animationDelay:   staggerDelay,
+        }}
       >
         {item.num}
       </div>
@@ -259,10 +285,10 @@ function VideoModal({ isOpen, onClose, triggerRef }) {
           aria-label="Studio preview video"
         >
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 10 }}
-            animate={{ opacity: 1, scale: 1,   y: 0  }}
-            exit={{   opacity: 0, scale: 0.92,  y: 6  }}
-            transition={{ type: "spring", stiffness: 300, damping: 28 }}
+            initial={{ opacity: 0, scale: 0.88, y: 16 }}
+            animate={{ opacity: 1, scale: 1,    y: 0   }}
+            exit={{   opacity: 0, scale: 0.92,  y: 8   }}
+            transition={{ type: "spring", stiffness: 320, damping: 26 }}
             className="relative w-full max-w-md"
             onClick={(e) => e.stopPropagation()}
           >
@@ -304,11 +330,11 @@ function VideoModal({ isOpen, onClose, triggerRef }) {
 // ---------------------------------------------------------------------------
 
 export default function Hero() {
-  const [isVideoOpen, setIsVideoOpen]   = useState(false);
-  const watchButtonRef                  = useRef(null);
-  const prefersReducedMotion            = useReducedMotion();
-  const canHover                        = useHoverCapable();
-  const enableParallax                  = canHover && !prefersReducedMotion;
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
+  const watchButtonRef                = useRef(null);
+  const prefersReducedMotion          = useReducedMotion();
+  const canHover                      = useHoverCapable();
+  const enableParallax                = canHover && !prefersReducedMotion;
 
   const nextClass = useMemo(() => getNextClass(todaySchedule), []);
 
@@ -324,12 +350,12 @@ export default function Hero() {
   }, [prefersReducedMotion, slideIndex]);
 
   /* Mouse parallax */
-  const mouseX  = useMotionValue(0);
-  const mouseY  = useMotionValue(0);
-  const springX = useSpring(mouseX, { stiffness: 60, damping: 20, mass: 0.5 });
-  const springY = useSpring(mouseY, { stiffness: 60, damping: 20, mass: 0.5 });
-  const bgX     = useTransform(springX, (v) => v * 14);
-  const bgY     = useTransform(springY, (v) => v * 14);
+  const mouseX   = useMotionValue(0);
+  const mouseY   = useMotionValue(0);
+  const springX  = useSpring(mouseX, { stiffness: 60, damping: 20, mass: 0.5 });
+  const springY  = useSpring(mouseY, { stiffness: 60, damping: 20, mass: 0.5 });
+  const bgX      = useTransform(springX, (v) => v * 14);
+  const bgY      = useTransform(springY, (v) => v * 14);
   const contentX = useTransform(springX, (v) => v * -6);
   const contentY = useTransform(springY, (v) => v * -6);
 
@@ -342,6 +368,7 @@ export default function Hero() {
     [enableParallax, mouseX, mouseY]
   );
 
+  /* Headline stagger variants */
   const headlineContainer = {
     hidden: {},
     show: {
@@ -353,11 +380,11 @@ export default function Hero() {
   };
 
   const headlineWord = {
-    hidden: { opacity: 0, y: 40, filter: "blur(8px)" },
+    hidden: { opacity: 0, y: 50, filter: "blur(10px)" },
     show: {
       opacity: 1, y: 0, filter: "blur(0px)",
       transition: {
-        duration: prefersReducedMotion ? 0.01 : 0.7,
+        duration: prefersReducedMotion ? 0.01 : 0.75,
         ease: [0.22, 1, 0.36, 1],
       },
     },
@@ -369,37 +396,39 @@ export default function Hero() {
       onMouseMove={handleMouseMove}
       className="relative isolate min-h-screen flex items-center justify-center overflow-hidden text-center"
     >
-      {/* Background slideshow -------------------------------------------- */}
+      {/* ── Background slideshow ─────────────────────────────────────────── */}
       <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
         <AnimatePresence initial={false}>
           <motion.div
             key={slideIndex}
             className="absolute inset-0"
-            initial={{ x: prefersReducedMotion ? 0 : "100%" }}
-            animate={{ x: 0 }}
-            exit={{   x: prefersReducedMotion ? 0 : "-100%" }}
+            initial={{ x: prefersReducedMotion ? 0 : "100%", opacity: 0.6 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{   x: prefersReducedMotion ? 0 : "-100%", opacity: 0.6 }}
             transition={{ duration: prefersReducedMotion ? 0 : 1.1, ease: [0.65, 0, 0.35, 1] }}
           >
+            {/* animate-ken-burns: slow scale drift keeps background alive */}
             <motion.div
-              className="absolute inset-0 bg-cover bg-center scale-110 transform-gpu"
+              className={`
+                absolute inset-0 bg-cover bg-center transform-gpu
+                ${!prefersReducedMotion ? "animate-ken-burns" : "scale-[1.08]"}
+              `}
               style={{
                 backgroundImage: `url(${heroSlides[slideIndex]})`,
                 x: enableParallax ? bgX : 0,
                 y: enableParallax ? bgY : 0,
               }}
-              animate={prefersReducedMotion ? {} : { scale: [1.08, 1.12, 1.08] }}
-              transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
             />
           </motion.div>
         </AnimatePresence>
       </div>
 
-      {/* Dark overlay — navy base ----------------------------------------- */}
-      {/* ── #1A1A2E (Midnight Navy) replaces #150A19 / #2B1330 ── */}
+      {/* ── Dark overlay ─────────────────────────────────────────────────── */}
       <motion.div
-        className="absolute inset-0 bg-size-[200%_200%] transform-gpu"
+        className="absolute inset-0 transform-gpu"
         style={{
-          background: "linear-gradient(135deg,rgba(26,26,46,0.95),rgba(26,26,46,0.80),rgba(26,26,46,0.95))",
+          background:
+            "linear-gradient(135deg,rgba(26,26,46,0.95),rgba(26,26,46,0.78),rgba(26,26,46,0.95))",
         }}
         animate={
           prefersReducedMotion
@@ -410,49 +439,52 @@ export default function Hero() {
         aria-hidden="true"
       />
 
-      {/* Glow blobs -------------------------------------------------------- */}
+      {/* ── Glow blobs ───────────────────────────────────────────────────── */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-        {/* pink glow — top-right */}
+        {/* Pink — top-right, drifts + breathes */}
         <motion.div
-          animate={prefersReducedMotion ? {} : { x: [0, 40, 0], y: [0, -30, 0] }}
-          transition={{ repeat: Infinity, duration: 10 }}
-          className="absolute -top-48 -right-48 w-162.5 h-162.5 rounded-full blur-[120px] transform-gpu"
-          // ── #FF2D78 (Fiesta Pink) replaces #E23F73 ──
-          style={{ background: "rgba(255,45,120,0.18)" }}
+          animate={prefersReducedMotion ? {} : { x: [0, 44, 0], y: [0, -32, 0] }}
+          transition={{ repeat: Infinity, duration: 10, ease: "easeInOut" }}
+          className={`
+            absolute -top-48 -right-48 w-162.5 h-162.5 rounded-full blur-[120px] transform-gpu
+            ${!prefersReducedMotion ? "animate-breathe" : ""}
+          `}
+          style={{ background: "rgba(255,45,120,0.20)" }}
         />
-        {/* yellow glow — bottom-left */}
+        {/* Yellow — bottom-left */}
         <motion.div
-          animate={prefersReducedMotion ? {} : { x: [0, -30, 0], y: [0, 40, 0] }}
-          transition={{ repeat: Infinity, duration: 12 }}
-          className="absolute -bottom-40 -left-40 w-112.5 h-112.5 rounded-full blur-[100px] transform-gpu"
-          // ── #FFD600 (Maracas Yellow) replaces #C8F03C ──
-          style={{ background: "rgba(255,214,0,0.16)" }}
+          animate={prefersReducedMotion ? {} : { x: [0, -32, 0], y: [0, 44, 0] }}
+          transition={{ repeat: Infinity, duration: 12, ease: "easeInOut" }}
+          className={`
+            absolute -bottom-40 -left-40 w-112.5 h-112.5 rounded-full blur-[100px] transform-gpu
+            ${!prefersReducedMotion ? "animate-breathe" : ""}
+          `}
+          style={{ background: "rgba(255,214,0,0.17)", animationDelay: "1.5s" }}
         />
-        {/* coral glow — centre */}
+        {/* Coral — centre */}
         <motion.div
-          animate={prefersReducedMotion ? {} : { scale: [1, 1.15, 1] }}
-          transition={{ repeat: Infinity, duration: 8 }}
+          animate={prefersReducedMotion ? {} : { scale: [1, 1.18, 1] }}
+          transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}
           className="absolute top-1/3 left-1/3 w-64 h-64 rounded-full blur-[80px] transform-gpu"
-          // ── #FF6B35 (Salsa Coral) replaces #FF9736 ──
-          style={{ background: "rgba(255,107,53,0.13)" }}
+          style={{ background: "rgba(255,107,53,0.14)" }}
         />
       </div>
 
-      {/* Floating particles ----------------------------------------------- */}
-      {!prefersReducedMotion && <FloatingParticles />}
+      {/* ── Floating particles ───────────────────────────────────────────── */}
+      {!prefersReducedMotion && <FloatingParticles count={18} />}
 
-      {/* Decorative grid -------------------------------------------------- */}
+      {/* ── Decorative grid ──────────────────────────────────────────────── */}
       <div
-        className="absolute inset-0 opacity-[0.05]"
+        className="absolute inset-0 opacity-[0.045]"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(255,248,240,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,248,240,.08) 1px,transparent 1px)",
+            "linear-gradient(rgba(255,248,240,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(255,248,240,.09) 1px,transparent 1px)",
           backgroundSize: "70px 70px",
         }}
         aria-hidden="true"
       />
 
-      {/* Main content ------------------------------------------------------ */}
+      {/* ── Main content ─────────────────────────────────────────────────── */}
       <motion.div
         className="container relative z-20 px-6 transform-gpu"
         style={{
@@ -465,7 +497,7 @@ export default function Hero() {
           <LiveClassCard nextClass={nextClass} />
         </div>
 
-        {/* Headline — word-by-word reveal */}
+        {/* Headline — word-by-word blur+slide reveal */}
         <motion.h1
           variants={headlineContainer}
           initial="hidden"
@@ -477,18 +509,13 @@ export default function Hero() {
             <motion.span
               key={word}
               variants={headlineWord}
-              className="block"
-              style={
+              className={`block ${
                 i === 1
-                  ? {
-                      // ── pink → coral → yellow gradient on "SWEAT." ──
-                      backgroundImage: "linear-gradient(135deg,#FF2D78,#FF6B35,#FFD600)",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                      backgroundClip: "text",
-                    }
-                  : { color: "#FFF8F0" }
-              }
+                  ? /* "SWEAT." — text-gradient-shimmer: sweeping animated gradient */
+                    "text-gradient-shimmer"
+                  : ""
+              }`}
+              style={i !== 1 ? { color: "#FFF8F0" } : undefined}
             >
               {word}
             </motion.span>
@@ -510,7 +537,7 @@ export default function Hero() {
           </span>
         </motion.p>
 
-        {/* CTAs ------------------------------------------------------------ */}
+        {/* ── CTAs ─────────────────────────────────────────────────────── */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -520,6 +547,7 @@ export default function Hero() {
         >
           {/* Primary CTA — Fiesta Pink gradient */}
           <div className="group relative">
+            {/* Glow halo */}
             <div
               className="
                 absolute -inset-1 rounded-full opacity-0
@@ -531,7 +559,7 @@ export default function Hero() {
             
           </div>
 
-          {/* Secondary CTA — ghost / cream border */}
+          {/* Secondary CTA — ghost / cream, btn-shimmer on hover */}
           <div className="group relative">
             <div
               className="
@@ -545,6 +573,7 @@ export default function Hero() {
               type="button"
               onClick={() => setIsVideoOpen(true)}
               className="
+                btn-shimmer
                 relative inline-flex items-center gap-2
                 rounded-full border border-[#FFF8F0]/25 bg-[#FFF8F0]/10 backdrop-blur-xl
                 px-8 py-4 text-sm md:text-base font-semibold uppercase tracking-wide text-[#FFF8F0]
@@ -559,15 +588,16 @@ export default function Hero() {
           </div>
         </motion.div>
 
-        {/* Stats — 4 cards filling grid-cols-4 ----------------------------- */}
+        {/* ── Stats — 4-card grid ───────────────────────────────────────── */}
         <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8">
           {stats.map((item, i) => (
             <StatCard key={item.label} item={item} index={i} />
           ))}
         </div>
       </motion.div>
+      
 
-      {/* Slide indicators ------------------------------------------------- */}
+      {/* ── Slide indicators ─────────────────────────────────────────────── */}
       {heroSlides.length > 1 && (
         <div
           className="absolute bottom-24 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2"
@@ -586,40 +616,13 @@ export default function Hero() {
                 h-1.5 rounded-full transition-all duration-300
                 focus-visible:outline-2 focus-visible:outline-yellow focus-visible:outline-offset-2
                 ${i === slideIndex
-                  ? "w-6 bg-purple"                      // ── yellow active dot ──
+                  ? "w-6 bg-pink"
                   : "w-1.5 bg-[#FFF8F0]/35 hover:bg-[#FFF8F0]/60"}
               `}
             />
           ))}
         </div>
       )}
-
-      {/* Scroll indicator ------------------------------------------------- */}
-      <motion.a
-        href="#about"
-        aria-label="Scroll to learn more"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1, y: prefersReducedMotion ? 0 : [0, 8, 0] }}
-        viewport={{ once: true }}
-        transition={
-          prefersReducedMotion
-            ? { duration: 0.6, delay: 1.6 }
-            : {
-                opacity: { duration: 0.6, delay: 1.6 },
-                y: { repeat: Infinity, duration: 2, ease: "easeInOut", delay: 1.6 },
-              }
-        }
-        className="
-          absolute bottom-8 left-1/2 -translate-x-1/2 z-20
-          flex flex-col items-center gap-1
-          text-[#FFF8F0]/50 hover:text-[#FFF8F0] transition-colors
-          focus-visible:outline-2 focus-visible:outline-yellow focus-visible:outline-offset-4 rounded-full
-        "
-      >
-        <span className="text-[10px] uppercase tracking-[3px]">Scroll</span>
-        <ChevronDown size={20} />
-      </motion.a>
-
       <VideoModal
         isOpen={isVideoOpen}
         onClose={() => setIsVideoOpen(false)}

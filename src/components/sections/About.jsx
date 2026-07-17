@@ -1,33 +1,9 @@
 import { motion } from "framer-motion";
-import { Briefcase, MapPin } from "lucide-react";
+import { Link } from "react-router-dom";
 import instructorImg from "../../assets/instructor2.jpg";
 
 // Change this to the year Hanna started teaching Zumba
 const START_YEAR = 2022;
-
-const affiliations = [
-  {
-    type: "work",
-    label: "Green Angels International School",
-  },
-  {
-    type: "work",
-    label: "Green Angels International Educational Institute",
-  },
-  {
-    type: "work",
-    label: "Nimal Senanayake Academy of Performing Arts",
-  },
-  {
-    type: "work",
-    label: "Resh Dance Studio Kandy",
-  },
-  {
-    type: "location",
-    label: "Kandy",
-    href: "https://web.facebook.com/Kandy-108014839219027/",
-  },
-];
 
 export default function About() {
   // Automatically updates every year
@@ -164,52 +140,31 @@ export default function About() {
                 Where you'll find her
               </p>
 
-              <ul className="flex flex-wrap gap-2.5">
-                {affiliations.map((item) => {
-                  const Icon =
-                    item.type === "location" ? MapPin : Briefcase;
+              
+            </div>
 
-                  return (
-                    <li key={item.label}>
-                      <a
-                        href={item.href || "#"}
-                        target={item.href ? "_blank" : undefined}
-                        rel={item.href ? "noopener noreferrer" : undefined}
-                        className="
-                          group inline-flex items-center gap-2
-                          bg-white/5 hover:bg-white/10
-                          border border-white/10 hover:border-pink/40
-                          rounded-full pl-3 pr-4 py-2
-                          transition-colors
-                          focus-visible:outline-2
-                          focus-visible:outline-pink
-                          focus-visible:outline-offset-2
-                        "
-                      >
-                        <span
-                          className="
-                            w-6 h-6 rounded-full shrink-0
-                            flex items-center justify-center
-                            bg-linear-to-r from-pink to-yellow
-                          "
-                        >
-                          <Icon
-                            size={12}
-                            className="text-dark"
-                            strokeWidth={2.75}
-                          />
-                        </span>
-
-                        <span className="text-white/75 group-hover:text-white text-sm font-medium transition-colors">
-                          {item.type === "location"
-                            ? `Lives in ${item.label}`
-                            : item.label}
-                        </span>
-                      </a>
-                    </li>
-                  );
-                })}
-              </ul>
+            {/* CTA Button */}
+            <div className="mt-10">
+              <Link
+                to="/instructor"
+                className="
+                  group inline-flex items-center gap-3
+                  bg-linear-to-r from-pink to-orange
+                  text-white font-semibold text-sm md:text-base
+                  px-7 py-3.5 rounded-full
+                  shadow-[0_10px_30px_rgba(236,72,153,.35)]
+                  hover:shadow-[0_15px_40px_rgba(236,72,153,.5)]
+                  hover:scale-[1.03]
+                  transition-all duration-300
+                  focus-visible:outline-2
+                  focus-visible:outline-pink
+                  focus-visible:outline-offset-2
+                "
+              >
+                Need to know more about your instructor?
+                <span className="transition-transform group-hover:translate-x-1">
+                </span>
+              </Link>
             </div>
           </motion.div>
         </div>

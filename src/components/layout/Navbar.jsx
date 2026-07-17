@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import logo from '../../assets/ZUMBA6.png';
-import Button from '../ui/Button';
 
 // TODO(design-tokens): raw hex values stand in for the real @theme tokens
 // (cream / hibiscus / mango / plum / lime) — swap once confirmed against
@@ -70,9 +69,7 @@ export default function Navbar() {
                 </a>
               ))}
 
-              <Button href="#schedule" variant="primary" size="sm" className="ml-3">
-                Book a Class
-              </Button>
+              
             </div>
 
             {/* Mobile toggle */}
@@ -126,14 +123,6 @@ export default function Navbar() {
                 transition={{ delay: 0.4 }}
                 className="mt-4"
               >
-                <Button
-                  href="#schedule"
-                  variant="primary"
-                  size="lg"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  Book a Class
-                </Button>
               </motion.div>
             </div>
           </motion.div>

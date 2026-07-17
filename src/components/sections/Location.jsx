@@ -5,6 +5,10 @@ import { MapPin, Clock, Phone, ParkingSquare, Copy, Check, Navigation, MessageCi
 import SectionLabel from '../ui/SectionLabel'
 import Button from '../ui/Button'
 
+// TODO(design-tokens): raw hex values stand in for the real @theme tokens
+// (cream / hibiscus / mango / plum / lime) — swap once confirmed against
+// globals.css.
+
 const locations = [
   {
     name: 'Nimal Senanayake Academy of Performing Arts',
@@ -68,7 +72,6 @@ function CopyableLine({ display, copyValue, label }) {
       setTimeout(() => setCopied(false), 1600)
     } catch {
       // Clipboard unavailable — fail silently, text is still visible/selectable
-      
     }
   }
 
@@ -79,9 +82,9 @@ function CopyableLine({ display, copyValue, label }) {
       aria-label={`Copy ${label}: ${copyValue}`}
       className="
         group/copy relative inline-flex items-center gap-1.5
-        text-navy text-[15px] font-medium
-        hover:text-orange-300 transition-colors
-        focus-visible:outline-2 focus-visible:outline-pink focus-visible:outline-offset-2 rounded
+        text-[#2B1330] text-[15px] font-medium
+        hover:text-[#FF9736] transition-colors
+        focus-visible:outline-2 focus-visible:outline-[#C8F03C] focus-visible:outline-offset-2 rounded
       "
     >
       {display}
@@ -93,7 +96,7 @@ function CopyableLine({ display, copyValue, label }) {
               initial={{ scale: 0.6, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.6, opacity: 0 }}
-              className="text-green-600"
+              className="text-[#6FAE6F]"
             >
               <Check size={13} strokeWidth={2.5} />
             </motion.span>
@@ -115,7 +118,7 @@ function CopyableLine({ display, copyValue, label }) {
             initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="absolute -top-6 left-0 text-[11px] font-bold text-purple bg-white px-2 py-0.5 rounded-full shadow-sm whitespace-nowrap"
+            className="absolute -top-6 left-0 text-[11px] font-bold text-[#FAF4E9] bg-[#2B1330] px-2 py-0.5 rounded-full shadow-sm whitespace-nowrap"
           >
             Copied!
           </motion.span>
@@ -132,12 +135,12 @@ export default function Location() {
   const toggleMap = i => setOpenMapIndex(prev => (prev === i ? null : i))
 
   return (
-    <section id="location" className="section-pad bg-cream" ref={ref}>
+    <section id="location" className="section-pad bg-[#FAF4E9]" ref={ref}>
       <div className="text-center mb-14">
         <SectionLabel>Find Us</SectionLabel>
-        <h2 className="font-bebas text-[clamp(42px,6vw,72px)] leading-[0.95] text-navy">
+        <h2 className="font-[Bricolage_Grotesque] font-extrabold text-[clamp(42px,6vw,72px)] leading-[0.95] text-[#2B1330]">
           COME DANCE<br />
-          <span className="text-pink">WITH US</span>
+          <span className="text-[#E23F73]">WITH US</span>
         </h2>
       </div>
 
@@ -149,7 +152,7 @@ export default function Location() {
           animate={inView ? 'show' : 'hidden'}
           className="flex flex-col gap-5"
         >
-          <p className="text-[11px] text-gray-400 font-bold tracking-widest uppercase">
+          <p className="text-[11px] text-[#2B1330]/40 font-bold tracking-widest uppercase">
             Our studios
           </p>
 
@@ -162,9 +165,9 @@ export default function Location() {
                 variants={rowVariants}
                 className="
                   relative rounded-2xl overflow-hidden
-                  bg-linear-to-br from-navy to-dark-mid
-                  border-2 border-dashed border-purple-light/25
-                  shadow-card
+                  bg-linear-to-br from-[#2B1330] to-[#1A0D1F]
+                  border-2 border-dashed border-[#FAF4E9]/20
+                  shadow-[0_4px_24px_rgba(0,0,0,0.25)]
                 "
               >
                 <div className="flex items-center gap-4 px-6 py-6">
@@ -173,7 +176,7 @@ export default function Location() {
                     {[0, 1].map(r => (
                       <motion.span
                         key={r}
-                        className="absolute inset-0 rounded-full border-2 border-pink/50"
+                        className="absolute inset-0 rounded-full border-2 border-[#E23F73]/50"
                         animate={{ scale: [1, 2.1], opacity: [0.6, 0] }}
                         transition={{
                           duration: 2.2,
@@ -186,19 +189,19 @@ export default function Location() {
                     <div
                       className="
                         relative z-10 w-10 h-10 rounded-full
-                        [background:linear-gradient(135deg,#FF2D78,#FF6B35)]
+                        [background:linear-gradient(135deg,#E23F73,#FF9736)]
                         flex items-center justify-center shadow-md
                       "
                     >
-                      <MapPin size={19} className="text-white" strokeWidth={2.25} />
+                      <MapPin size={19} className="text-[#FAF4E9]" strokeWidth={2.25} />
                     </div>
                   </div>
 
                   <div className="text-left flex-1 min-w-0">
-                    <p className="text-white font-bold text-[15px] leading-snug">
+                    <p className="text-[#FAF4E9] font-bold text-[15px] leading-snug">
                       {loc.shortName}
                     </p>
-                    <p className="text-purple-light/70 text-xs leading-relaxed mt-0.5">
+                    <p className="text-[#FAF4E9]/60 text-xs leading-relaxed mt-0.5">
                       {loc.address}
                     </p>
                     <div className="flex flex-wrap items-center gap-2 mt-3">
@@ -208,10 +211,10 @@ export default function Location() {
                         rel="noopener noreferrer"
                         className="
                           inline-flex items-center gap-1.5
-                          text-xs font-bold uppercase tracking-wide text-white
-                          bg-gradient-brand hover:opacity-90 transition-opacity
-                          px-4 py-2 rounded-full shadow-neon-pink
-                          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink
+                          text-xs font-bold uppercase tracking-wide text-[#FAF4E9]
+                          bg-linear-to-r from-[#E23F73] to-[#FF9736] hover:opacity-90 transition-opacity
+                          px-4 py-2 rounded-full shadow-[0_4px_18px_rgba(226,63,115,0.35)]
+                          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C8F03C]
                         "
                       >
                         <Navigation size={13} strokeWidth={2.5} />
@@ -223,10 +226,10 @@ export default function Location() {
                         aria-expanded={mapOpen}
                         className="
                           inline-flex items-center gap-1.5
-                          text-xs font-bold uppercase tracking-wide text-white
-                          bg-white/10 hover:bg-white/20 transition-colors
-                          px-4 py-2 rounded-full border border-white/15
-                          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink
+                          text-xs font-bold uppercase tracking-wide text-[#FAF4E9]
+                          bg-[#FAF4E9]/10 hover:bg-[#FAF4E9]/20 transition-colors
+                          px-4 py-2 rounded-full border border-[#FAF4E9]/15
+                          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C8F03C]
                         "
                       >
                         <MapIcon size={13} strokeWidth={2.5} />
@@ -248,7 +251,7 @@ export default function Location() {
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.35, ease: 'easeInOut' }}
-                      className="overflow-hidden border-t border-white/10"
+                      className="overflow-hidden border-t border-[#FAF4E9]/10"
                     >
                       <iframe
                         src={mapEmbedUrl(loc.address)}
@@ -288,15 +291,15 @@ export default function Location() {
                   className="
                     w-10 h-10 rounded-xl shrink-0
                     flex items-center justify-center
-                    [background:linear-gradient(135deg,#FF2D78,#FF6B35)]
+                    [background:linear-gradient(135deg,#E23F73,#FF9736)]
                     transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3
                   "
                   aria-hidden="true"
                 >
-                  <Icon size={18} className="text-white" strokeWidth={2.25} />
+                  <Icon size={18} className="text-[#FAF4E9]" strokeWidth={2.25} />
                 </div>
                 <div>
-                  <p className="text-[11px] text-gray-400 font-bold tracking-widest uppercase mb-1">
+                  <p className="text-[11px] text-[#2B1330]/40 font-bold tracking-widest uppercase mb-1">
                     {row.label}
                   </p>
                   {copyTargets.length ? (
@@ -311,7 +314,7 @@ export default function Location() {
                       ))}
                     </div>
                   ) : (
-                    <p className="text-navy text-[15px] font-medium whitespace-pre-line leading-snug">
+                    <p className="text-[#2B1330] text-[15px] font-medium whitespace-pre-line leading-snug">
                       {row.value}
                     </p>
                   )}
@@ -336,7 +339,7 @@ export default function Location() {
           {/* Booking note */}
           <motion.p
             variants={rowVariants}
-            className="text-gray-400 text-sm leading-relaxed"
+            className="text-[#2B1330]/45 text-sm leading-relaxed"
           >
             Walk-ins always welcome. For popular classes like Saturday
             Weekend Warrior, book at least 24h ahead — they fill fast.
