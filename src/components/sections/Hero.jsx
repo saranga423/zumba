@@ -16,9 +16,10 @@ import {
   CalendarCheck,
   Flame,
   Trophy,
+  Sparkles,
 } from "lucide-react";
 
-import previewReel from "../../assets/videos/v1.mp4";
+import previewReel from "../../assets/videos/v11.mp4";
 
 const heroSlides = [
   "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=1600&q=80",
@@ -368,6 +369,13 @@ export default function Hero() {
     [enableParallax, mouseX, mouseY]
   );
 
+  /* Scroll to booking / schedule section */
+  const handleBookClick = useCallback(() => {
+    document
+      .getElementById("schedule")
+      ?.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth" });
+  }, [prefersReducedMotion]);
+
   /* Headline stagger variants */
   const headlineContainer = {
     hidden: {},
@@ -556,7 +564,23 @@ export default function Hero() {
               style={{ background: "linear-gradient(135deg,#FF2D78,#FF6B35)" }}
               aria-hidden="true"
             />
-            
+            <button
+              type="button"
+              onClick={handleBookClick}
+              className="
+                relative inline-flex items-center gap-2
+                rounded-full px-8 py-4 text-sm md:text-base font-semibold uppercase tracking-wide
+                text-dark shadow-[0_4px_24px_rgba(255,45,120,0.4)]
+                transition-transform duration-300
+                hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(255,45,120,0.55)]
+                active:translate-y-0
+                focus-visible:outline-2 focus-visible:outline-yellow focus-visible:outline-offset-2
+              "
+              style={{ background: "linear-gradient(135deg,#FF2D78,#FF6B35)" }}
+            >
+              <Sparkles size={18} />
+              Claim Your Free Class
+            </button>
           </div>
 
           {/* Secondary CTA — ghost / cream, btn-shimmer on hover */}
@@ -595,7 +619,6 @@ export default function Hero() {
           ))}
         </div>
       </motion.div>
-      
 
       {/* ── Slide indicators ─────────────────────────────────────────────── */}
       {heroSlides.length > 1 && (

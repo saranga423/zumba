@@ -4,9 +4,7 @@ const sizes = {
   lg: "px-8 py-4 text-lg",
 };
 
-// TODO(design-tokens): raw hex values stand in for the real @theme tokens
-// (cream / hibiscus / mango / plum / lime) — swap once confirmed against
-// globals.css.
+
 const variants = {
   primary:
     "bg-[#C8F03C] text-[#2B1330] hover:bg-[#DFFA6E] focus-visible:ring-[#C8F03C]",

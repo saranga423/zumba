@@ -284,7 +284,7 @@ export default function InstructorPage() {
               </p>
               <p className="text-white/70 leading-8 mb-10 text-center">
                 Expect high-energy playlists, routines anyone can pick up, and
-                a room full of people cheering each other on — first-timers
+                a room full of people cheering each other on, first-timers
                 and regulars alike.
               </p>
 
