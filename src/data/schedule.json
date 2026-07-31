@@ -1,42 +1,9 @@
 [
   {
-    "id": "se-kala-tue",
-    "day": "Tue",
-    "dayFull": "Tuesday",
-    "time": "5:00 PM",
-    "name": "Zumba Fitness",
-    "type": "zumba",
-    "description": "High-energy Latin dance cardio for all levels — no experience needed, just bring your energy.",
-    "level": "All Levels",
-    "location": "Nimal Senanayake Academy of Performing Arts"
-  },
-  {
-    "id": "se-kala-thu",
-    "day": "Thu",
-    "dayFull": "Thursday",
-    "time": "5:00 PM",
-    "name": "Zumba Fitness",
-    "type": "zumba",
-    "description": "High-energy Latin dance cardio for all levels — no experience needed, just bring your energy.",
-    "level": "All Levels",
-    "location": "Nimal Senanayake Academy of Performing Arts"
-  },
-  {
-    "id": "se-kala-sun",
-    "day": "Sun",
-    "dayFull": "Sunday",
-    "time": "9:00 AM",
-    "name": "Family Zumba",
-    "type": "zumba",
-    "description": "A lighter-paced session the whole family can join — parents, kids, and grandparents dancing together.",
-    "level": "All Levels",
-    "location": "Nimal Senanayake Academy of Performing Arts"
-  },
-  {
-    "id": "resh-mon",
+    "id": "resh-mon-morning",
     "day": "Mon",
     "dayFull": "Monday",
-    "time": "6:00 PM",
+    "time": "9:00 AM – 11:00 AM",
     "name": "Zumba Fitness",
     "type": "zumba",
     "description": "High-energy Latin dance cardio for all levels — no experience needed, just bring your energy.",
@@ -44,25 +11,80 @@
     "location": "Resh Dance Studio Kandy"
   },
   {
-    "id": "resh-wed",
+    "id": "se-kala-tue-morning",
+    "day": "Tue",
+    "dayFull": "Tuesday",
+    "time": "9:00 AM – 11:00 AM",
+    "name": "Zumba Fitness",
+    "type": "zumba",
+    "description": "High-energy Latin dance cardio for all levels — no experience needed, just bring your energy.",
+    "level": "All Levels",
+    "location": "Nimal Senanayake Academy of Performing Arts"
+  },
+  {
+    "id": "se-kala-tue-evening",
+    "day": "Tue",
+    "dayFull": "Tuesday",
+    "time": "5:00 PM – 7:00 PM",
+    "name": "Zumba Fitness",
+    "type": "zumba",
+    "description": "High-energy Latin dance cardio for all levels — no experience needed, just bring your energy.",
+    "level": "All Levels",
+    "location": "Nimal Senanayake Academy of Performing Arts"
+  },
+  {
+    "id": "resh-wed-morning",
     "day": "Wed",
     "dayFull": "Wednesday",
-    "time": "6:00 PM",
-    "name": "Zumba Toning",
+    "time": "9:00 AM – 11:00 AM",
+    "name": "Zumba Fitness",
     "type": "zumba",
-    "description": "Same great choreography with light hand weights added — tone while you dance.",
-    "level": "Intermediate",
+    "description": "High-energy Latin dance cardio for all levels — no experience needed, just bring your energy.",
+    "level": "All Levels",
     "location": "Resh Dance Studio Kandy"
   },
   {
-    "id": "resh-sat",
-    "day": "Sat",
-    "dayFull": "Saturday",
-    "time": "10:00 AM",
-    "name": "Zumba Gold",
+    "id": "se-kala-thu-morning",
+    "day": "Thu",
+    "dayFull": "Thursday",
+    "time": "9:00 AM – 11:00 AM",
+    "name": "Zumba Fitness",
     "type": "zumba",
-    "description": "Lower-impact Zumba with all the energy — built for joints that still want to move.",
-    "level": "Beginner Friendly",
+    "description": "High-energy Latin dance cardio for all levels — no experience needed, just bring your energy.",
+    "level": "All Levels",
+    "location": "Nimal Senanayake Academy of Performing Arts"
+  },
+  {
+    "id": "se-kala-thu-evening",
+    "day": "Thu",
+    "dayFull": "Thursday",
+    "time": "5:00 PM – 7:00 PM",
+    "name": "Zumba Fitness",
+    "type": "zumba",
+    "description": "High-energy Latin dance cardio for all levels — no experience needed, just bring your energy.",
+    "level": "All Levels",
+    "location": "Nimal Senanayake Academy of Performing Arts"
+  },
+  {
+    "id": "resh-fri-morning",
+    "day": "Fri",
+    "dayFull": "Friday",
+    "time": "9:00 AM – 11:00 AM",
+    "name": "Zumba Fitness",
+    "type": "zumba",
+    "description": "High-energy Latin dance cardio for all levels — no experience needed, just bring your energy.",
+    "level": "All Levels",
     "location": "Resh Dance Studio Kandy"
+  },
+  {
+    "id": "se-kala-sun-morning",
+    "day": "Sun",
+    "dayFull": "Sunday",
+    "time": "9:00 AM – 11:00 AM",
+    "name": "Zumba Fitness",
+    "type": "zumba",
+    "description": "High-energy Latin dance cardio for all levels — no experience needed, just bring your energy.",
+    "level": "All Levels",
+    "location": "Nimal Senanayake Academy of Performing Arts"
   }
 ]
