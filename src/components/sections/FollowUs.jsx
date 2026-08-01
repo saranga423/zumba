@@ -57,12 +57,12 @@ function CopyButton({ text }) {
     <button
       onClick={handleCopy}
       aria-label={copied ? "Copied!" : `Copy ${text} to clipboard`}
-      className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold border border-[#C8F03C]/40 text-lime hover:bg-[#C8F03C]/10 transition-all duration-200 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#C8F03C]"
+      className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold border border-lime/40 text-lime hover:bg-lime/10 transition-all duration-200 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-lime"
     >
       <AnimatePresence mode="wait" initial={false}>
         {copied ? (
           <motion.span key="check" initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.5, opacity: 0 }} transition={{ duration: 0.2, ease }} className="flex items-center gap-1">
-            <HiCheck size={14} className="text-[#C8F03C]" /><span>Copied!</span>
+            <HiCheck size={14} className="text-lime" /><span>Copied!</span>
           </motion.span>
         ) : (
           <motion.span key="copy" initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.5, opacity: 0 }} transition={{ duration: 0.2, ease }} className="flex items-center gap-1">
@@ -84,7 +84,7 @@ function EditableStat({ stat, onChange }) {
         <input autoFocus defaultValue={stat.value}
           onBlur={e => { onChange({ ...stat, value: e.target.value }); setEditing(null); }}
           onKeyDown={e => { if (e.key === "Enter") e.currentTarget.blur(); }}
-          className="w-20 text-center text-2xl font-black tracking-tight leading-none bg-transparent border-b border-[#C8F03C]/60 text-[#C8F03C] focus:outline-none"
+          className="w-20 text-center text-2xl font-black tracking-tight leading-none bg-transparent border-b border-lime/60 text-lime focus:outline-none"
           aria-label={`Edit ${stat.label} value`}
         />
       ) : (
@@ -97,12 +97,12 @@ function EditableStat({ stat, onChange }) {
         <input autoFocus defaultValue={stat.label}
           onBlur={e => { onChange({ ...stat, label: e.target.value }); setEditing(null); }}
           onKeyDown={e => { if (e.key === "Enter") e.currentTarget.blur(); }}
-          className="w-20 text-center text-[10px] uppercase tracking-widest bg-transparent border-b border-[#FF9736]/60 text-[#FF9736] focus:outline-none mt-1.5"
+          className="w-20 text-center text-[10px] uppercase tracking-widest bg-transparent border-b border-mango/60 text-mango focus:outline-none mt-1.5"
           aria-label={`Edit ${stat.label} label`}
         />
       ) : (
         <button onClick={() => setEditing("label")} title="Click to edit label"
-          className="text-[10px] uppercase tracking-widest text-[#FAF4E9]/50 font-semibold mt-1.5 hover:text-[#FF9736] transition-colors cursor-text">
+          className="text-[10px] uppercase tracking-widest text-cream/50 font-semibold mt-1.5 hover:text-mango transition-colors cursor-text">
           {stat.label}
         </button>
       )}
@@ -114,7 +114,7 @@ function EditableStat({ stat, onChange }) {
 function StatsBadge({ stats, onChangeStats }) {
   return (
     <div role="list" aria-label="Studio statistics"
-      className="flex items-center justify-center divide-x divide-[#FAF4E9]/10 rounded-2xl border border-[#FF9736]/25 bg-[#FF9736]/8 px-3 py-4 w-full">
+      className="flex items-center justify-center divide-x divide-cream/10 rounded-2xl border border-mango/25 bg-mango/8 px-3 py-4 w-full">
       {stats.map((stat, i) => (
         <div key={i} role="listitem">
           <EditableStat stat={stat} onChange={updated => {
@@ -150,7 +150,7 @@ function SocialCard({ social, isActive, onClick }) {
       aria-label={`${social.label}${isActive ? " (active)" : ""}`}
       whileHover={{ y: -3 }} whileTap={{ scale: 0.97 }}
       transition={{ duration: 0.22, ease }}
-      className="w-full text-left flex items-center gap-3 px-4 py-3.5 rounded-2xl border transition-all duration-300 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#C8F03C]"
+      className="w-full text-left flex items-center gap-3 px-4 py-3.5 rounded-2xl border transition-all duration-300 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-lime"
       style={{
         background:   isActive ? social.color + "18" : "rgba(250,244,233,0.04)",
         borderColor:  isActive ? social.color + "80" : "rgba(250,244,233,0.08)",
@@ -161,8 +161,8 @@ function SocialCard({ social, isActive, onClick }) {
         <Icon size={17} style={{ color: social.color }} aria-hidden="true" />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-bold text-[#FAF4E9]/90 leading-none">{social.label}</p>
-        <p className="text-[11px] text-[#FAF4E9]/35 mt-0.5 truncate">
+        <p className="text-sm font-bold text-cream/90 leading-none">{social.label}</p>
+        <p className="text-[11px] text-cream/35 mt-0.5 truncate">
           {social.href.replace("https://", "").replace("www.", "")}
         </p>
       </div>
@@ -200,7 +200,7 @@ export default function FollowUs() {
   return (
     <section
       aria-label="Follow us on social media"
-      className="relative overflow-hidden py-28 bg-[#2B1330] text-[#FAF4E9] selection:bg-[#C8F03C] selection:text-[#2B1330]"
+      className="relative overflow-hidden py-28 bg-plum text-cream selection:bg-lime selection:text-plum"
     >
       {/* Dot-grid */}
       <div aria-hidden="true" className="absolute inset-0 pointer-events-none opacity-[0.05]"
@@ -211,7 +211,7 @@ export default function FollowUs() {
 
       {/* Ambient glow */}
       <div aria-hidden="true"
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none blur-3xl"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-150 rounded-full pointer-events-none blur-3xl"
         style={{ background: "radial-gradient(ellipse at center, rgba(226,63,115,0.12) 0%, rgba(255,151,54,0.08) 50%, transparent 75%)" }} />
 
       <div className="relative z-10 max-w-5xl mx-auto px-6">
@@ -222,13 +222,13 @@ export default function FollowUs() {
           transition={{ duration: 0.65, ease }} viewport={{ once: true }}
           className="text-center mb-14"
         >
-          <span className="inline-block uppercase tracking-[7px] text-xs font-bold font-mono mb-4 px-3 py-1 rounded-full border text-[#FF9736] border-[#FF9736]/30 bg-[#FF9736]/10">
+          <span className="inline-block uppercase tracking-[7px] text-xs font-bold font-mono mb-4 px-3 py-1 rounded-full border text-mango border-mango/30 bg-mango/10">
             Stay Connected
           </span>
-          <h2 className="font-bricolage text-4xl sm:text-6xl font-black tracking-tight mb-4 leading-[1.05] text-[#FAF4E9]">
-            Join the <span className="text-[#E23F73]">Movement</span>
+          <h2 className="font-bricolage text-4xl sm:text-6xl font-black tracking-tight mb-4 leading-[1.05] text-cream">
+            Join the <span className="text-hibiscus">Movement</span>
           </h2>
-          <p className="text-[#FAF4E9]/50 text-sm sm:text-base leading-relaxed max-w-md mx-auto font-inter">
+          <p className="text-cream/50 text-sm sm:text-base leading-relaxed max-w-md mx-auto font-inter">
             Behind-the-scenes clips, class highlights, and Zumba energy — follow along on your favourite platform.
           </p>
         </motion.div>
@@ -290,7 +290,7 @@ export default function FollowUs() {
                 <div className="flex flex-col sm:flex-row items-center gap-3 px-5 py-3 rounded-2xl border w-full justify-center"
                   style={{ background: "#FAF4E908", borderColor: "#FAF4E915" }}>
                   <a href={qrTarget} target="_blank" rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2.5 font-bold text-sm transition-colors rounded focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#C8F03C] text-[#FAF4E9]"
+                    className="inline-flex items-center gap-2.5 font-bold text-sm transition-colors rounded focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-lime text-cream"
                     onMouseEnter={e => (e.currentTarget.style.color = active.color)}
                     onMouseLeave={e => (e.currentTarget.style.color = "#FAF4E9")}
                     aria-label={`Open ${active.label} profile for ${HANDLE}`}
@@ -298,11 +298,11 @@ export default function FollowUs() {
                     {(() => { const Icon = active.icon; return <Icon size={18} style={{ color: active.color }} aria-hidden="true" />; })()}
                     {HANDLE}
                   </a>
-                  <div className="hidden sm:block h-4 w-px bg-[#FAF4E9]/20" />
+                  <div className="hidden sm:block h-4 w-px bg-cream/20" />
                   <CopyButton text={HANDLE} />
                 </div>
 
-                <p className="text-[11px] text-[#FAF4E9]/25 tracking-wider text-center font-mono">
+                <p className="text-[11px] text-cream/25 tracking-wider text-center font-mono">
                   Scan to open · {active.label}
                 </p>
               </div>
@@ -315,7 +315,7 @@ export default function FollowUs() {
             className="flex flex-col gap-4"
           >
             <motion.p variants={item}
-              className="text-[10px] font-bold uppercase tracking-widest text-[#FAF4E9]/30 font-mono">
+              className="text-[10px] font-bold uppercase tracking-widest text-cream/30 font-mono">
               Choose a platform
             </motion.p>
 
@@ -327,9 +327,9 @@ export default function FollowUs() {
             ))}
 
             <motion.div variants={item} className="pt-2">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-[#FAF4E9]/30 mb-3 font-mono">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-cream/30 mb-3 font-mono">
                 Studio at a glance{" "}
-                <span className="normal-case text-[#FAF4E9]/20 tracking-normal font-normal">— click to edit</span>
+                <span className="normal-case text-cream/20 tracking-normal font-normal">— click to edit</span>
               </p>
               <StatsBadge stats={stats} onChangeStats={setStats} />
             </motion.div>
