@@ -11,19 +11,31 @@ const HANDLE = "@hannawaththalage";
 const INSTAGRAM_URL = "https://www.instagram.com/hannawaththalage/";
 
 const SOCIAL_LINKS = [
-  { id: "instagram", label: "Instagram", href: INSTAGRAM_URL,          icon: FaInstagram, color: "#E23F73", primary: true  },
-  { id: "tiktok",    label: "TikTok",    href: "https://www.tiktok.com/@zumba_with_hanna?_r=1&_d=e4jl7f707i8bmg&sec_uid=MS4wLjABAAAA9tNBdmNAbnI8XaBW18C3C16hIStwzd6kHnRVG6GC9yqm_zwjphlgmiUnU-zOmpcM&share_author_id=7293809711707046918&sharer_language=en&source=h5_m&u_code=eaj157a2cackj7&timestamp=1785472906&user_id=7293809711707046918&sec_user_id=MS4wLjABAAAA9tNBdmNAbnI8XaBW18C3C16hIStwzd6kHnRVG6GC9yqm_zwjphlgmiUnU-zOmpcM&item_author_type=1&utm_source=copy&utm_campaign=client_share&utm_medium=android&share_iid=7665246593540785940&share_link_id=040f3e36-2919-43f0-9822-2d28688bf7db&share_app_id=1233&ugbiz_name=ACCOUNT&ug_btm=b8727%2Cb7360&social_share_type=5&enable_checksum=1", icon: FaTiktok,    color: "#C8F03C" },
-  { id: "youtube",   label: "YouTube",   href: "https://www.youtube.com/@hannawaththalage",  icon: FaYoutube,   color: "#FF9736" },
-  { id: "facebook",  label: "Facebook",  href: "https://www.facebook.com/hannawaththalage",  icon: FaFacebook,  color: "#C8F03C" },
+  {
+    id: "instagram", label: "Instagram", icon: FaInstagram, color: "#E23F73", primary: true,
+    href: INSTAGRAM_URL,
+  },
+  {
+    id: "tiktok", label: "TikTok", icon: FaTiktok, color: "#C8F03C",
+    href: "https://www.tiktok.com/@zumba_with_hanna",
+  },
+  {
+    id: "youtube", label: "YouTube", icon: FaYoutube, color: "#FF9736",
+    href: "https://www.youtube.com/@hannawaththalage",
+  },
+  {
+    id: "facebook", label: "Facebook", icon: FaFacebook, color: "#4F9EF8",
+    href: "https://www.facebook.com/hanna.waththalage",
+  },
 ];
 
+// Real stats — update as needed
 const DEFAULT_STATS = [
-  { label: "Students",    value: "650+" },
-  { label: "Classes / wk", value: "12"  },
-  { label: "Followers",   value: "15K+" },
+  { label: "Members",      value: "100+"  },
+  { label: "Classes / wk", value: "8"    },
+  { label: "Years Active", value: "4+"   },
 ];
 
-// ─── Smooth ease ──────────────────────────────────────────────────────────────
 const ease = [0.16, 1, 0.3, 1];
 
 // ─── CopyButton ───────────────────────────────────────────────────────────────
@@ -45,12 +57,12 @@ function CopyButton({ text }) {
     <button
       onClick={handleCopy}
       aria-label={copied ? "Copied!" : `Copy ${text} to clipboard`}
-      className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold border border-lime/40 text-lime hover:bg-lime/10 transition-all duration-200 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-lime"
+      className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold border border-[#C8F03C]/40 text-lime hover:bg-[#C8F03C]/10 transition-all duration-200 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#C8F03C]"
     >
       <AnimatePresence mode="wait" initial={false}>
         {copied ? (
           <motion.span key="check" initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.5, opacity: 0 }} transition={{ duration: 0.2, ease }} className="flex items-center gap-1">
-            <HiCheck size={14} className="text-lime" /><span>Copied!</span>
+            <HiCheck size={14} className="text-[#C8F03C]" /><span>Copied!</span>
           </motion.span>
         ) : (
           <motion.span key="copy" initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.5, opacity: 0 }} transition={{ duration: 0.2, ease }} className="flex items-center gap-1">
@@ -64,44 +76,33 @@ function CopyButton({ text }) {
 
 // ─── EditableStat ─────────────────────────────────────────────────────────────
 function EditableStat({ stat, onChange }) {
-  const [editing, setEditing] = useState(null); // "value" | "label" | null
+  const [editing, setEditing] = useState(null);
 
   return (
     <div className="flex flex-col items-center px-5 first:pl-3 last:pr-3">
       {editing === "value" ? (
-        <input
-          autoFocus
-          defaultValue={stat.value}
+        <input autoFocus defaultValue={stat.value}
           onBlur={e => { onChange({ ...stat, value: e.target.value }); setEditing(null); }}
           onKeyDown={e => { if (e.key === "Enter") e.currentTarget.blur(); }}
-          className="w-20 text-center text-2xl font-black tracking-tight leading-none bg-transparent border-b border-lime/60 text-lime focus:outline-none"
+          className="w-20 text-center text-2xl font-black tracking-tight leading-none bg-transparent border-b border-[#C8F03C]/60 text-[#C8F03C] focus:outline-none"
           aria-label={`Edit ${stat.label} value`}
         />
       ) : (
-        <button
-          onClick={() => setEditing("value")}
-          title="Click to edit"
-          className="text-2xl font-black tracking-tight leading-none text-lime hover:opacity-70 transition-opacity cursor-text"
-        >
+        <button onClick={() => setEditing("value")} title="Click to edit"
+          className="text-2xl font-black tracking-tight leading-none text-lime hover:opacity-70 transition-opacity cursor-text">
           {stat.value}
         </button>
       )}
-
       {editing === "label" ? (
-        <input
-          autoFocus
-          defaultValue={stat.label}
+        <input autoFocus defaultValue={stat.label}
           onBlur={e => { onChange({ ...stat, label: e.target.value }); setEditing(null); }}
           onKeyDown={e => { if (e.key === "Enter") e.currentTarget.blur(); }}
-          className="w-20 text-center text-[10px] uppercase tracking-widest bg-transparent border-b border-mango/60 text-mango focus:outline-none mt-1.5"
+          className="w-20 text-center text-[10px] uppercase tracking-widest bg-transparent border-b border-[#FF9736]/60 text-[#FF9736] focus:outline-none mt-1.5"
           aria-label={`Edit ${stat.label} label`}
         />
       ) : (
-        <button
-          onClick={() => setEditing("label")}
-          title="Click to edit label"
-          className="text-[10px] uppercase tracking-widest text-white/60 font-semibold mt-1.5 hover:text-mango transition-colors cursor-text"
-        >
+        <button onClick={() => setEditing("label")} title="Click to edit label"
+          className="text-[10px] uppercase tracking-widest text-[#FAF4E9]/50 font-semibold mt-1.5 hover:text-[#FF9736] transition-colors cursor-text">
           {stat.label}
         </button>
       )}
@@ -112,21 +113,13 @@ function EditableStat({ stat, onChange }) {
 // ─── StatsBadge ───────────────────────────────────────────────────────────────
 function StatsBadge({ stats, onChangeStats }) {
   return (
-    <div
-      role="list"
-      aria-label="Studio statistics — click any value or label to edit"
-      className="flex items-center justify-center gap-0 divide-x divide-white/10 rounded-2xl border border-mango/25 bg-mango/8 px-3 py-4 backdrop-blur-sm w-full"
-    >
+    <div role="list" aria-label="Studio statistics"
+      className="flex items-center justify-center divide-x divide-[#FAF4E9]/10 rounded-2xl border border-[#FF9736]/25 bg-[#FF9736]/8 px-3 py-4 w-full">
       {stats.map((stat, i) => (
         <div key={i} role="listitem">
-          <EditableStat
-            stat={stat}
-            onChange={updated => {
-              const next = [...stats];
-              next[i] = updated;
-              onChangeStats(next);
-            }}
-          />
+          <EditableStat stat={stat} onChange={updated => {
+            const next = [...stats]; next[i] = updated; onChangeStats(next);
+          }} />
         </div>
       ))}
     </div>
@@ -138,9 +131,7 @@ function PulseRings({ color = "#FF9736", count = 3 }) {
   return (
     <div className="absolute inset-0 rounded-[30px] pointer-events-none" aria-hidden="true">
       {Array.from({ length: count }).map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute inset-0 rounded-[30px] border"
+        <motion.div key={i} className="absolute inset-0 rounded-[30px] border"
           style={{ borderColor: color + "55" }}
           initial={{ opacity: 0.7, scale: 1 }}
           animate={{ opacity: 0, scale: 1.08 + i * 0.06 }}
@@ -155,43 +146,31 @@ function PulseRings({ color = "#FF9736", count = 3 }) {
 function SocialCard({ social, isActive, onClick }) {
   const Icon = social.icon;
   return (
-    <motion.button
-      onClick={onClick}
-      aria-pressed={isActive}
+    <motion.button onClick={onClick} aria-pressed={isActive}
       aria-label={`${social.label}${isActive ? " (active)" : ""}`}
-      whileHover={{ y: -3 }}
-      whileTap={{ scale: 0.97 }}
+      whileHover={{ y: -3 }} whileTap={{ scale: 0.97 }}
       transition={{ duration: 0.22, ease }}
-      className="w-full text-left flex items-center gap-3 px-4 py-3.5 rounded-2xl border transition-all duration-300 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-lime"
+      className="w-full text-left flex items-center gap-3 px-4 py-3.5 rounded-2xl border transition-all duration-300 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#C8F03C]"
       style={{
-        background: isActive ? social.color + "18" : "rgba(255,255,255,0.04)",
-        borderColor: isActive ? social.color + "80" : "rgba(255,255,255,0.08)",
+        background:   isActive ? social.color + "18" : "rgba(250,244,233,0.04)",
+        borderColor:  isActive ? social.color + "80" : "rgba(250,244,233,0.08)",
       }}
     >
-      {/* Icon bubble */}
-      <div
-        className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300"
-        style={{ background: isActive ? social.color + "30" : "rgba(255,255,255,0.06)" }}
-      >
+      <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300"
+        style={{ background: isActive ? social.color + "30" : "rgba(250,244,233,0.06)" }}>
         <Icon size={17} style={{ color: social.color }} aria-hidden="true" />
       </div>
-
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-bold text-white/90 leading-none">{social.label}</p>
-        <p className="text-[11px] text-white/35 mt-0.5 truncate">{social.href.replace("https://", "").replace("www.", "").split("/")[0]}</p>
+        <p className="text-sm font-bold text-[#FAF4E9]/90 leading-none">{social.label}</p>
+        <p className="text-[11px] text-[#FAF4E9]/35 mt-0.5 truncate">
+          {social.href.replace("https://", "").replace("www.", "")}
+        </p>
       </div>
-
-      {/* Active dot */}
       <AnimatePresence>
         {isActive && (
-          <motion.div
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0, opacity: 0 }}
-            transition={{ duration: 0.2, ease }}
-            className="w-2 h-2 rounded-full shrink-0"
-            style={{ background: social.color }}
-          />
+          <motion.div initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0, opacity: 0 }} transition={{ duration: 0.2, ease }}
+            className="w-2 h-2 rounded-full shrink-0" style={{ background: social.color }} />
         )}
       </AnimatePresence>
     </motion.button>
@@ -205,11 +184,10 @@ export default function FollowUs() {
   const [stats, setStats] = useState(DEFAULT_STATS);
   const [activeSocial, setActiveSocial] = useState("instagram");
 
-  const active = SOCIAL_LINKS.find(s => s.id === activeSocial) ?? SOCIAL_LINKS[0];
-  const qrTarget = active.href;
-  const qrLabel = active.label;
+  const active    = SOCIAL_LINKS.find(s => s.id === activeSocial) ?? SOCIAL_LINKS[0];
+  const qrTarget  = active.href;
+  const qrLabel   = active.label;
 
-  // Stagger variants
   const container = {
     hidden: {},
     show: { transition: { staggerChildren: 0.09, delayChildren: 0.05 } },
@@ -222,114 +200,60 @@ export default function FollowUs() {
   return (
     <section
       aria-label="Follow us on social media"
-      className="relative overflow-hidden py-28 text-white"
-      style={{ background: "#2B1330" }}
+      className="relative overflow-hidden py-28 bg-[#2B1330] text-[#FAF4E9] selection:bg-[#C8F03C] selection:text-[#2B1330]"
     >
-      {/* Dot-grid texture */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 pointer-events-none opacity-[0.06]"
+      {/* Dot-grid */}
+      <div aria-hidden="true" className="absolute inset-0 pointer-events-none opacity-[0.05]"
         style={{
-          backgroundImage: "radial-gradient(circle at 2px 2px, #FF9736 1px, transparent 0)",
+          backgroundImage: "radial-gradient(circle at 2px 2px, #FAF4E9 1px, transparent 0)",
           backgroundSize: "28px 28px",
-        }}
-      />
+        }} />
 
       {/* Ambient glow */}
-      <div
-        aria-hidden="true"
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-150 rounded-full pointer-events-none blur-3xl"
-        style={{ background: "radial-gradient(ellipse at center, #E23F7320 0%, #FF973612 50%, transparent 75%)" }}
-      />
+      <div aria-hidden="true"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none blur-3xl"
+        style={{ background: "radial-gradient(ellipse at center, rgba(226,63,115,0.12) 0%, rgba(255,151,54,0.08) 50%, transparent 75%)" }} />
 
       <div className="relative z-10 max-w-5xl mx-auto px-6">
 
-        {/* ── Header ───────────────────────────────────────────────────────── */}
+        {/* ── Header ── */}
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.65, ease }}
-          viewport={{ once: true }}
+          initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.65, ease }} viewport={{ once: true }}
           className="text-center mb-14"
         >
-          <span
-            className="inline-block uppercase tracking-[7px] text-xs font-bold mb-4 px-3 py-1 rounded-full border"
-            style={{ color: "#FF9736", borderColor: "#FF973640", background: "#FF973612" }}
-          >
+          <span className="inline-block uppercase tracking-[7px] text-xs font-bold font-mono mb-4 px-3 py-1 rounded-full border text-[#FF9736] border-[#FF9736]/30 bg-[#FF9736]/10">
             Stay Connected
           </span>
-          <h2 className="text-4xl sm:text-6xl font-black tracking-tight mb-4 font-bricolage leading-[1.05]">
-            Follow the <span style={{ color: "#E23F73" }}>Energy</span>
+          <h2 className="font-bricolage text-4xl sm:text-6xl font-black tracking-tight mb-4 leading-[1.05] text-[#FAF4E9]">
+            Join the <span className="text-[#E23F73]">Movement</span>
           </h2>
-          <p className="text-white/55 text-sm sm:text-base leading-relaxed max-w-md mx-auto font-inter">
-            Pick a platform below — the QR code updates live so you can scan straight to the right profile.
+          <p className="text-[#FAF4E9]/50 text-sm sm:text-base leading-relaxed max-w-md mx-auto font-inter">
+            Behind-the-scenes clips, class highlights, and Zumba energy — follow along on your favourite platform.
           </p>
         </motion.div>
 
-        {/* ── Two-column split ─────────────────────────────────────────────── */}
-        <div className="grid lg:grid-cols-[1fr_420px] gap-8 items-start">
+        {/* ── Two-column layout ── */}
+        <div className="grid lg:grid-cols-[420px_1fr] gap-8 items-start">
 
-          {/* LEFT: social list + stats ───────────────────────────────────── */}
+          {/* LEFT: QR card */}
           <motion.div
-            variants={container}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            className="flex flex-col gap-4"
-          >
-            {/* Section label */}
-            <motion.p variants={item} className="text-[10px] font-bold uppercase tracking-widest text-white/30">
-              Choose a platform
-            </motion.p>
-
-            {/* Social cards */}
-            {SOCIAL_LINKS.map(social => (
-              <motion.div key={social.id} variants={item}>
-                <SocialCard
-                  social={social}
-                  isActive={activeSocial === social.id}
-                  onClick={() => setActiveSocial(social.id)}
-                />
-              </motion.div>
-            ))}
-
-            {/* Stats */}
-            <motion.div variants={item} className="pt-2">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-white/30 mb-3">
-                Studio at a glance <span className="normal-case text-white/20 tracking-normal font-normal">— click to edit</span>
-              </p>
-              <StatsBadge stats={stats} onChangeStats={setStats} />
-            </motion.div>
-          </motion.div>
-
-          {/* RIGHT: QR card ──────────────────────────────────────────────── */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, delay: 0.2, ease }}
-            viewport={{ once: true }}
+            initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, delay: 0.1, ease }} viewport={{ once: true }}
             className="relative lg:sticky lg:top-8"
           >
-            {/* Pulse rings (replaces gradient ring) */}
             {!shouldReduceMotion && <PulseRings color={active.color} count={3} />}
 
-            {/* Card — 1px gradient border keyed to active platform color */}
-            <div
-              className="relative p-0.5 rounded-[30px] shadow-2xl transition-all duration-500"
-              style={{ background: `linear-gradient(135deg, ${active.color}, #E23F73, #2B1330)` }}
-            >
-              <div
-                className="rounded-[28px] p-6 sm:p-9 flex flex-col items-center gap-6 backdrop-blur-xl"
-                style={{ background: "#1c0b22" }}
-              >
+            <div className="relative p-0.5 rounded-[30px] shadow-2xl transition-all duration-500"
+              style={{ background: `linear-gradient(135deg, ${active.color}, #E23F73, #2B1330)` }}>
+              <div className="rounded-[28px] p-6 sm:p-9 flex flex-col items-center gap-6 backdrop-blur-xl"
+                style={{ background: "#1c0b22" }}>
+
                 {/* Active platform header */}
                 <AnimatePresence mode="wait">
-                  <motion.div
-                    key={activeSocial}
-                    initial={{ opacity: 0, y: -8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 8 }}
-                    transition={{ duration: 0.28, ease }}
+                  <motion.div key={activeSocial}
+                    initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 8 }} transition={{ duration: 0.28, ease }}
                     className="flex items-center gap-2.5 self-start"
                   >
                     {(() => { const Icon = active.icon; return <Icon size={18} style={{ color: active.color }} aria-hidden="true" />; })()}
@@ -337,62 +261,36 @@ export default function FollowUs() {
                   </motion.div>
                 </AnimatePresence>
 
-                {/* QR code — animates when active platform changes */}
-                <div
-                  ref={qrRef}
+                {/* QR code */}
+                <div ref={qrRef}
                   className="relative group p-4 rounded-2xl shadow-inner"
                   style={{ background: "#FAF4E9" }}
                   aria-label={`QR code linking to ${active.label} profile`}
                 >
                   <AnimatePresence mode="wait">
-                    <motion.div
-                      key={activeSocial}
-                      initial={{ opacity: 0, scale: 0.92 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.92 }}
-                      transition={{ duration: 0.3, ease }}
-                    >
-                      <QRCodeSVG
-                        value={qrTarget}
-                        size={190}
-                        bgColor="#FAF4E9"
-                        fgColor="#2B1330"
-                        level="H"
-                        includeMargin={false}
-                      />
+                    <motion.div key={activeSocial}
+                      initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.92 }} transition={{ duration: 0.3, ease }}>
+                      <QRCodeSVG value={qrTarget} size={190} bgColor="#FAF4E9" fgColor="#2B1330" level="H" includeMargin={false} />
                     </motion.div>
                   </AnimatePresence>
-
                   {/* Hover overlay */}
-                  <div
-                    aria-hidden="true"
+                  <div aria-hidden="true"
                     className="absolute inset-0 flex items-center justify-center rounded-2xl backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300"
-                    style={{ background: "#2B1330CC" }}
-                  >
-                    <a
-                      href={qrTarget}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      tabIndex={-1}
-                      className="text-xs font-black uppercase tracking-widest px-4 py-2 rounded-xl shadow-lg transition-opacity hover:opacity-80"
-                      style={{ background: active.color, color: "#FAF4E9" }}
-                    >
+                    style={{ background: "#2B1330CC" }}>
+                    <a href={qrTarget} target="_blank" rel="noopener noreferrer" tabIndex={-1}
+                      className="text-xs font-black uppercase tracking-widest px-4 py-2 rounded-xl shadow-lg hover:opacity-80 transition-opacity"
+                      style={{ background: active.color, color: "#FAF4E9" }}>
                       Open {qrLabel}
                     </a>
                   </div>
                 </div>
 
                 {/* Handle + copy */}
-                <div
-                  className="flex flex-col sm:flex-row items-center gap-3 px-5 py-3 rounded-2xl border w-full justify-center"
-                  style={{ background: "#ffffff08", borderColor: "#ffffff15" }}
-                >
-                  <a
-                    href={qrTarget}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2.5 font-bold text-sm transition-colors rounded focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-lime"
-                    style={{ color: "#FAF4E9" }}
+                <div className="flex flex-col sm:flex-row items-center gap-3 px-5 py-3 rounded-2xl border w-full justify-center"
+                  style={{ background: "#FAF4E908", borderColor: "#FAF4E915" }}>
+                  <a href={qrTarget} target="_blank" rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2.5 font-bold text-sm transition-colors rounded focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#C8F03C] text-[#FAF4E9]"
                     onMouseEnter={e => (e.currentTarget.style.color = active.color)}
                     onMouseLeave={e => (e.currentTarget.style.color = "#FAF4E9")}
                     aria-label={`Open ${active.label} profile for ${HANDLE}`}
@@ -400,16 +298,41 @@ export default function FollowUs() {
                     {(() => { const Icon = active.icon; return <Icon size={18} style={{ color: active.color }} aria-hidden="true" />; })()}
                     {HANDLE}
                   </a>
-                  <div className="hidden sm:block h-4 w-px" style={{ background: "#ffffff20" }} />
+                  <div className="hidden sm:block h-4 w-px bg-[#FAF4E9]/20" />
                   <CopyButton text={HANDLE} />
                 </div>
 
-                {/* Scan hint */}
-                <p className="text-[11px] text-white/25 tracking-wider text-center font-mono">
+                <p className="text-[11px] text-[#FAF4E9]/25 tracking-wider text-center font-mono">
                   Scan to open · {active.label}
                 </p>
               </div>
             </div>
+          </motion.div>
+
+          {/* RIGHT: social list + stats */}
+          <motion.div variants={container} initial="hidden"
+            whileInView="show" viewport={{ once: true }}
+            className="flex flex-col gap-4"
+          >
+            <motion.p variants={item}
+              className="text-[10px] font-bold uppercase tracking-widest text-[#FAF4E9]/30 font-mono">
+              Choose a platform
+            </motion.p>
+
+            {SOCIAL_LINKS.map(social => (
+              <motion.div key={social.id} variants={item}>
+                <SocialCard social={social} isActive={activeSocial === social.id}
+                  onClick={() => setActiveSocial(social.id)} />
+              </motion.div>
+            ))}
+
+            <motion.div variants={item} className="pt-2">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-[#FAF4E9]/30 mb-3 font-mono">
+                Studio at a glance{" "}
+                <span className="normal-case text-[#FAF4E9]/20 tracking-normal font-normal">— click to edit</span>
+              </p>
+              <StatsBadge stats={stats} onChangeStats={setStats} />
+            </motion.div>
           </motion.div>
 
         </div>

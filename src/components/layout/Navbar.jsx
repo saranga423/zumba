@@ -90,7 +90,7 @@ export default function Navbar() {
         {link.label}
         {/* Underline — hibiscus, expands when active or hovered */}
         <span
-          className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-[#E23F73] transition-all duration-300 ${
+          className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-hibiscus transition-all duration-300 ${
             active ? 'w-3/4' : 'w-0 group-hover:w-3/4'
           }`}
         />
@@ -138,7 +138,7 @@ export default function Navbar() {
       >
         {/* Active dot indicator */}
         {active && (
-          <span className="w-2 h-2 rounded-full bg-[#FF9736] shrink-0" aria-hidden="true" />
+          <span className="w-2 h-2 rounded-full bg-mango shrink-0" aria-hidden="true" />
         )}
         {content}
       </motion.div>
@@ -153,7 +153,7 @@ export default function Navbar() {
         transition={{ duration: 0.6, ease: 'easeOut' }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
-            ? 'bg-[#2B1330]/95 backdrop-blur-md shadow-lg shadow-black/20'
+            ? 'bg-plum/95 backdrop-blur-md shadow-lg shadow-black/20'
             : 'bg-transparent'
         }`}
       >
@@ -177,19 +177,11 @@ export default function Navbar() {
             </div>
 
             {/* Desktop CTA */}
-            <div className="hidden lg:block shrink-0">
-              <a
-                href="#schedule"
-                className="inline-flex items-center px-5 py-2.5 rounded-full bg-[#C8F03C] text-[#2B1330] font-mono text-xs font-bold uppercase tracking-[0.15em] hover:bg-[#d4f94e] transition-colors shadow-md shadow-[#C8F03C]/20 no-underline focus-visible:outline-2 focus-visible:outline-[#C8F03C] focus-visible:outline-offset-2"
-              >
-                Book a Class
-              </a>
-            </div>
 
             {/* Mobile toggle */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="lg:hidden relative z-50 text-[#FAF4E9] p-2 focus-visible:outline-2 focus-visible:outline-[#C8F03C] focus-visible:outline-offset-2 rounded"
+              className="lg:hidden relative z-50 text-cream p-2 focus-visible:outline-2 focus-visible:outline-lime focus-visible:outline-offset-2 rounded"
               aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={mobileOpen}
             >
@@ -216,7 +208,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 bg-[#2B1330]/98 backdrop-blur-lg pt-24 lg:hidden overflow-y-auto"
+            className="fixed inset-0 z-40 bg-plum/98 backdrop-blur-lg pt-24 lg:hidden overflow-y-auto"
           >
             <div className="flex flex-col items-center gap-5 p-8">
               {navLinks.map((link, i) => (
@@ -230,13 +222,6 @@ export default function Navbar() {
                 transition={{ delay: navLinks.length * 0.05 + 0.05 }}
                 className="mt-4 w-full max-w-xs"
               >
-                <a
-                  href="#schedule"
-                  onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-center w-full py-4 rounded-2xl bg-[#C8F03C] text-[#2B1330] font-mono text-sm font-bold uppercase tracking-[0.15em] hover:bg-[#d4f94e] transition-colors shadow-lg shadow-[#C8F03C]/20 no-underline"
-                >
-                  Book a Class
-                </a>
               </motion.div>
             </div>
           </motion.div>
