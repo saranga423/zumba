@@ -1,130 +1,60 @@
 import { useState, useRef, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { QRCodeSVG } from "qrcode.react";
-import {
-  FaInstagram,
-  FaTiktok,
-  FaYoutube,
-  FaFacebook,
-  FaLinkedin, // Added a new social icon
-} from "react-icons/fa";
-import {
-  HiOutlineClipboardCopy,
-  HiCheck,
-} from "react-icons/hi";
+import { FaInstagram, FaTiktok, FaYoutube, FaFacebook } from "react-icons/fa";
+import { HiOutlineClipboardCopy, HiCheck } from "react-icons/hi";
 
-// ─── Config (Updated Links & Added Platform) ───────────────────────────────
+// ─── Brand Tokens ─────────────────────────────────────────────────────────────
+// cream: #FAF4E9  hibiscus: #E23F73  mango: #FF9736  plum: #2B1330  lime: #C8F03C
+
 const HANDLE = "@hannawaththalage";
 const INSTAGRAM_URL = "https://www.instagram.com/hannawaththalage/";
 
 const SOCIAL_LINKS = [
-  {
-    id: "instagram",
-    label: "Instagram",
-    href: INSTAGRAM_URL,
-    icon: FaInstagram,
-    color: "#E1306C",
-    primary: true,
-  },
-  {
-    id: "tiktok",
-    label: "TikTok",
-    href: "https://www.tiktok.com/@hanna123_00?_r=1&_t=ZS-986Ky5Q3JOH",
-    icon: FaTiktok,
-    color: "#69C9D0",
-  },
-  {
-    id: "youtube",
-    label: "YouTube",
-    href: "https://www.youtube.com/@hannawaththalage",
-    icon: FaYoutube,
-    color: "#FF0000",
-  },
-  {
-    id: "facebook",
-    label: "Facebook",
-    href: "https://www.facebook.com/hannawaththalage",
-    icon: FaFacebook,
-    color: "#1877F2",
-  },
-  {
-    id: "linkedin",
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/in/hannawaththalage", // Updated sample link
-    icon: FaLinkedin,
-    color: "#0A66C2",
-  },
+  { id: "instagram", label: "Instagram", href: INSTAGRAM_URL,          icon: FaInstagram, color: "#E23F73", primary: true  },
+  { id: "tiktok",    label: "TikTok",    href: "https://www.tiktok.com/@zumba_with_hanna?_r=1&_d=e4jl7f707i8bmg&sec_uid=MS4wLjABAAAA9tNBdmNAbnI8XaBW18C3C16hIStwzd6kHnRVG6GC9yqm_zwjphlgmiUnU-zOmpcM&share_author_id=7293809711707046918&sharer_language=en&source=h5_m&u_code=eaj157a2cackj7&timestamp=1785472906&user_id=7293809711707046918&sec_user_id=MS4wLjABAAAA9tNBdmNAbnI8XaBW18C3C16hIStwzd6kHnRVG6GC9yqm_zwjphlgmiUnU-zOmpcM&item_author_type=1&utm_source=copy&utm_campaign=client_share&utm_medium=android&share_iid=7665246593540785940&share_link_id=040f3e36-2919-43f0-9822-2d28688bf7db&share_app_id=1233&ugbiz_name=ACCOUNT&ug_btm=b8727%2Cb7360&social_share_type=5&enable_checksum=1", icon: FaTiktok,    color: "#C8F03C" },
+  { id: "youtube",   label: "YouTube",   href: "https://www.youtube.com/@hannawaththalage",  icon: FaYoutube,   color: "#FF9736" },
+  { id: "facebook",  label: "Facebook",  href: "https://www.facebook.com/hannawaththalage",  icon: FaFacebook,  color: "#C8F03C" },
 ];
 
-const STATS = [
-  { label: "Followers", value: "15.2K" }, // Updated style/stat value
-  { label: "Posts", value: "410+" },
-  { label: "Students", value: "650+" },
+const DEFAULT_STATS = [
+  { label: "Students",    value: "650+" },
+  { label: "Classes / wk", value: "12"  },
+  { label: "Followers",   value: "15K+" },
 ];
 
-// ─── Sub-components ────────────────────────────────────────────────────────
+// ─── Smooth ease ──────────────────────────────────────────────────────────────
+const ease = [0.16, 1, 0.3, 1];
 
+// ─── CopyButton ───────────────────────────────────────────────────────────────
 function CopyButton({ text }) {
   const [copied, setCopied] = useState(false);
-
   const handleCopy = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(text);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
     } catch {
       const el = document.createElement("textarea");
-      el.value = text;
-      el.setAttribute("readonly", "");
-      el.style.position = "absolute";
-      el.style.left = "-9999px";
-      document.body.appendChild(el);
-      el.select();
-      document.execCommand("copy");
-      document.body.removeChild(el);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      el.value = text; el.style.position = "absolute"; el.style.left = "-9999px";
+      document.body.appendChild(el); el.select(); document.execCommand("copy"); document.body.removeChild(el);
     }
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   }, [text]);
 
   return (
     <button
       onClick={handleCopy}
       aria-label={copied ? "Copied!" : `Copy ${text} to clipboard`}
-      className="
-        group inline-flex items-center gap-1.5
-        rounded-full px-3.5 py-1.5
-        text-xs font-semibold
-        border border-purple-500/30
-        text-purple-600 hover:bg-purple-500/10
-        transition-all duration-200
-        focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-purple-500
-      "
+      className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold border border-lime/40 text-lime hover:bg-lime/10 transition-all duration-200 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-lime"
     >
       <AnimatePresence mode="wait" initial={false}>
         {copied ? (
-          <motion.span
-            key="check"
-            initial={{ scale: 0.5, opacity: 0, rotate: -15 }}
-            animate={{ scale: 1, opacity: 1, rotate: 0 }}
-            exit={{ scale: 0.5, opacity: 0 }}
-            transition={{ duration: 0.2, type: "spring", stiffness: 300 }}
-            className="flex items-center gap-1"
-          >
-            <HiCheck className="text-emerald-500" size={14} />
-            <span className="text-emerald-500">Copied!</span>
+          <motion.span key="check" initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.5, opacity: 0 }} transition={{ duration: 0.2, ease }} className="flex items-center gap-1">
+            <HiCheck size={14} className="text-lime" /><span>Copied!</span>
           </motion.span>
         ) : (
-          <motion.span
-            key="copy"
-            initial={{ scale: 0.5, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.5, opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="flex items-center gap-1"
-          >
-            <HiOutlineClipboardCopy size={14} />
-            Copy
+          <motion.span key="copy" initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.5, opacity: 0 }} transition={{ duration: 0.2, ease }} className="flex items-center gap-1">
+            <HiOutlineClipboardCopy size={14} />Copy
           </motion.span>
         )}
       </AnimatePresence>
@@ -132,251 +62,357 @@ function CopyButton({ text }) {
   );
 }
 
-function StatsBadge({ stats }) {
+// ─── EditableStat ─────────────────────────────────────────────────────────────
+function EditableStat({ stat, onChange }) {
+  const [editing, setEditing] = useState(null); // "value" | "label" | null
+
+  return (
+    <div className="flex flex-col items-center px-5 first:pl-3 last:pr-3">
+      {editing === "value" ? (
+        <input
+          autoFocus
+          defaultValue={stat.value}
+          onBlur={e => { onChange({ ...stat, value: e.target.value }); setEditing(null); }}
+          onKeyDown={e => { if (e.key === "Enter") e.currentTarget.blur(); }}
+          className="w-20 text-center text-2xl font-black tracking-tight leading-none bg-transparent border-b border-lime/60 text-lime focus:outline-none"
+          aria-label={`Edit ${stat.label} value`}
+        />
+      ) : (
+        <button
+          onClick={() => setEditing("value")}
+          title="Click to edit"
+          className="text-2xl font-black tracking-tight leading-none text-lime hover:opacity-70 transition-opacity cursor-text"
+        >
+          {stat.value}
+        </button>
+      )}
+
+      {editing === "label" ? (
+        <input
+          autoFocus
+          defaultValue={stat.label}
+          onBlur={e => { onChange({ ...stat, label: e.target.value }); setEditing(null); }}
+          onKeyDown={e => { if (e.key === "Enter") e.currentTarget.blur(); }}
+          className="w-20 text-center text-[10px] uppercase tracking-widest bg-transparent border-b border-mango/60 text-mango focus:outline-none mt-1.5"
+          aria-label={`Edit ${stat.label} label`}
+        />
+      ) : (
+        <button
+          onClick={() => setEditing("label")}
+          title="Click to edit label"
+          className="text-[10px] uppercase tracking-widest text-white/60 font-semibold mt-1.5 hover:text-mango transition-colors cursor-text"
+        >
+          {stat.label}
+        </button>
+      )}
+    </div>
+  );
+}
+
+// ─── StatsBadge ───────────────────────────────────────────────────────────────
+function StatsBadge({ stats, onChangeStats }) {
   return (
     <div
       role="list"
-      aria-label="Studio statistics"
-      className="
-        flex items-center justify-center gap-0 divide-x divide-white/15
-        rounded-2xl bg-white/10 backdrop-blur-md border border-white/20
-        px-3 py-4 mb-10 mx-auto
-        max-w-xs sm:max-w-sm
-        shadow-xl shadow-black/5
-      "
+      aria-label="Studio statistics — click any value or label to edit"
+      className="flex items-center justify-center gap-0 divide-x divide-white/10 rounded-2xl border border-mango/25 bg-mango/8 px-3 py-4 backdrop-blur-sm w-full"
     >
-      {stats.map(({ label, value }) => (
-        <div
-          key={label}
-          role="listitem"
-          className="flex flex-col items-center px-4 first:pl-2 last:pr-2"
-        >
-          <span className="text-2xl font-black text-white tracking-tight leading-none">{value}</span>
-          <span className="text-[10px] uppercase tracking-widest text-white/70 font-semibold mt-1.5">{label}</span>
+      {stats.map((stat, i) => (
+        <div key={i} role="listitem">
+          <EditableStat
+            stat={stat}
+            onChange={updated => {
+              const next = [...stats];
+              next[i] = updated;
+              onChangeStats(next);
+            }}
+          />
         </div>
       ))}
     </div>
   );
 }
 
-function SocialPill({ social }) {
-  const Icon = social.icon;
+// ─── PulseRings ───────────────────────────────────────────────────────────────
+function PulseRings({ color = "#FF9736", count = 3 }) {
   return (
-    <motion.a
-      href={social.href}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={`Follow on ${social.label}`}
-      whileHover={{ scale: 1.05, y: -2 }}
-      whileTap={{ scale: 0.97 }}
-      transition={{ type: "spring", stiffness: 400, damping: 17 }}
-      className="
-        group flex items-center gap-2
-        rounded-full px-4 py-2.5
-        bg-white/10 backdrop-blur-sm border border-white/20
-        hover:border-white/40 hover:bg-white/20
-        shadow-md
-        transition-colors duration-200
-        focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-white
-      "
-    >
-      <Icon
-        size={17}
-        style={{ color: social.color }}
-        aria-hidden="true"
-      />
-      <span className="text-xs font-semibold text-white/90 group-hover:text-white transition-colors">
-        {social.label}
-      </span>
-    </motion.a>
+    <div className="absolute inset-0 rounded-[30px] pointer-events-none" aria-hidden="true">
+      {Array.from({ length: count }).map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute inset-0 rounded-[30px] border"
+          style={{ borderColor: color + "55" }}
+          initial={{ opacity: 0.7, scale: 1 }}
+          animate={{ opacity: 0, scale: 1.08 + i * 0.06 }}
+          transition={{ duration: 2.4, delay: i * 0.7, repeat: Infinity, ease: "easeOut" }}
+        />
+      ))}
+    </div>
   );
 }
 
-// ─── Main Component (Enhanced Styles & Spring Animations) ──────────────────
+// ─── SocialCard ───────────────────────────────────────────────────────────────
+function SocialCard({ social, isActive, onClick }) {
+  const Icon = social.icon;
+  return (
+    <motion.button
+      onClick={onClick}
+      aria-pressed={isActive}
+      aria-label={`${social.label}${isActive ? " (active)" : ""}`}
+      whileHover={{ y: -3 }}
+      whileTap={{ scale: 0.97 }}
+      transition={{ duration: 0.22, ease }}
+      className="w-full text-left flex items-center gap-3 px-4 py-3.5 rounded-2xl border transition-all duration-300 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-lime"
+      style={{
+        background: isActive ? social.color + "18" : "rgba(255,255,255,0.04)",
+        borderColor: isActive ? social.color + "80" : "rgba(255,255,255,0.08)",
+      }}
+    >
+      {/* Icon bubble */}
+      <div
+        className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300"
+        style={{ background: isActive ? social.color + "30" : "rgba(255,255,255,0.06)" }}
+      >
+        <Icon size={17} style={{ color: social.color }} aria-hidden="true" />
+      </div>
 
+      <div className="flex-1 min-w-0">
+        <p className="text-sm font-bold text-white/90 leading-none">{social.label}</p>
+        <p className="text-[11px] text-white/35 mt-0.5 truncate">{social.href.replace("https://", "").replace("www.", "").split("/")[0]}</p>
+      </div>
+
+      {/* Active dot */}
+      <AnimatePresence>
+        {isActive && (
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0, opacity: 0 }}
+            transition={{ duration: 0.2, ease }}
+            className="w-2 h-2 rounded-full shrink-0"
+            style={{ background: social.color }}
+          />
+        )}
+      </AnimatePresence>
+    </motion.button>
+  );
+}
+
+// ─── Main ─────────────────────────────────────────────────────────────────────
 export default function FollowUs() {
   const qrRef = useRef(null);
+  const shouldReduceMotion = useReducedMotion();
+  const [stats, setStats] = useState(DEFAULT_STATS);
+  const [activeSocial, setActiveSocial] = useState("instagram");
+
+  const active = SOCIAL_LINKS.find(s => s.id === activeSocial) ?? SOCIAL_LINKS[0];
+  const qrTarget = active.href;
+  const qrLabel = active.label;
+
+  // Stagger variants
+  const container = {
+    hidden: {},
+    show: { transition: { staggerChildren: 0.09, delayChildren: 0.05 } },
+  };
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show:   { opacity: 1, y: 0, transition: { duration: 0.55, ease } },
+  };
 
   return (
     <section
       aria-label="Follow us on social media"
-      className="relative overflow-hidden py-28 bg-slate-950 text-white"
+      className="relative overflow-hidden py-28 text-white"
+      style={{ background: "#2B1330" }}
     >
-      {/* Modern Mesh/Dot background texture */}
+      {/* Dot-grid texture */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 opacity-[0.07] pointer-events-none"
+        className="absolute inset-0 pointer-events-none opacity-[0.06]"
         style={{
-          backgroundImage:
-            "radial-gradient(circle at 2px 2px, #c084fc 1px, transparent 0)",
-          backgroundSize: "32px 32px",
+          backgroundImage: "radial-gradient(circle at 2px 2px, #FF9736 1px, transparent 0)",
+          backgroundSize: "28px 28px",
         }}
       />
 
-      {/* Dynamic multi-stop radial glow */}
+      {/* Ambient glow */}
       <div
         aria-hidden="true"
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-150 bg-linear-to-tr from-purple-600/20 via-pink-600/20 to-amber-500/10 rounded-full blur-3xl pointer-events-none"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-150 rounded-full pointer-events-none blur-3xl"
+        style={{ background: "radial-gradient(ellipse at center, #E23F7320 0%, #FF973612 50%, transparent 75%)" }}
       />
 
-      {/* Floating ambient orbs with staggered spring/infinite animations */}
-      <motion.div
-        aria-hidden="true"
-        className="absolute -top-20 -left-20 w-72 h-72 rounded-full bg-purple-500/15 blur-2xl pointer-events-none"
-        animate={{ y: [0, 30, 0], x: [0, 20, 0] }}
-        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        aria-hidden="true"
-        className="absolute -bottom-20 -right-20 w-72 h-72 rounded-full bg-pink-500/15 blur-2xl pointer-events-none"
-        animate={{ y: [0, -30, 0], x: [0, -20, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-      />
+      <div className="relative z-10 max-w-5xl mx-auto px-6">
 
-      <div className="relative z-10 max-w-3xl mx-auto px-6 text-center">
-
-        {/* — Header with staggered spring entrance — */}
+        {/* ── Header ───────────────────────────────────────────────────────── */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, type: "spring", bounce: 0.3 }}
+          transition={{ duration: 0.65, ease }}
           viewport={{ once: true }}
+          className="text-center mb-14"
         >
-          <span className="inline-block uppercase tracking-[8px] text-pink-400 text-xs font-bold mb-3 px-3 py-1 rounded-full bg-pink-500/10 border border-pink-500/20">
+          <span
+            className="inline-block uppercase tracking-[7px] text-xs font-bold mb-4 px-3 py-1 rounded-full border"
+            style={{ color: "#FF9736", borderColor: "#FF973640", background: "#FF973612" }}
+          >
             Stay Connected
           </span>
-          <h2 className="text-4xl sm:text-6xl font-black tracking-tight mb-4 font-sans">
-            Follow Us on{" "}
-            <span className="bg-linear-to-r from-pink-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent">
-              Instagram
-            </span>
+          <h2 className="text-4xl sm:text-6xl font-black tracking-tight mb-4 font-bricolage leading-[1.05]">
+            Follow the <span style={{ color: "#E23F73" }}>Energy</span>
           </h2>
-          <p className="text-slate-400 text-sm sm:text-base leading-relaxed max-w-md mx-auto mb-8">
-            Scan the code to check out class highlights, event announcements, and
-            exclusive behind-the-scenes moments from the studio.
+          <p className="text-white/55 text-sm sm:text-base leading-relaxed max-w-md mx-auto font-inter">
+            Pick a platform below — the QR code updates live so you can scan straight to the right profile.
           </p>
         </motion.div>
 
-        {/* — Stats ribbon — */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          viewport={{ once: true }}
-        >
-          <StatsBadge stats={STATS} />
-        </motion.div>
+        {/* ── Two-column split ─────────────────────────────────────────────── */}
+        <div className="grid lg:grid-cols-[1fr_420px] gap-8 items-start">
 
-        {/* — QR card with interactive hover states — */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2, type: "spring" }}
-          viewport={{ once: true }}
-          className="inline-block relative"
-        >
-          {/* Animated gradient ring border */}
+          {/* LEFT: social list + stats ───────────────────────────────────── */}
           <motion.div
-            aria-hidden="true"
-            className="absolute -inset-1 rounded-4xl opacity-75 blur-md"
-            style={{
-              background:
-                "linear-gradient(135deg, #ec4899, #8b5cf6, #3b82f6)",
-            }}
-            animate={{ opacity: [0.4, 0.8, 0.4], rotate: [0, 180, 360] }}
-            transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-          />
+            variants={container}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            className="flex flex-col gap-4"
+          >
+            {/* Section label */}
+            <motion.p variants={item} className="text-[10px] font-bold uppercase tracking-widest text-white/30">
+              Choose a platform
+            </motion.p>
 
-          {/* Main Card Container */}
-          <div className="relative p-0.5 rounded-[30px] bg-linear-to-br from-pink-500 via-purple-500 to-indigo-500 shadow-2xl shadow-purple-950/50">
-            <div className="bg-slate-900/90 backdrop-blur-xl rounded-[28px] p-6 sm:p-9 flex flex-col items-center gap-6">
-
-              {/* QR with custom smooth zoom overlay */}
-              <div
-                ref={qrRef}
-                className="relative group p-4 bg-white rounded-2xl shadow-inner"
-                aria-label={`QR code linking to ${INSTAGRAM_URL}`}
-              >
-                <QRCodeSVG
-                  value={INSTAGRAM_URL}
-                  size={190}
-                  bgColor="#ffffff"
-                  fgColor="#0f172a"
-                  level="H"
-                  includeMargin={false}
+            {/* Social cards */}
+            {SOCIAL_LINKS.map(social => (
+              <motion.div key={social.id} variants={item}>
+                <SocialCard
+                  social={social}
+                  isActive={activeSocial === social.id}
+                  onClick={() => setActiveSocial(social.id)}
                 />
+              </motion.div>
+            ))}
 
-                {/* Hover overlay */}
+            {/* Stats */}
+            <motion.div variants={item} className="pt-2">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-white/30 mb-3">
+                Studio at a glance <span className="normal-case text-white/20 tracking-normal font-normal">— click to edit</span>
+              </p>
+              <StatsBadge stats={stats} onChangeStats={setStats} />
+            </motion.div>
+          </motion.div>
+
+          {/* RIGHT: QR card ──────────────────────────────────────────────── */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, delay: 0.2, ease }}
+            viewport={{ once: true }}
+            className="relative lg:sticky lg:top-8"
+          >
+            {/* Pulse rings (replaces gradient ring) */}
+            {!shouldReduceMotion && <PulseRings color={active.color} count={3} />}
+
+            {/* Card — 1px gradient border keyed to active platform color */}
+            <div
+              className="relative p-0.5 rounded-[30px] shadow-2xl transition-all duration-500"
+              style={{ background: `linear-gradient(135deg, ${active.color}, #E23F73, #2B1330)` }}
+            >
+              <div
+                className="rounded-[28px] p-6 sm:p-9 flex flex-col items-center gap-6 backdrop-blur-xl"
+                style={{ background: "#1c0b22" }}
+              >
+                {/* Active platform header */}
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeSocial}
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 8 }}
+                    transition={{ duration: 0.28, ease }}
+                    className="flex items-center gap-2.5 self-start"
+                  >
+                    {(() => { const Icon = active.icon; return <Icon size={18} style={{ color: active.color }} aria-hidden="true" />; })()}
+                    <span className="text-sm font-bold" style={{ color: active.color }}>{active.label}</span>
+                  </motion.div>
+                </AnimatePresence>
+
+                {/* QR code — animates when active platform changes */}
                 <div
-                  aria-hidden="true"
-                  className="
-                    absolute inset-0 flex items-center justify-center
-                    rounded-2xl bg-slate-950/85 backdrop-blur-sm
-                    opacity-0 group-hover:opacity-100
-                    transition-all duration-300 ease-out
-                  "
+                  ref={qrRef}
+                  className="relative group p-4 rounded-2xl shadow-inner"
+                  style={{ background: "#FAF4E9" }}
+                  aria-label={`QR code linking to ${active.label} profile`}
+                >
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={activeSocial}
+                      initial={{ opacity: 0, scale: 0.92 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.92 }}
+                      transition={{ duration: 0.3, ease }}
+                    >
+                      <QRCodeSVG
+                        value={qrTarget}
+                        size={190}
+                        bgColor="#FAF4E9"
+                        fgColor="#2B1330"
+                        level="H"
+                        includeMargin={false}
+                      />
+                    </motion.div>
+                  </AnimatePresence>
+
+                  {/* Hover overlay */}
+                  <div
+                    aria-hidden="true"
+                    className="absolute inset-0 flex items-center justify-center rounded-2xl backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300"
+                    style={{ background: "#2B1330CC" }}
+                  >
+                    <a
+                      href={qrTarget}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      tabIndex={-1}
+                      className="text-xs font-black uppercase tracking-widest px-4 py-2 rounded-xl shadow-lg transition-opacity hover:opacity-80"
+                      style={{ background: active.color, color: "#FAF4E9" }}
+                    >
+                      Open {qrLabel}
+                    </a>
+                  </div>
+                </div>
+
+                {/* Handle + copy */}
+                <div
+                  className="flex flex-col sm:flex-row items-center gap-3 px-5 py-3 rounded-2xl border w-full justify-center"
+                  style={{ background: "#ffffff08", borderColor: "#ffffff15" }}
                 >
                   <a
-                    href={INSTAGRAM_URL}
+                    href={qrTarget}
                     target="_blank"
                     rel="noopener noreferrer"
-                    tabIndex={-1}
-                    className="text-xs font-bold text-white uppercase tracking-widest px-4 py-2 rounded-xl bg-pink-600 hover:bg-pink-500 transition-colors shadow-lg"
+                    className="inline-flex items-center gap-2.5 font-bold text-sm transition-colors rounded focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-lime"
+                    style={{ color: "#FAF4E9" }}
+                    onMouseEnter={e => (e.currentTarget.style.color = active.color)}
+                    onMouseLeave={e => (e.currentTarget.style.color = "#FAF4E9")}
+                    aria-label={`Open ${active.label} profile for ${HANDLE}`}
                   >
-                    Open Instagram ↗
+                    {(() => { const Icon = active.icon; return <Icon size={18} style={{ color: active.color }} aria-hidden="true" />; })()}
+                    {HANDLE}
                   </a>
+                  <div className="hidden sm:block h-4 w-px" style={{ background: "#ffffff20" }} />
+                  <CopyButton text={HANDLE} />
                 </div>
-              </div>
 
-              {/* Handle + Copy Button container */}
-              <div className="flex flex-col sm:flex-row items-center gap-3 bg-slate-800/60 border border-slate-700/60 px-5 py-3 rounded-2xl">
-                <a
-                  href={INSTAGRAM_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="
-                    inline-flex items-center gap-2.5
-                    text-white font-bold text-sm
-                    hover:text-pink-400 transition-colors
-                    focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-pink-500
-                    rounded
-                  "
-                  aria-label="Open Instagram profile for @hannawaththalage"
-                >
-                  <FaInstagram size={18} className="text-pink-500" aria-hidden="true" />
-                  {HANDLE}
-                </a>
-
-                <div className="hidden sm:block h-4 w-px bg-slate-700" />
-
-                <CopyButton text={HANDLE} />
+                {/* Scan hint */}
+                <p className="text-[11px] text-white/25 tracking-wider text-center font-mono">
+                  Scan to open · {active.label}
+                </p>
               </div>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
 
-        {/* — More socials grid — */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.35 }}
-          viewport={{ once: true }}
-          className="mt-12"
-        >
-          <p className="text-slate-400 text-xs uppercase tracking-[5px] font-semibold mb-5">
-            Also find us on
-          </p>
-          <nav aria-label="Additional social media links">
-            <ul className="flex flex-wrap justify-center gap-3" role="list">
-              {SOCIAL_LINKS.filter((s) => !s.primary).map((social) => (
-                <li key={social.id}>
-                  <SocialPill social={social} />
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </motion.div>
-
+        </div>
       </div>
     </section>
   );

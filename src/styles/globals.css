@@ -1,94 +1,90 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
 @import "tailwindcss";
 
 /* ================================================================== */
-/*  Theme tokens                                                        */
+/*  Theme tokens — Pulse Zumba brand palette                           */
+/* ================================================================== */
+/*  cream:    #FAF4E9                                                   */
+/*  hibiscus: #E23F73                                                   */
+/*  mango:    #FF9736                                                   */
+/*  plum:     #2B1330                                                   */
+/*  lime:     #C8F03C                                                   */
 /* ================================================================== */
 
 @theme {
   /* ── Core palette ── */
-  --color-pink:          #FF2D78;
-  --color-pink-light:    #FF6FA3;
-  --color-pink-dark:     #C4005A;
-  --color-yellow:        #FFD600;
-  --color-yellow-light:  #FFE566;
-  --color-yellow-dark:   #C9A900;
-  --color-orange:        #FF6B35;
-  --color-orange-light:  #FF9A6C;
-  --color-dark:          #1A1A2E;
-  --color-dark-mid:      #16213E;
-  --color-dark-deep:     #0F0F23;
-  --color-surface:       #22223A;
-  --color-surface-light: #2E2E50;
+  --color-cream:    #FAF4E9;
+  --color-hibiscus: #E23F73;
+  --color-mango:    #FF9736;
+  --color-plum:     #2B1330;
+  --color-lime:     #C8F03C;
+
+  /* ── Surface shades (plum variants) ── */
+  --color-plum-light:  #38203f;
+  --color-plum-border: #3a2040;
 
   /* ── Typography ── */
-  --font-bebas:  "Bebas Neue", sans-serif;
-  --font-body:   "Poppins", system-ui, sans-serif;
+  --font-bricolage: "Bricolage Grotesque", sans-serif;
+  --font-inter:     "Inter", system-ui, sans-serif;
+  --font-mono:      "Space Mono", monospace;
 
   /* ── Shadows ── */
-  --shadow-pink:    0 0 24px rgba(255, 45, 120, 0.45);
-  --shadow-yellow:  0 0 24px rgba(255, 214, 0, 0.40);
-  --shadow-orange:  0 0 24px rgba(255, 107, 53, 0.40);
-  --shadow-glow-lg: 0 0 60px rgba(255, 45, 120, 0.30);
+  --shadow-mango:   0 0 24px rgba(255, 151, 54, 0.40);
+  --shadow-hibiscus:0 0 24px rgba(226, 63, 115, 0.40);
+  --shadow-lime:    0 0 24px rgba(200, 240, 60, 0.35);
+  --shadow-glow-lg: 0 0 60px rgba(255, 151, 54, 0.25);
 
-  /* ── Named animations (usable as animate-* classes) ── */
-  --animate-pulse-slow:    pulseSlow    6s  ease-in-out  infinite;
-  --animate-float:         float        5s  ease-in-out  infinite;
-  --animate-float-slow:    float        8s  ease-in-out  infinite;
-  --animate-shimmer:       shimmer      2.4s linear       infinite;
-  --animate-glow-ping:     glowPing     2s  ease-out     infinite;
-  --animate-bounce-soft:   bounceSoft   2s  ease-in-out  infinite;
-  --animate-spin-slow:     spin         8s  linear       infinite;
-  --animate-slide-up:      slideUp      0.6s ease-out    both;
-  --animate-slide-down:    slideDown    0.6s ease-out    both;
-  --animate-fade-in:       fadeIn       0.5s ease-out    both;
-  --animate-scale-in:      scaleIn      0.4s cubic-bezier(.34,1.56,.64,1) both;
-  --animate-ticker:        ticker       22s  linear       infinite;
-  --animate-morph:         morph        8s  ease-in-out  infinite;
+  /* ── Named animations ── */
+  --animate-pulse-slow:  pulseSlow   6s  ease-in-out infinite;
+  --animate-float:       float       5s  ease-in-out infinite;
+  --animate-float-slow:  float       8s  ease-in-out infinite;
+  --animate-shimmer:     shimmer     2.4s linear      infinite;
+  --animate-glow-ping:   glowPing    2s  ease-out    infinite;
+  --animate-bounce-soft: bounceSoft  2s  ease-in-out infinite;
+  --animate-spin-slow:   spin        8s  linear       infinite;
+  --animate-slide-up:    slideUp     0.6s ease-out    both;
+  --animate-slide-down:  slideDown   0.6s ease-out    both;
+  --animate-fade-in:     fadeIn      0.5s ease-out    both;
+  --animate-scale-in:    scaleIn     0.4s cubic-bezier(.34,1.56,.64,1) both;
+  --animate-ticker:      ticker      22s  linear       infinite;
+  --animate-morph:       morph       8s  ease-in-out  infinite;
 }
 
 /* ================================================================== */
 /*  Keyframes                                                           */
 /* ================================================================== */
 
-/* Original */
 @keyframes pulseSlow {
   0%, 100% { transform: scale(1);    opacity: 0.12; }
   50%       { transform: scale(1.08); opacity: 0.22; }
 }
 
-/* Vertical float */
 @keyframes float {
   0%, 100% { transform: translateY(0px)   rotate(0deg); }
   33%       { transform: translateY(-12px) rotate(1deg); }
   66%       { transform: translateY(6px)  rotate(-1deg); }
 }
 
-/* Shimmer sweep — use on pseudo-element or overlay span */
 @keyframes shimmer {
   0%   { transform: translateX(-100%) skewX(-15deg); }
   100% { transform: translateX(250%)  skewX(-15deg); }
 }
 
-/* Expanding glow ring */
 @keyframes glowPing {
   0%        { transform: scale(0.85); opacity: 0.8; }
   70%, 100% { transform: scale(1.6);  opacity: 0;   }
 }
 
-/* Gentle vertical bounce */
 @keyframes bounceSoft {
-  0%, 100% { transform: translateY(0);   }
+  0%, 100% { transform: translateY(0);    }
   50%       { transform: translateY(-8px); }
 }
 
-/* Horizontal ticker */
 @keyframes ticker {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 
-/* Border-radius morph (blob shapes) */
 @keyframes morph {
   0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
   25%       { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
@@ -96,7 +92,6 @@
   75%       { border-radius: 60% 30% 50% 40% / 40% 70% 30% 60%; }
 }
 
-/* Entrance animations */
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(28px); }
   to   { opacity: 1; transform: translateY(0);    }
@@ -127,30 +122,36 @@
   }
 
   body {
-    @apply bg-dark text-white antialiased;
-    font-family: var(--font-body);
+    @apply bg-plum text-cream antialiased;
+    font-family: var(--font-inter);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   ::selection {
-    @apply bg-pink text-white;
+    background-color: #C8F03C;
+    color: #2B1330;
   }
 
   /* Scrollbar */
   ::-webkit-scrollbar       { width: 8px; }
-  ::-webkit-scrollbar-track { background: var(--color-dark); }
+  ::-webkit-scrollbar-track { background: #2B1330; }
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(to bottom, var(--color-pink), var(--color-orange));
+    background: linear-gradient(to bottom, #FF9736, #E23F73);
     border-radius: 4px;
   }
-  ::-webkit-scrollbar-thumb:hover { background: var(--color-orange); }
+  ::-webkit-scrollbar-thumb:hover { background: #FF9736; }
 
-  /* Focus ring */
+  /* Focus ring — lime */
   :focus-visible {
-    outline: 2px solid var(--color-pink);
+    outline: 2px solid #C8F03C;
     outline-offset: 3px;
     border-radius: 4px;
+  }
+
+  /* Heading defaults */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-bricolage);
   }
 }
 
@@ -163,85 +164,54 @@
   /* ── Gradients & text ── */
   .text-gradient {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(to right, var(--color-pink), var(--color-orange), var(--color-yellow));
+    background-image: linear-gradient(to right, #FF9736, #E23F73, #C8F03C);
   }
 
-  .text-gradient-pink {
+  .text-gradient-mango {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, var(--color-pink-light), var(--color-pink-dark));
-  }
-
-  .text-gradient-warm {
-    @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(to right, var(--color-orange), var(--color-yellow));
+    background-image: linear-gradient(135deg, #FF9736, #E23F73);
   }
 
   .bg-gradient-brand {
-    background-image: linear-gradient(135deg, var(--color-pink), var(--color-orange));
+    background-image: linear-gradient(135deg, #FF9736, #E23F73);
   }
 
-  .bg-gradient-warm {
-    background-image: linear-gradient(135deg, var(--color-orange), var(--color-yellow));
+  .bg-gradient-lime {
+    background-image: linear-gradient(135deg, #C8F03C, #FF9736);
   }
 
-  .bg-gradient-dark {
-    background-image: linear-gradient(180deg, var(--color-dark-deep), var(--color-dark-mid));
-  }
-
-  .bg-gradient-radial-pink {
-    background: radial-gradient(ellipse at center, rgba(255,45,120,0.18) 0%, transparent 70%);
-  }
-
-  .bg-gradient-radial-yellow {
-    background: radial-gradient(ellipse at center, rgba(255,214,0,0.15) 0%, transparent 70%);
-  }
-
-  /* ── Glassmorphism ── */
+  /* ── Glassmorphism (plum-tinted) ── */
   .glass {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(43, 19, 48, 0.60);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.10);
+    border: 1px solid rgba(250, 244, 233, 0.08);
   }
 
-  .glass-pink {
-    background: rgba(255, 45, 120, 0.08);
+  .glass-light {
+    background: rgba(250, 244, 233, 0.06);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 45, 120, 0.20);
+    border: 1px solid rgba(250, 244, 233, 0.10);
   }
 
-  .glass-dark {
-    background: rgba(15, 15, 35, 0.65);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+  /* ── Shadows ── */
+  .shadow-neon-mango {
+    box-shadow: 0 0 12px rgba(255,151,54,0.55),
+                0 0 32px rgba(255,151,54,0.28),
+                0 0 64px rgba(255,151,54,0.10);
   }
 
-  .glass-surface {
-    background: rgba(34, 34, 58, 0.70);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+  .shadow-neon-hibiscus {
+    box-shadow: 0 0 12px rgba(226,63,115,0.55),
+                0 0 32px rgba(226,63,115,0.28),
+                0 0 64px rgba(226,63,115,0.10);
   }
 
-  /* ── Neon shadows ── */
-  .shadow-neon-pink {
-    box-shadow: 0 0 12px rgba(255,45,120,0.6),
-                0 0 32px rgba(255,45,120,0.3),
-                0 0 64px rgba(255,45,120,0.12);
-  }
-
-  .shadow-neon-yellow {
-    box-shadow: 0 0 12px rgba(255,214,0,0.55),
-                0 0 32px rgba(255,214,0,0.28),
-                0 0 64px rgba(255,214,0,0.10);
-  }
-
-  .shadow-neon-orange {
-    box-shadow: 0 0 12px rgba(255,107,53,0.55),
-                0 0 32px rgba(255,107,53,0.28),
-                0 0 64px rgba(255,107,53,0.10);
+  .shadow-neon-lime {
+    box-shadow: 0 0 12px rgba(200,240,60,0.55),
+                0 0 32px rgba(200,240,60,0.28),
+                0 0 64px rgba(200,240,60,0.10);
   }
 
   .shadow-card {
@@ -249,25 +219,10 @@
                 0 1px 4px  rgba(0,0,0,0.20);
   }
 
-  .shadow-card-hover {
-    box-shadow: 0 12px 48px rgba(255,45,120,0.22),
-                0 4px 16px rgba(0,0,0,0.30);
-  }
-
-  /* ── Borders ── */
-  .border-gradient-pink {
-    border: 1.5px solid transparent;
-    background-clip: padding-box;
-    background-image: linear-gradient(var(--color-surface), var(--color-surface)),
-                      linear-gradient(135deg, var(--color-pink), var(--color-orange));
-    background-origin: border-box;
-  }
-
-  /* ── Shimmer overlay (apply to parent, add pseudo-element via ::before) ── */
+  /* ── Shimmer overlay ── */
   .shimmer-parent {
     position: relative;
     overflow: hidden;
-    
   }
 
   .shimmer-parent::before {
@@ -277,7 +232,7 @@
     background: linear-gradient(
       105deg,
       transparent 35%,
-      rgba(255,255,255,0.18) 50%,
+      rgba(255,255,255,0.12) 50%,
       transparent 65%
     );
     animation: var(--animate-shimmer);
@@ -290,34 +245,20 @@
     @apply py-20 px-4 sm:px-6 lg:px-8;
   }
 
-  /* ── Ticker ── */
-  .animate-ticker {
-    animation: var(--animate-ticker);
-  }
-
-  /* ── Morphing blob ── */
-  .blob {
-    animation: var(--animate-morph);
-
-  }
-
-  /* ── Spin ── */
-  .animate-spin-slow {
-    animation: var(--animate-spin-slow);
-  }
-
-  /* ── Entrance helpers (pair with animation-delay-* via inline style) ── */
-  .animate-slide-up   { animation: var(--animate-slide-up);   }
-  .animate-slide-down { animation: var(--animate-slide-down); }
-  .animate-fade-in    { animation: var(--animate-fade-in);    }
-  .animate-scale-in   { animation: var(--animate-scale-in);   }
-  .animate-float      { animation: var(--animate-float);      }
-  .animate-float-slow { animation: var(--animate-float-slow); }
-  .animate-glow-ping  { animation: var(--animate-glow-ping);  }
-  .animate-bounce-soft{ animation: var(--animate-bounce-soft);}
-  .animate-shimmer    { animation: var(--animate-shimmer);    }
-  .animate-spin-slow  { animation: var(--animate-spin-slow);  }
-  .animate-morph      { animation: var(--animate-morph);      }
+  /* ── Animation helpers ── */
+  .animate-ticker      { animation: var(--animate-ticker);      }
+  .animate-spin-slow   { animation: var(--animate-spin-slow);   }
+  .animate-slide-up    { animation: var(--animate-slide-up);    }
+  .animate-slide-down  { animation: var(--animate-slide-down);  }
+  .animate-fade-in     { animation: var(--animate-fade-in);     }
+  .animate-scale-in    { animation: var(--animate-scale-in);    }
+  .animate-float       { animation: var(--animate-float);       }
+  .animate-float-slow  { animation: var(--animate-float-slow);  }
+  .animate-glow-ping   { animation: var(--animate-glow-ping);   }
+  .animate-bounce-soft { animation: var(--animate-bounce-soft); }
+  .animate-shimmer     { animation: var(--animate-shimmer);     }
+  .animate-morph       { animation: var(--animate-morph);       }
+  .blob                { animation: var(--animate-morph);       }
 
   /* ── Reduced-motion safety ── */
   @media (prefers-reduced-motion: reduce) {
@@ -327,5 +268,4 @@
       transition-duration: 0.01ms !important;
     }
   }
-
 }

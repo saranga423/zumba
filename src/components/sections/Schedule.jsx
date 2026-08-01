@@ -150,7 +150,7 @@ function ShareButton({ cls }) {
     <button
       onClick={handleShare}
       aria-label={copied ? "Link copied" : "Share this class"}
-      className="flex items-center gap-1.5 rounded-xl px-3 py-1.5 border border-[#3a2040] bg-[#38203f] text-[#FAF4E9]/60 font-mono text-[11px] uppercase tracking-wider hover:border-[#FF9736]/50 hover:text-[#FAF4E9] transition-all"
+      className="flex items-center gap-1.5 rounded-xl px-3 py-1.5 border border-plum-border bg-plum-light text-cream/60 font-mono text-[11px] uppercase tracking-wider hover:border-mango/50 hover:text-cream transition-all"
     >
       <AnimatePresence mode="wait" initial={false}>
         {copied ? (
@@ -159,7 +159,7 @@ function ShareButton({ cls }) {
             initial={prefersReduced ? {} : { opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={prefersReduced ? {} : { opacity: 0 }}
-            className="flex items-center gap-1 text-[#C8F03C]"
+            className="flex items-center gap-1 text-lime"
           >
             <Check size={12} /> Copied
           </motion.span>
@@ -199,7 +199,7 @@ function BookModal({ cls, onClose }) {
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             onClick={onClose} aria-hidden="true"
-            className="fixed inset-0 z-40 bg-[#2B1330]/80 backdrop-blur-md"
+            className="fixed inset-0 z-40 bg-plum/80 backdrop-blur-md"
           />
 
           {/* Sheet */}
@@ -209,17 +209,17 @@ function BookModal({ cls, onClose }) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 16, scale: 0.97 }}
             transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed z-50 inset-x-4 top-[12vh] mx-auto max-w-md bg-[#2B1330] border border-[#3a2040] rounded-3xl shadow-2xl overflow-hidden"
+            className="fixed z-50 inset-x-4 top-[12vh] mx-auto max-w-md bg-plum border border-plum-border rounded-3xl shadow-2xl overflow-hidden"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-5 border-b border-[#3a2040]">
-              <span className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[#FF9736]">
+            <div className="flex items-center justify-between px-6 py-5 border-b border-plum-border">
+              <span className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-mango">
                 Reserve a Spot
               </span>
               <button
                 onClick={onClose}
                 aria-label="Close"
-                className="p-2 rounded-xl text-[#FAF4E9]/50 hover:text-[#FAF4E9] hover:bg-[#3a2040] transition-colors"
+                className="p-2 rounded-xl text-cream/50 hover:text-cream hover:bg-plum-border transition-colors"
               >
                 <X size={18} />
               </button>
@@ -228,18 +228,18 @@ function BookModal({ cls, onClose }) {
             {/* Body */}
             <div className="px-6 py-7">
               {/* Class summary */}
-              <div className="mb-6 bg-[#38203f] border border-[#3a2040] rounded-2xl p-4">
-                <h4 className="font-display text-xl font-bold text-[#FAF4E9] mb-1">{cls.name}</h4>
-                <p className="font-mono text-[11px] text-[#FAF4E9]/50 uppercase tracking-wide mb-3">
+              <div className="mb-6 bg-plum-light border border-plum-border rounded-2xl p-4">
+                <h4 className="font-display text-xl font-bold text-cream mb-1">{cls.name}</h4>
+                <p className="font-mono text-[11px] text-cream/50 uppercase tracking-wide mb-3">
                   {cls.dayFull} · {cls.time}
                 </p>
-                <div className="flex items-center gap-1.5 text-[#FF9736] font-mono text-[11px]">
+                <div className="flex items-center gap-1.5 text-mango font-mono text-[11px]">
                   <MapPin size={12} />
                   <span>{cls.location}</span>
                 </div>
               </div>
 
-              <p className="font-body text-sm text-[#FAF4E9]/60 leading-relaxed mb-6">
+              <p className="font-body text-sm text-cream/60 leading-relaxed mb-6">
                 Message Hanna directly to confirm your place — she'll get back to you quickly.
               </p>
 
@@ -248,7 +248,7 @@ function BookModal({ cls, onClose }) {
                 href={whatsappLink(cls)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl bg-[#C8F03C] text-[#2B1330] font-mono text-xs uppercase tracking-[0.18em] font-bold hover:bg-[#d4f94e] transition-all shadow-lg shadow-[#C8F03C]/20 mb-3"
+                className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl bg-lime text-plum font-mono text-xs uppercase tracking-[0.18em] font-bold hover:bg-[#d4f94e] transition-all shadow-lg shadow-[#C8F03C]/20 mb-3"
               >
                 <Phone size={15} /> WhatsApp Hanna
               </a>
@@ -256,7 +256,7 @@ function BookModal({ cls, onClose }) {
               {/* Email CTA */}
               <a
                 href={mailtoLink(cls)}
-                className="flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl border border-[#3a2040] bg-transparent text-[#FAF4E9]/80 font-mono text-xs uppercase tracking-[0.18em] font-bold hover:border-[#FF9736]/50 hover:text-[#FAF4E9] transition-all"
+                className="flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl border border-plum-border bg-transparent text-cream/80 font-mono text-xs uppercase tracking-[0.18em] font-bold hover:border-mango/50 hover:text-cream transition-all"
               >
                 <Mail size={14} /> Send an Email
               </a>
@@ -286,7 +286,7 @@ function DetailModal({ cls, onClose, onBook }) {
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             onClick={onClose} aria-hidden="true"
-            className="fixed inset-0 z-40 bg-[#2B1330]/70 backdrop-blur-md"
+            className="fixed inset-0 z-40 bg-plum/70 backdrop-blur-md"
           />
           <motion.div
             role="dialog" aria-modal="true" aria-label={`Class details: ${cls.name}`}
@@ -294,11 +294,11 @@ function DetailModal({ cls, onClose, onBook }) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 16, scale: 0.96 }}
             transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed z-50 inset-x-4 top-[10vh] mx-auto max-w-xl bg-[#2B1330] border border-[#3a2040] rounded-3xl max-h-[82vh] overflow-y-auto shadow-2xl"
+            className="fixed z-50 inset-x-4 top-[10vh] mx-auto max-w-xl bg-plum border border-plum-border rounded-3xl max-h-[82vh] overflow-y-auto shadow-2xl"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-5 border-b border-[#3a2040] bg-[#38203f]">
-              <span className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[#FF9736]">
+            <div className="flex items-center justify-between px-6 py-5 border-b border-plum-border bg-plum-light">
+              <span className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-mango">
                 {cls.dayFull} Session
               </span>
               <div className="flex items-center gap-3">
@@ -306,7 +306,7 @@ function DetailModal({ cls, onClose, onBook }) {
                 <button
                   onClick={onClose}
                   aria-label="Close class detail"
-                  className="p-2 rounded-xl text-[#FAF4E9]/50 hover:text-[#FAF4E9] hover:bg-[#3a2040] transition-colors"
+                  className="p-2 rounded-xl text-cream/50 hover:text-cream hover:bg-plum-border transition-colors"
                 >
                   <X size={18} />
                 </button>
@@ -315,10 +315,10 @@ function DetailModal({ cls, onClose, onBook }) {
 
             {/* Body */}
             <div className="px-6 py-7">
-              <h4 className="font-bricolage text-3xl font-bold tracking-tight text-[#FAF4E9] mb-3">
+              <h4 className="font-bricolage text-3xl font-bold tracking-tight text-cream mb-3">
                 {cls.name}
               </h4>
-              <p className="font-inter text-[#FAF4E9]/60 text-sm leading-relaxed mb-6">
+              <p className="font-inter text-cream/60 text-sm leading-relaxed mb-6">
                 {cls.description}
               </p>
 
@@ -330,32 +330,32 @@ function DetailModal({ cls, onClose, onBook }) {
                 ].map(({ label, value, icon: Icon }) => (
                   <div
                     key={label}
-                    className="p-4 rounded-2xl bg-[#38203f] border border-[#3a2040] flex flex-col gap-1.5"
+                    className="p-4 rounded-2xl bg-plum-light border border-plum-border flex flex-col gap-1.5"
                   >
-                    <Icon size={14} className="text-[#FF9736]" aria-hidden="true" />
-                    <p className="font-mono text-[10px] uppercase tracking-widest text-[#FAF4E9]/40 font-semibold">
+                    <Icon size={14} className="text-mango" aria-hidden="true" />
+                    <p className="font-mono text-[10px] uppercase tracking-widest text-cream/40 font-semibold">
                       {label}
                     </p>
-                    <p className="font-inter text-xs font-bold text-[#FAF4E9]">{value}</p>
+                    <p className="font-inter text-xs font-bold text-cream">{value}</p>
                   </div>
                 ))}
               </div>
 
               {/* Location */}
-              <div className="p-4 rounded-2xl bg-[#38203f] border border-[#3a2040] flex items-center gap-3 mb-8">
-                <MapPin size={16} className="text-[#E23F73] shrink-0" />
+              <div className="p-4 rounded-2xl bg-plum-light border border-plum-border flex items-center gap-3 mb-8">
+                <MapPin size={16} className="text-hibiscus shrink-0" />
                 <div>
-                  <p className="font-mono text-[10px] uppercase tracking-widest text-[#FAF4E9]/40 font-semibold mb-0.5">
+                  <p className="font-mono text-[10px] uppercase tracking-widest text-cream/40 font-semibold mb-0.5">
                     Location
                   </p>
-                  <p className="font-inter text-xs font-bold text-[#FAF4E9]">{cls.location}</p>
+                  <p className="font-inter text-xs font-bold text-cream">{cls.location}</p>
                 </div>
               </div>
 
               {/* Book CTA */}
               <button
                 onClick={() => { onClose(); onBook(cls); }}
-                className="w-full py-4 rounded-2xl font-mono text-xs uppercase tracking-[0.18em] font-bold bg-[#C8F03C] text-[#2B1330] hover:bg-[#d4f94e] transition-all shadow-lg shadow-[#C8F03C]/20"
+                className="w-full py-4 rounded-2xl font-mono text-xs uppercase tracking-[0.18em] font-bold bg-lime text-plum hover:bg-[#d4f94e] transition-all shadow-lg shadow-[#C8F03C]/20"
               >
                 Book This Class
               </button>
@@ -379,48 +379,48 @@ function ClassCard({ cls, onOpen, onBook }) {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: prefersReduced ? 0 : 0.2 }}
-      className="bg-[#38203f] border border-[#3a2040] rounded-3xl p-6 flex flex-col justify-between hover:border-[#FF9736]/50 transition-all cursor-pointer group relative overflow-hidden"
+      className="bg-plum-light border border-plum-border rounded-3xl p-6 flex flex-col justify-between hover:border-mango/50 transition-all cursor-pointer group relative overflow-hidden"
       onClick={() => onOpen(cls.id)}
     >
       {/* Top accent strip — hidden until hover */}
-      <div className="absolute top-0 left-0 right-0 h-0.5 bg-linear-to-r from-[#FF9736] via-[#E23F73] to-[#C8F03C] opacity-0 group-hover:opacity-100 transition-opacity" />
+      <div className="absolute top-0 left-0 right-0 h-0.5 bg-linear-to-r from-mango via-hibiscus to-lime opacity-0 group-hover:opacity-100 transition-opacity" />
 
       <div>
         {/* Day pill + level badge */}
         <div className="flex items-center justify-between mb-4">
-          <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-[#FF9736] bg-[#FF9736]/10 px-3 py-1 rounded-full border border-[#FF9736]/30">
+          <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-mango bg-mango/10 px-3 py-1 rounded-full border border-mango/30">
             {cls.dayFull}
           </span>
-          <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-[#FAF4E9]/40 bg-[#2B1330]/50 px-2.5 py-1 rounded-lg">
+          <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-cream/40 bg-plum/50 px-2.5 py-1 rounded-lg">
             {cls.level}
           </span>
         </div>
 
         {/* Class name */}
-        <h3 className="font-bricolage text-2xl font-bold text-[#FAF4E9] mb-2 group-hover:text-[#C8F03C] transition-colors">
+        <h3 className="font-bricolage text-2xl font-bold text-cream mb-2 group-hover:text-lime transition-colors">
           {cls.name}
         </h3>
 
         {/* Description */}
-        <p className="font-inter text-[#FAF4E9]/50 text-xs sm:text-sm leading-relaxed mb-6 line-clamp-2">
+        <p className="font-inter text-cream/50 text-xs sm:text-sm leading-relaxed mb-6 line-clamp-2">
           {cls.description}
         </p>
       </div>
 
       {/* Footer row */}
       <div>
-        <div className="pt-4 border-t border-[#3a2040] mb-4 flex items-center justify-between text-xs text-[#FAF4E9]/50">
+        <div className="pt-4 border-t border-plum-border mb-4 flex items-center justify-between text-xs text-cream/50">
           <span className="flex items-center gap-2 font-inter font-semibold">
-            <Clock3 size={14} className="text-[#FF9736]" /> {cls.time}
+            <Clock3 size={14} className="text-mango" /> {cls.time}
           </span>
-          <span className="flex items-center gap-1 font-mono text-[10px] uppercase text-[#FAF4E9]/30">
-            <MapPin size={12} className="text-[#E23F73]" /> {shortLocation(cls.location)}
+          <span className="flex items-center gap-1 font-mono text-[10px] uppercase text-cream/30">
+            <MapPin size={12} className="text-hibiscus" /> {shortLocation(cls.location)}
           </span>
         </div>
 
         {/* Book button */}
         <button
-          className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-mono text-xs uppercase tracking-wider font-bold bg-[#C8F03C] text-[#2B1330] hover:bg-[#d4f94e] shadow-md shadow-[#C8F03C]/10 transition-all"
+          className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-mono text-xs uppercase tracking-wider font-bold bg-lime text-plum hover:bg-[#d4f94e] shadow-md shadow-[#C8F03C]/10 transition-all"
           onClick={(e) => { e.stopPropagation(); onBook(cls); }}
         >
           Book Now <ArrowRight size={14} />
@@ -463,7 +463,7 @@ export default function Schedule() {
     <section
       id="schedule"
       ref={ref}
-      className="relative py-28 px-4 sm:px-6 bg-[#2B1330] text-[#FAF4E9] selection:bg-[#C8F03C] selection:text-[#2B1330]"
+      className="relative py-28 px-4 sm:px-6 bg-plum text-cream selection:bg-lime selection:text-plum"
     >
       <motion.div
         initial={{ opacity: 0, y: prefersReduced ? 0 : 24 }}
@@ -472,12 +472,12 @@ export default function Schedule() {
         className="max-w-6xl mx-auto"
       >
         {/* ── Header ──────────────────────────────────────────────────────── */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-12 border-b border-[#3a2040] pb-8 gap-6">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-12 border-b border-plum-border pb-8 gap-6">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF9736]/10 border border-[#FF9736]/30 text-[#FF9736] font-mono text-xs font-bold uppercase tracking-[0.2em] mb-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-mango/10 border border-mango/30 text-mango font-mono text-xs font-bold uppercase tracking-[0.2em] mb-3">
               <Sparkles size={12} /> Weekly Timetable
             </div>
-            <h2 className="font-bricolage text-4xl sm:text-5xl font-extrabold tracking-tight text-[#FAF4E9]">
+            <h2 className="font-bricolage text-4xl sm:text-5xl font-extrabold tracking-tight text-cream">
               Class Schedule
             </h2>
           </div>
@@ -492,8 +492,8 @@ export default function Schedule() {
                   onClick={() => setActiveDay(day)}
                   className={`px-4 py-2.5 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all duration-200 shrink-0 ${
                     isSel
-                      ? "bg-[#FF9736] text-[#2B1330] shadow-lg shadow-[#FF9736]/20"
-                      : "bg-[#38203f] border border-[#3a2040] text-[#FAF4E9]/50 hover:border-[#FF9736]/40 hover:text-[#FAF4E9]"
+                      ? "bg-mango text-plum shadow-lg shadow-[#FF9736]/20"
+                      : "bg-plum-light border border-plum-border text-cream/50 hover:border-mango/40 hover:text-cream"
                   }`}
                 >
                   {day}
@@ -507,7 +507,7 @@ export default function Schedule() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-3 mb-10">
           {/* Search */}
           <div className="relative md:col-span-7">
-            <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#FAF4E9]/30">
+            <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-cream/30">
               <Search size={16} />
             </span>
             <input
@@ -515,22 +515,22 @@ export default function Schedule() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by class name or location…"
-              className="w-full pl-11 pr-4 py-3.5 bg-[#38203f] border border-[#3a2040] rounded-2xl font-inter text-sm text-[#FAF4E9] placeholder-[#FAF4E9]/30 focus:outline-none focus:border-[#FF9736]/60 transition-colors"
+              className="w-full pl-11 pr-4 py-3.5 bg-plum-light border border-plum-border rounded-2xl font-inter text-sm text-cream placeholder-cream/30 focus:outline-none focus:border-mango/60 transition-colors"
             />
           </div>
 
           {/* Location filter */}
           <div className="flex items-center gap-2 md:col-span-5">
-            <span className="font-mono text-xs uppercase text-[#FAF4E9]/40 font-bold flex items-center gap-1.5 shrink-0 pl-1">
+            <span className="font-mono text-xs uppercase text-cream/40 font-bold flex items-center gap-1.5 shrink-0 pl-1">
               <Filter size={14} /> Venue:
             </span>
             <select
               value={selectedLocation}
               onChange={(e) => setSelectedLocation(e.target.value)}
-              className="w-full bg-[#38203f] border border-[#3a2040] rounded-2xl font-mono text-xs uppercase font-bold text-[#FAF4E9] px-4 py-3.5 focus:outline-none focus:border-[#FF9736]/60 cursor-pointer transition-colors"
+              className="w-full bg-plum-light border border-plum-border rounded-2xl font-mono text-xs uppercase font-bold text-cream px-4 py-3.5 focus:outline-none focus:border-mango/60 cursor-pointer transition-colors"
             >
               {locations.map((location) => (
-                <option key={location.value} value={location.value} className="bg-[#38203f]">
+                <option key={location.value} value={location.value} className="bg-plum-light">
                   {location.label}
                 </option>
               ))}
@@ -558,18 +558,18 @@ export default function Schedule() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="col-span-full border border-dashed border-[#3a2040] rounded-3xl py-20 text-center bg-[#38203f]/30"
+                className="col-span-full border border-dashed border-plum-border rounded-3xl py-20 text-center bg-plum-light/30"
               >
-                <Calendar size={32} className="mx-auto text-[#FAF4E9]/20 mb-3" />
-                <p className="font-bricolage text-2xl font-bold text-[#FAF4E9] mb-1">
+                <Calendar size={32} className="mx-auto text-cream/20 mb-3" />
+                <p className="font-bricolage text-2xl font-bold text-cream mb-1">
                   No classes match
                 </p>
-                <p className="font-inter text-xs text-[#FAF4E9]/40 mb-5">
+                <p className="font-inter text-xs text-cream/40 mb-5">
                   Try a different day or clear your filters.
                 </p>
                 <button
                   onClick={() => { setActiveDay("All"); setSearchQuery(""); setSelectedLocation("All"); }}
-                  className="font-mono text-xs uppercase font-bold px-5 py-2.5 rounded-xl bg-[#38203f] border border-[#3a2040] text-[#FAF4E9] hover:border-[#FF9736]/40 transition-colors"
+                  className="font-mono text-xs uppercase font-bold px-5 py-2.5 rounded-xl bg-plum-light border border-plum-border text-cream hover:border-mango/40 transition-colors"
                 >
                   Reset Filters
                 </button>
