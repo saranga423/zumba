@@ -11,7 +11,7 @@ import {
 } from "framer-motion";
 import { Play, X, Users, CalendarCheck, Flame, Trophy } from "lucide-react";
 
-import previewReel from "../../assets/videos/v11.mp4";
+import previewReel from "../../../public/assets/videos/v1.mp4";
 
 // ─── Brand tokens ─────────────────────────────────────────────────────────────
 // cream: #FAF4E9 | hibiscus: #E23F73 | mango: #FF9736 | plum: #2B1330 | lime: #C8F03C
@@ -150,11 +150,11 @@ function LiveClassCard({ nextClass }) {
     >
       <span className="relative flex h-2.5 w-2.5 shrink-0">
         {isLive && (
-          <span className="absolute inline-flex h-full w-full rounded-full bg-[#E23F73] animate-ping" />
+          <span className="absolute inline-flex h-full w-full rounded-full bg-hibiscus animate-ping" />
         )}
         <span
           className={`relative inline-flex rounded-full h-2.5 w-2.5 ${
-            isLive ? "bg-[#E23F73]" : "bg-[#FF9736]"
+            isLive ? "bg-hibiscus" : "bg-mango"
           }`}
         />
       </span>
@@ -184,9 +184,9 @@ function StatCard({ item, index }) {
       className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl py-8 px-5 shadow-[0_4px_24px_rgba(0,0,0,0.25)] transition-shadow duration-300 hover:shadow-[0_8px_40px_rgba(255,151,54,0.28)]"
     >
       {/* Top accent strip */}
-      <span className="absolute top-0 left-0 right-0 h-0.5 opacity-40 group-hover:opacity-100 transition-opacity duration-300 bg-linear-to-r from-[#FF9736] via-[#E23F73] to-[#C8F03C]" />
+      <span className="absolute top-0 left-0 right-0 h-0.5 opacity-40 group-hover:opacity-100 transition-opacity duration-300 bg-linear-to-r from-mango via-hibiscus to-lime" />
 
-      <Icon size={22} className="mx-auto mb-3 text-[#FF9736]/80" strokeWidth={2} />
+      <Icon size={22} className="mx-auto mb-3 text-mango/80" strokeWidth={2} />
 
       <div
         className="font-extrabold text-5xl md:text-6xl bg-clip-text text-transparent"
@@ -252,7 +252,7 @@ function VideoModal({ isOpen, onClose, triggerRef }) {
               type="button"
               onClick={handleClose}
               aria-label="Close video"
-              className="absolute -top-12 right-0 md:-right-12 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors focus-visible:outline-2 focus-visible:outline-[#C8F03C] focus-visible:outline-offset-2"
+              className="absolute -top-12 right-0 md:-right-12 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors focus-visible:outline-2 focus-visible:outline-lime focus-visible:outline-offset-2"
             >
               <X size={20} />
             </button>
@@ -452,7 +452,7 @@ export default function Hero() {
               variants={headlineWord}
               className={`block ${
                 i === 1
-                  ? "bg-linear-to-r from-[#FF9736] via-[#E23F73] to-[#C8F03C] bg-clip-text text-transparent"
+                  ? "bg-linear-to-r from-mango via-hibiscus to-lime bg-clip-text text-transparent"
                   : ""
               }`}
               style={i !== 1 ? { color: "#FAF4E9" } : undefined}
@@ -472,7 +472,7 @@ export default function Hero() {
         >
           Kandy's most energetic Zumba classes — Latin rhythms, great music,
           and a community that lifts you every session.
-          <span className="block mt-3 text-[#C8F03C] font-semibold">
+          <span className="block mt-3 text-lime font-semibold">
             First Trial Class — Completely Free
           </span>
         </motion.p>
@@ -495,7 +495,7 @@ export default function Hero() {
             <button
               type="button"
               onClick={handleBookClick}
-              className="relative inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm md:text-base font-bold uppercase tracking-wide bg-[#C8F03C] text-[#2B1330] shadow-[0_4px_24px_rgba(200,240,60,0.35)] hover:bg-[#d4f94e] transition-colors focus-visible:outline-2 focus-visible:outline-[#C8F03C] focus-visible:outline-offset-2"
+              className="relative inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm md:text-base font-bold uppercase tracking-wide bg-lime text-plum shadow-[0_4px_24px_rgba(200,240,60,0.35)] hover:bg-[#d4f94e] transition-colors focus-visible:outline-2 focus-visible:outline-lime focus-visible:outline-offset-2"
             >
               Book a Class
             </button>
@@ -511,7 +511,7 @@ export default function Hero() {
               ref={watchButtonRef}
               type="button"
               onClick={() => setIsVideoOpen(true)}
-              className="relative inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 backdrop-blur-xl px-8 py-4 text-sm md:text-base font-semibold uppercase tracking-wide text-white shadow-[0_4px_24px_rgba(0,0,0,0.3)] hover:bg-white/20 hover:border-white/40 transition-colors focus-visible:outline-2 focus-visible:outline-[#C8F03C] focus-visible:outline-offset-2"
+              className="relative inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 backdrop-blur-xl px-8 py-4 text-sm md:text-base font-semibold uppercase tracking-wide text-white shadow-[0_4px_24px_rgba(0,0,0,0.3)] hover:bg-white/20 hover:border-white/40 transition-colors focus-visible:outline-2 focus-visible:outline-lime focus-visible:outline-offset-2"
             >
               <Play size={18} />
               Watch Us In Action
@@ -542,9 +542,9 @@ export default function Hero() {
               aria-selected={i === slideIndex}
               aria-label={`Show background image ${i + 1}`}
               onClick={() => setSlideIndex(i)}
-              className={`h-1.5 rounded-full transition-all duration-300 focus-visible:outline-2 focus-visible:outline-[#C8F03C] focus-visible:outline-offset-2 ${
+              className={`h-1.5 rounded-full transition-all duration-300 focus-visible:outline-2 focus-visible:outline-lime focus-visible:outline-offset-2 ${
                 i === slideIndex
-                  ? "w-6 bg-[#FF9736]"
+                  ? "w-6 bg-mango"
                   : "w-1.5 bg-white/35 hover:bg-white/60"
               }`}
             />

@@ -10,21 +10,21 @@ const SLIDE_INTERVAL = 3500; // ms between auto-advances
 
 // ── Add / remove images here ──────────────────────────────────────────────────
 const slides = [
-  { src: "/src/assets/i13.jpg", alt: "Hanna demonstrating choreography" },
-  { src: "/src/assets/instructor3.jpg", alt: "Hanna demonstrating choreography" },
-  { src: "/src/assets/i25.jpg",           alt: "Hanna demonstrating choreography"  },
-  { src: "/src/assets/i27.jpg",           alt: "Hanna demonstrating choreography"  },
-  { src: "/src/assets/i16.jpg",           alt: "Hanna demonstrating choreography"  },
-  { src: "/src/assets/i26.jpg",           alt: "Hanna demonstrating choreography"   },
-  { src: "/src/assets/i28.jpg", alt: "Hanna with class members" },
-  { src: "/src/assets/i88.jpg", alt: "Hanna with class members" },
-  { src: "/src/assets/instructor4.jpg", alt: "Hanna with class members" },
-  { src: "/src/assets/instructor1.jpg", alt: "Hanna with class members" },
-  { src: "/src/assets/i7.jpg", alt: "Hanna with class members" },
-  { src: "/src/assets/i5.jpg", alt: "Hanna with class members" },
-  { src: "/src/assets/instructor2.jpg", alt: "Hanna with class members" },
+  { src: "../../../public/assets/i13.jpg", alt: "Hanna demonstrating choreography" },
+  { src: "../../../public/assets/instructor3.jpg", alt: "Hanna demonstrating choreography" },
+  { src: "../../../public/assets/i25.jpg",           alt: "Hanna demonstrating choreography"  },
+  { src: "../../../public/assets/i27.jpg",           alt: "Hanna demonstrating choreography"  },
+  { src: "../../../public/assets/i16.jpg",           alt: "Hanna demonstrating choreography"  },
+  { src: "../../../public/assets/i26.jpg",           alt: "Hanna demonstrating choreography"   },
+  { src: "../../../public/assets/i28.jpg", alt: "Hanna with class members" },
+  { src: "../../../public/assets/i88.jpg", alt: "Hanna with class members" },
+  { src: "../../../public/assets/instructor4.jpg", alt: "Hanna with class members" },
+  { src: "../../../public/assets/instructor1.jpg", alt: "Hanna with class members" },
+  { src: "../../../public/assets/i7.jpg", alt: "Hanna with class members" },
+  { src: "../../../public/assets/i5.jpg", alt: "Hanna with class members" },
+  { src: "../../../public/assets/instructor2.jpg", alt: "Hanna with class members" },
 
-  // add more: { src: "/src/assets/i3.jpg", alt: "..." },
+  // add more: { src: "../../../public/assets/i3.jpg", alt: "..." },
 ];
 
 const affiliations = [
