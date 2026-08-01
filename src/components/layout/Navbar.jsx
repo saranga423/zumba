@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
-import logo from '../../assets/ZUMBA90.png';
+import logo from '../../../public/ZUMBA90.png';
 
 const navLinks = [
   { label: 'Home',         href: '#hero'         },

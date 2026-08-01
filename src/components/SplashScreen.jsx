@@ -100,7 +100,7 @@ export default function SplashScreen() {
             />
 
             <motion.img
-              src="/src/assets/ZUMBA90.png"
+              src="/ZUMBA90.png"
               alt="Zumba with Hanna"
               className="relative z-10 w-56 sm:w-72 md:w-80 drop-shadow-2xl select-none"
               draggable={false}
