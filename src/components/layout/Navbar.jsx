@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
-import logo from '../../../public/ZUMBA90.png';
 
 const navLinks = [
   { label: 'Home',         href: '#hero'         },
@@ -16,28 +15,18 @@ const navLinks = [
 // ─── Hook: track which section is in view ────────────────────────────────────
 function useActiveSection(links) {
   const location = useLocation();
-  const [active, setActive] = useState(() => {
-    // Initialize with route match if applicable
-    const routeMatch = links.find(
+  const routeMatch = links.find(
+    (l) => l.isRoute && l.href === location.pathname
+  );
+  const [sectionActive, setSectionActive] = useState(() => {
+    const initialRouteMatch = links.find(
       (l) => l.isRoute && l.href === location.pathname
     );
-    return routeMatch ? routeMatch.href : '';
+    return initialRouteMatch ? initialRouteMatch.href : '';
   });
 
   useEffect(() => {
-    // For route links, match by pathname
-    const routeMatch = links.find(
-      (l) => l.isRoute && l.href === location.pathname
-    );
-    if (routeMatch) { 
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setActive(routeMatch.href); 
-      return; 
-    }
-  }, [location.pathname, links]);
-
-  useEffect(() => {
-    const sectionIds = navLinks
+    const sectionIds = links
       .filter((l) => !l.isRoute && l.href.startsWith('#'))
       .map((l) => l.href.slice(1));
 
@@ -45,7 +34,7 @@ function useActiveSection(links) {
       const el = document.getElementById(id);
       if (!el) return null;
       const obs = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setActive(`#${id}`); },
+        ([entry]) => { if (entry.isIntersecting) setSectionActive(`#${id}`); },
         { threshold: 0.35 }
       );
       obs.observe(el);
@@ -53,9 +42,9 @@ function useActiveSection(links) {
     });
 
     return () => observers.forEach((o) => o?.disconnect());
-  }, []);
+  }, [links]);
 
-  return active;
+  return routeMatch ? routeMatch.href : sectionActive;
 }
 
 export default function Navbar() {
@@ -88,7 +77,6 @@ export default function Navbar() {
     const inner = (
       <>
         {link.label}
-        {/* Underline — hibiscus, expands when active or hovered */}
         <span
           className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-hibiscus transition-all duration-300 ${
             active ? 'w-3/4' : 'w-0 group-hover:w-3/4'
@@ -136,7 +124,6 @@ export default function Navbar() {
         transition={{ delay: index * 0.05 }}
         className="flex items-center gap-3"
       >
-        {/* Active dot indicator */}
         {active && (
           <span className="w-2 h-2 rounded-full bg-mango shrink-0" aria-hidden="true" />
         )}
@@ -160,10 +147,10 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 md:h-20">
 
-            {/* Logo */}
+            {/* Logo — public/ZUMBA90.png, served at root, no import needed */}
             <Link to="/" className="flex items-center gap-2 no-underline shrink-0">
               <img
-                src={logo}
+                src="/ZUMBA90.png"
                 alt="Zumba with Hanna"
                 className="h-14 sm:h-16 md:h-20 w-auto object-contain"
               />
@@ -175,8 +162,6 @@ export default function Navbar() {
                 <DesktopLink key={link.href} link={link} />
               ))}
             </div>
-
-            {/* Desktop CTA */}
 
             {/* Mobile toggle */}
             <button
@@ -215,14 +200,12 @@ export default function Navbar() {
                 <MobileLink key={link.href} link={link} index={i} />
               ))}
 
-              {/* Mobile CTA */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: navLinks.length * 0.05 + 0.05 }}
                 className="mt-4 w-full max-w-xs"
-              >
-              </motion.div>
+              />
             </div>
           </motion.div>
         )}

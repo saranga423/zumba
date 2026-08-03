@@ -11,7 +11,7 @@ import {
 } from "framer-motion";
 import { Play, X, Users, CalendarCheck, Flame, Trophy } from "lucide-react";
 
-import previewReel from "../../../public/assets/videos/v1.mp4";
+import previewReel from "../../assets/videos/v1.mp4";
 
 // ─── Brand tokens ─────────────────────────────────────────────────────────────
 // cream: #FAF4E9 | hibiscus: #E23F73 | mango: #FF9736 | plum: #2B1330 | lime: #C8F03C

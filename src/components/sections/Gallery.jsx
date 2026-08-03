@@ -17,25 +17,25 @@ import {
 } from 'lucide-react';
 
 const galleryItems = [
-  { id: 1,  type: 'photo', src: '/src/assets/g1.jpg',    alt: 'Zumba class energy',          tag: 'High Energy'   },
-  { id: 2,  type: 'reel',  src: '/src/assets/videos/v1.mp4', alt: 'Class highlight reel',     tag: 'Choreography'  },
-  { id: 3,  type: 'photo', src: '/src/assets/g2.jpg',    alt: 'Music and movement',             tag: 'Vibes'         },
-  { id: 4,  type: 'reel',  src: '/src/assets/videos/v2.mp4', alt: 'Workout reel',             tag: 'High Energy'   },
-  { id: 5,  type: 'photo', src: '/src/assets/g3.jpg',    alt: 'Dancing together',               tag: 'Community'     },
-  { id: 6,  type: 'reel',  src: '/src/assets/videos/v3.mp4', alt: 'Dance combo reel',         tag: 'Choreography'  },
-  { id: 7,  type: 'photo', src: '/src/assets/g4.jpg',    alt: 'High energy moves',              tag: 'High Energy'   },
-  { id: 8,  type: 'reel',  src: '/src/assets/videos/v4.mp4', alt: 'Studio session reel',      tag: 'Vibes'         },
-  { id: 9,  type: 'photo', src: '/src/assets/g5.jpg',    alt: 'Workout intensity',              tag: 'High Energy'   },
-  { id: 10, type: 'reel',  src: '/src/assets/videos/v5.mp4', alt: 'Choreography reel',        tag: 'Choreography'  },
-  { id: 12, type: 'reel',  src: '/src/assets/videos/v6.mp4', alt: 'Full class energy reel',   tag: 'Community'     },
-  { id: 13, type: 'photo', src: '/src/assets/g7.jpg',    alt: 'More class moments',             tag: 'Vibes'         },
-  { id: 14, type: 'reel',  src: '/src/assets/videos/v7.mp4', alt: 'Weekend warrior reel',     tag: 'High Energy'   },
-  { id: 15, type: 'reel',  src: '/src/assets/videos/v8.mp4', alt: 'Zumba Gold reel',          tag: 'Community'     },
-  { id: 16, type: 'reel',  src: '/src/assets/videos/v9.mp4', alt: 'Studio vibe reel',         tag: 'Vibes'         },
-  { id: 17, type: 'reel',  src: '/src/assets/videos/v10.mp4',alt: 'Member moments reel',      tag: 'Community'     },
-  { id: 18, type: 'photo', src: '/src/assets/g8.jpeg',   alt: 'Additional class moment',        tag: 'Vibes'         },
-  { id: 19, type: 'photo', src: '/src/assets/i1.jpg',    alt: 'Instructor leading class',       tag: 'Choreography'  },
-  { id: 20, type: 'photo', src: '/src/assets/i2.jpg',    alt: 'Instructor demonstrating moves', tag: 'Choreography'  },
+  { id: 1,  type: 'photo', src: '../../assets/g1.jpg',    alt: 'Zumba class energy',          tag: 'High Energy'   },
+  { id: 2,  type: 'reel',  src: '../../assets/videos/v1.mp4', alt: 'Class highlight reel',     tag: 'Choreography'  },
+  { id: 3,  type: 'photo', src: '../../assets/g2.jpg',    alt: 'Music and movement',             tag: 'Vibes'         },
+  { id: 4,  type: 'reel',  src: '../../assets/videos/v2.mp4', alt: 'Workout reel',             tag: 'High Energy'   },
+  { id: 5,  type: 'photo', src: '../../assets/g3.jpg',    alt: 'Dancing together',               tag: 'Community'     },
+  { id: 6,  type: 'reel',  src: '../../assets/videos/v3.mp4', alt: 'Dance combo reel',         tag: 'Choreography'  },
+  { id: 7,  type: 'photo', src: '../../assets/g4.jpg',    alt: 'High energy moves',              tag: 'High Energy'   },
+  { id: 8,  type: 'reel',  src: '../../assets/videos/v4.mp4', alt: 'Studio session reel',      tag: 'Vibes'         },
+  { id: 9,  type: 'photo', src: '../../assets/g5.jpg',    alt: 'Workout intensity',              tag: 'High Energy'   },
+  { id: 10, type: 'reel',  src: '../../assets/videos/v5.mp4', alt: 'Choreography reel',        tag: 'Choreography'  },
+  { id: 12, type: 'reel',  src: '../../assets/videos/v6.mp4', alt: 'Full class energy reel',   tag: 'Community'     },
+  { id: 13, type: 'photo', src: '../../assets/g7.jpg',    alt: 'More class moments',             tag: 'Vibes'         },
+  { id: 14, type: 'reel',  src: '../../assets/videos/v7.mp4', alt: 'Weekend warrior reel',     tag: 'High Energy'   },
+  { id: 15, type: 'reel',  src: '../../assets/videos/v8.mp4', alt: 'Zumba Gold reel',          tag: 'Community'     },
+  { id: 16, type: 'reel',  src: '../../assets/videos/v9.mp4', alt: 'Studio vibe reel',         tag: 'Vibes'         },
+  { id: 17, type: 'reel',  src: '../../assets/videos/v10.mp4',alt: 'Member moments reel',      tag: 'Community'     },
+  { id: 18, type: 'photo', src: '../../assets/g8.jpeg',   alt: 'Additional class moment',        tag: 'Vibes'         },
+  { id: 19, type: 'photo', src: '../../assets/i1.jpg',    alt: 'Instructor leading class',       tag: 'Choreography'  },
+  { id: 20, type: 'photo', src: '../../assets/i2.jpg',    alt: 'Instructor demonstrating moves', tag: 'Choreography'  },
 ]
 
 const categories = ['All', 'Reels', 'Photos', 'High Energy', 'Choreography', 'Community', 'Vibes']
@@ -79,7 +79,7 @@ function ReelCard({ item, onOpen, isLiked, onToggleLike }) {
       <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent" />
 
       <div className="absolute top-3 left-3 flex items-center gap-1.5 bg-black/50 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">
-        <span className={`w-1.5 h-1.5 rounded-full ${playing ? 'bg-[#E23F73] animate-pulse' : 'bg-white/40'}`} />
+        <span className={`w-1.5 h-1.5 rounded-full ${playing ? 'bg-hibiscus animate-pulse' : 'bg-white/40'}`} />
         <span className="text-[9px] font-mono uppercase tracking-widest text-white/80">Reel</span>
       </div>
 
@@ -94,7 +94,7 @@ function ReelCard({ item, onOpen, isLiked, onToggleLike }) {
 
       {!playing && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="w-12 h-12 rounded-full bg-[#E23F73]/90 flex items-center justify-center shadow-lg">
+          <div className="w-12 h-12 rounded-full bg-hibiscus/90 flex items-center justify-center shadow-lg">
             <Play size={18} fill="white" className="text-white ml-0.5" />
           </div>
         </div>
@@ -111,9 +111,9 @@ function ReelCard({ item, onOpen, isLiked, onToggleLike }) {
           type="button"
           onClick={(e) => { e.stopPropagation(); onToggleLike(item.id) }}
           aria-label={isLiked ? 'Unlike' : 'Like'}
-          className="w-8 h-8 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center hover:bg-[#E23F73] transition-all shrink-0 border border-white/10"
+          className="w-8 h-8 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center hover:bg-hibiscus transition-all shrink-0 border border-white/10"
         >
-          <Heart size={14} className={isLiked ? 'text-[#E23F73] fill-current' : 'text-white'} strokeWidth={2.5} />
+          <Heart size={14} className={isLiked ? 'text-hibiscus fill-current' : 'text-white'} strokeWidth={2.5} />
         </button>
       </div>
 
@@ -121,7 +121,7 @@ function ReelCard({ item, onOpen, isLiked, onToggleLike }) {
         type="button"
         onClick={() => onOpen(item.id)}
         aria-label={`View ${item.alt}`}
-        className="absolute inset-0 focus-visible:outline-2 focus-visible:outline-[#C8F03C]"
+        className="absolute inset-0 focus-visible:outline-2 focus-visible:outline-lime"
       />
     </motion.div>
   )
@@ -163,16 +163,16 @@ function PhotoCard({ item, onOpen, isLiked, onToggleLike, delay }) {
         type="button"
         onClick={(e) => { e.stopPropagation(); onToggleLike(item.id) }}
         aria-label={isLiked ? 'Unlike' : 'Like'}
-        className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center hover:bg-[#E23F73] transition-all border border-white/10 z-10"
+        className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center hover:bg-hibiscus transition-all border border-white/10 z-10"
       >
-        <Heart size={14} className={isLiked ? 'text-[#E23F73] fill-current' : 'text-white'} strokeWidth={2.5} />
+        <Heart size={14} className={isLiked ? 'text-hibiscus fill-current' : 'text-white'} strokeWidth={2.5} />
       </button>
 
       <button
         type="button"
         onClick={() => onOpen(item.id)}
         aria-label={`View ${item.alt}`}
-        className="absolute inset-0 focus-visible:outline-2 focus-visible:outline-[#C8F03C]"
+        className="absolute inset-0 focus-visible:outline-2 focus-visible:outline-lime"
       />
     </motion.div>
   )
@@ -221,7 +221,7 @@ function Lightbox({ items, activeId, onClose, onNavigate, likedIds, onToggleLike
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="absolute top-5 right-5 z-30 w-11 h-11 rounded-full bg-white/10 hover:bg-[#E23F73] text-white flex items-center justify-center backdrop-blur-md transition-all shadow-xl focus-visible:outline-2 focus-visible:outline-[#C8F03C]"
+            className="absolute top-5 right-5 z-30 w-11 h-11 rounded-full bg-white/10 hover:bg-hibiscus text-white flex items-center justify-center backdrop-blur-md transition-all shadow-xl focus-visible:outline-2 focus-visible:outline-lime"
           >
             <X size={22} />
           </button>
@@ -275,7 +275,7 @@ function Lightbox({ items, activeId, onClose, onNavigate, likedIds, onToggleLike
               )}
             </div>
 
-            <div className="p-5 flex items-center justify-between bg-[#2B1330] border-t border-white/10 gap-4">
+            <div className="p-5 flex items-center justify-between bg-plum border-t border-white/10 gap-4">
               <div className="min-w-0">
                 <span className={`inline-block text-[9px] font-bold uppercase tracking-widest px-2.5 py-1 rounded mb-1.5 ${tagColour[item.tag] ?? 'bg-white/20 text-white'}`}>
                   {item.tag}
@@ -291,7 +291,7 @@ function Lightbox({ items, activeId, onClose, onNavigate, likedIds, onToggleLike
                 aria-pressed={isLiked}
                 aria-label={isLiked ? 'Unlike' : 'Like'}
                 className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-xs uppercase tracking-wider transition-all shrink-0 shadow-lg ${
-                  isLiked ? 'bg-[#E23F73] text-white' : 'bg-white/10 hover:bg-[#E23F73] text-white'
+                  isLiked ? 'bg-hibiscus text-white' : 'bg-white/10 hover:bg-hibiscus text-white'
                 }`}
               >
                 <Heart size={15} className={isLiked ? 'fill-current' : ''} strokeWidth={2.5} />
@@ -362,10 +362,10 @@ export default function Gallery() {
   const col3 = useMemo(() => photos.filter((_, i) => i % 3 === 2), [photos])
 
   return (
-    <section id="gallery" className="relative py-20 bg-[#2B1330] overflow-hidden">
+    <section id="gallery" className="relative py-20 bg-plum overflow-hidden">
       {/* ambient glows */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-175 h-75 bg-[#E23F73]/8 blur-[160px] pointer-events-none rounded-full" />
-      <div className="absolute bottom-0 right-0 w-100 h-75 bg-[#C8F03C]/8 blur-[130px] pointer-events-none rounded-full" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-175 h-75 bg-hibiscus/8 blur-[160px] pointer-events-none rounded-full" />
+      <div className="absolute bottom-0 right-0 w-100 h-75 bg-lime/8 blur-[130px] pointer-events-none rounded-full" />
 
       {/* ── Header ── */}
       <div ref={headerRef} className="relative z-10 text-center mb-12 px-4">
@@ -379,7 +379,7 @@ export default function Gallery() {
         >
           <Link
             to="/"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/8 border border-white/10 text-[#FAF4E9]/70 hover:text-[#FAF4E9] hover:bg-white/15 text-xs font-bold uppercase tracking-wider transition-all no-underline"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/8 border border-white/10 text-cream/70 hover:text-cream hover:bg-white/15 text-xs font-bold uppercase tracking-wider transition-all no-underline"
           >
             <ChevronLeft size={14} />
             Back to Home
@@ -391,7 +391,7 @@ export default function Gallery() {
           initial={{ opacity: 0, y: -10 }}
           animate={headerInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#C8F03C]/30 bg-[#C8F03C]/10 text-[#C8F03C] text-xs font-bold uppercase tracking-widest mb-4"
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-lime/30 bg-lime/10 text-lime text-xs font-bold uppercase tracking-widest mb-4"
         >
           <Sparkles size={12} />
           Gallery &amp; Vibes
@@ -401,11 +401,11 @@ export default function Gallery() {
           initial={{ opacity: 0, y: 20 }}
           animate={headerInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="font-extrabold text-[clamp(38px,6vw,76px)] leading-[0.95] text-[#FAF4E9]"
+          className="font-extrabold text-[clamp(38px,6vw,76px)] leading-[0.95] text-cream"
         >
           REAL CLASSES,
           <br />
-          <span className="text-transparent bg-clip-text bg-linear-to-r from-[#E23F73] via-[#ff709b] to-[#C8F03C]">
+          <span className="text-transparent bg-clip-text bg-linear-to-r from-hibiscus via-[#ff709b] to-lime">
             REAL ENERGY
           </span>
         </motion.h2>
@@ -414,7 +414,7 @@ export default function Gallery() {
           initial={{ opacity: 0 }}
           animate={headerInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-[#FAF4E9]/60 max-w-lg mx-auto mt-4 text-sm sm:text-base"
+          className="text-cream/60 max-w-lg mx-auto mt-4 text-sm sm:text-base"
         >
           Scroll through our reels, explore the photo wall — every frame is pure studio energy.
         </motion.p>
@@ -429,9 +429,9 @@ export default function Gallery() {
               <button
                 key={cat}
                 onClick={() => { setActiveCategory(cat); setActiveId(null) }}
-                className={`px-4 py-2 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all duration-300 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#C8F03C] focus-visible:outline-offset-2 ${
+                className={`px-4 py-2 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all duration-300 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-lime focus-visible:outline-offset-2 ${
                   active
-                    ? 'bg-[#C8F03C] text-[#2B1330] shadow-[0_0_18px_rgba(200,240,60,0.35)] scale-105'
+                    ? 'bg-lime text-plum shadow-[0_0_18px_rgba(200,240,60,0.35)] scale-105'
                     : 'bg-white/8 text-white/70 hover:bg-white/15 hover:text-white border border-white/10'
                 }`}
               >
@@ -447,8 +447,8 @@ export default function Gallery() {
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 mb-14">
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-[#E23F73]/20 flex items-center justify-center">
-                <Film size={16} className="text-[#E23F73]" />
+              <div className="w-8 h-8 rounded-lg bg-hibiscus/20 flex items-center justify-center">
+                <Film size={16} className="text-hibiscus" />
               </div>
               <span className="text-white font-bold text-sm uppercase tracking-widest">Reels</span>
               <span className="text-white/30 text-xs font-mono">({reels.length})</span>
@@ -492,8 +492,8 @@ export default function Gallery() {
             </AnimatePresence>
           </div>
 
-          <div className="pointer-events-none absolute left-4 sm:left-6 top-13 bottom-3 w-12 bg-linear-to-r from-[#2B1330] to-transparent z-10" />
-          <div className="pointer-events-none absolute right-4 sm:right-6 top-13 bottom-3 w-12 bg-linear-to-l from-[#2B1330] to-transparent z-10" />
+          <div className="pointer-events-none absolute left-4 sm:left-6 top-13 bottom-3 w-12 bg-linear-to-r from-plum to-transparent z-10" />
+          <div className="pointer-events-none absolute right-4 sm:right-6 top-13 bottom-3 w-12 bg-linear-to-l from-plum to-transparent z-10" />
         </div>
       )}
 
@@ -501,8 +501,8 @@ export default function Gallery() {
       {photos.length > 0 && (
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-center gap-2.5 mb-6">
-            <div className="w-8 h-8 rounded-lg bg-[#C8F03C]/20 flex items-center justify-center">
-              <Camera size={16} className="text-[#C8F03C]" />
+            <div className="w-8 h-8 rounded-lg bg-lime/20 flex items-center justify-center">
+              <Camera size={16} className="text-lime" />
             </div>
             <span className="text-white font-bold text-sm uppercase tracking-widest">Photos</span>
             <span className="text-white/30 text-xs font-mono">({photos.length})</span>

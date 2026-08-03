@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import zumba90 from '../../public/ZUMBA90.png';
 
 // ─── Timings (ms) ─────────────────────────────────────────────────────────────
 const LOGO_RISE_MS  = 1100;
@@ -155,7 +156,7 @@ export default function SplashScreen() {
 
             {/* logo */}
             <motion.img
-              src="/ZUMBA90.png"
+              src={zumba90}
               alt="Zumba with Hanna"
               className="relative w-52 sm:w-64 md:w-80 drop-shadow-2xl"
               draggable={false}

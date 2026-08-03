@@ -2,29 +2,41 @@ import { useReducedMotion, motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { MapPin, GraduationCap, ChevronLeft, ChevronRight } from "lucide-react";
 
+// ─── Image imports ────────────────────────────────────────────────────────────
+import imgTt          from "../../assets/tt.jpg";
+import imgInstructor3 from "../../assets/instructor3.jpg";
+import imgI25         from "../../assets/i25.jpg";
+import imgI27         from "../../assets/i27.jpg";
+import imgI16         from "../../assets/i16.jpg";
+import imgI26         from "../../assets/i26.jpg";
+import imgI28         from "../../assets/i28.jpg";
+import imgI88         from "../../assets/i88.jpg";
+import imgInstructor4 from "../../assets/instructor4.jpg";
+import imgInstructor1 from "../../assets/instructor1.jpg";
+import imgI7          from "../../assets/i7.jpg";
+import imgI5          from "../../assets/i5.jpg";
+import imgInstructor2 from "../../assets/instructor2.jpg";
+
 // ─── Brand tokens ─────────────────────────────────────────────────────────────
 // cream: #FAF4E9 | hibiscus: #E23F73 | mango: #FF9736 | plum: #2B1330 | lime: #C8F03C
 
 const START_YEAR = 2022;
-const SLIDE_INTERVAL = 3500; // ms between auto-advances
+const SLIDE_INTERVAL = 3500;
 
-// ── Add / remove images here ──────────────────────────────────────────────────
 const slides = [
-  { src: "../../../public/assets/i13.jpg", alt: "Hanna demonstrating choreography" },
-  { src: "../../../public/assets/instructor3.jpg", alt: "Hanna demonstrating choreography" },
-  { src: "../../../public/assets/i25.jpg",           alt: "Hanna demonstrating choreography"  },
-  { src: "../../../public/assets/i27.jpg",           alt: "Hanna demonstrating choreography"  },
-  { src: "../../../public/assets/i16.jpg",           alt: "Hanna demonstrating choreography"  },
-  { src: "../../../public/assets/i26.jpg",           alt: "Hanna demonstrating choreography"   },
-  { src: "../../../public/assets/i28.jpg", alt: "Hanna with class members" },
-  { src: "../../../public/assets/i88.jpg", alt: "Hanna with class members" },
-  { src: "../../../public/assets/instructor4.jpg", alt: "Hanna with class members" },
-  { src: "../../../public/assets/instructor1.jpg", alt: "Hanna with class members" },
-  { src: "../../../public/assets/i7.jpg", alt: "Hanna with class members" },
-  { src: "../../../public/assets/i5.jpg", alt: "Hanna with class members" },
-  { src: "../../../public/assets/instructor2.jpg", alt: "Hanna with class members" },
-
-  // add more: { src: "../../../public/assets/i3.jpg", alt: "..." },
+  { src: imgTt,          alt: "Hanna [action, e.g. leading a warm-up stretch]" },
+  { src: imgInstructor3, alt: "Hanna [action, e.g. counting out a rhythm]" },
+  { src: imgI25,         alt: "Hanna [action, e.g. breaking down a step sequence]" },
+  { src: imgI27,         alt: "Hanna [action, e.g. demonstrating arm placement]" },
+  { src: imgI16,         alt: "Hanna [action, e.g. mid-turn during a routine]" },
+  { src: imgI26,         alt: "Hanna [action, e.g. explaining footwork to the class]" },
+  { src: imgI28,         alt: "Hanna and class members [action, e.g. dancing together in formation]" },
+  { src: imgI88,         alt: "Hanna and class members [action, e.g. laughing during a break]" },
+  { src: imgInstructor4, alt: "Hanna with a student [action, e.g. giving one-on-one feedback]" },
+  { src: imgInstructor1, alt: "Hanna with a student [action, e.g. adjusting posture or stance]" },
+  { src: imgI7,          alt: "Hanna and the full group [action, e.g. finishing a routine together]" },
+  { src: imgI5,          alt: "Hanna with class members [action, e.g. posing after a session]" },
+  { src: imgInstructor2, alt: "Hanna with a student [action, e.g. reviewing choreography notes]" },
 ];
 
 const affiliations = [
@@ -36,9 +48,9 @@ const affiliations = [
 
 // ─── Slideshow ────────────────────────────────────────────────────────────────
 function InstructorSlideshow({ prefersReduced }) {
-  const [current, setCurrent]   = useState(0);
-  const [direction, setDirection] = useState(1); // 1 = forward, -1 = backward
-  const [paused, setPaused]     = useState(false);
+  const [current, setCurrent]     = useState(0);
+  const [direction, setDirection] = useState(1);
+  const [paused, setPaused]       = useState(false);
 
   const goTo = (idx, dir) => {
     setDirection(dir);
@@ -48,7 +60,6 @@ function InstructorSlideshow({ prefersReduced }) {
   const prev = () => goTo(current - 1, -1);
   const next = () => goTo(current + 1,  1);
 
-  // auto-advance
   useEffect(() => {
     if (paused || prefersReduced) return;
     const id = setInterval(() => {
@@ -88,7 +99,7 @@ function InstructorSlideshow({ prefersReduced }) {
           />
         </AnimatePresence>
 
-        {/* gradient overlay at bottom */}
+        {/* gradient overlay */}
         <div className="absolute inset-x-0 bottom-0 h-28 bg-linear-to-t from-plum/70 to-transparent pointer-events-none" />
 
         {/* arrow buttons */}
@@ -127,7 +138,7 @@ function InstructorSlideshow({ prefersReduced }) {
         </div>
       </div>
 
-      {/* ── progress bar (resets each slide) ── */}
+      {/* ── progress bar ── */}
       {!prefersReduced && !paused && (
         <motion.div
           key={current}
@@ -142,7 +153,7 @@ function InstructorSlideshow({ prefersReduced }) {
         </motion.div>
       )}
 
-      {/* ── corner accents (outside the overflow-hidden frame) ── */}
+      {/* ── corner accents ── */}
       <div className="absolute -top-5 -left-5 w-32 h-32 border-l-4 border-t-4 border-hibiscus rounded-tl-3xl pointer-events-none" />
       <div className="absolute -bottom-8 -right-5 w-32 h-32 border-r-4 border-b-4 border-mango rounded-br-3xl pointer-events-none" />
 

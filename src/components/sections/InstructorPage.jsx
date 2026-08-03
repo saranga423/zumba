@@ -10,17 +10,17 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import instructorImg from "../../../public/assets/instructor.jpg";
-import slide1 from "../../../public/assets/i26.jpg";
-import slide2 from "../../../public/assets/instructor1.jpg";
-import slide3 from "../../../public/assets/instructor2.jpg";
-import slide4 from "../../../public/assets/instructor3.jpg";
-import slide5 from "../../../public/assets/instructor4.jpg";
-import slide6 from "../../../public/assets/i29.jpg";
-import slide7 from "../../../public/assets/i28.jpg";
-import slide8 from "../../../public/assets/i27.jpg";
-import slide9 from "../../../public/assets/i4.jpg";
-import slide10 from "../../../public/assets/i5.jpg";
+import instructorImg from "../../assets/instructor.jpg";
+import slide1 from "../../assets/i26.jpg";
+import slide2 from "../../assets/instructor1.jpg";
+import slide3 from "../../assets/instructor2.jpg";
+import slide4 from "../../assets/instructor3.jpg";
+import slide5 from "../../assets/instructor4.jpg";
+import slide6 from "../../assets/i29.jpg";
+import slide7 from "../../assets/i28.jpg";
+import slide8 from "../../assets/i27.jpg";
+import slide9 from "../../assets/i4.jpg";
+import slide10 from "../../assets/i5.jpg";
 
 
 const START_YEAR = 2022;
