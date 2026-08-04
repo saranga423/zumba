@@ -472,9 +472,6 @@ export default function Hero() {
         >
           Kandy's most energetic Zumba classes — Latin rhythms, great music,
           and a community that lifts you every session.
-          <span className="block mt-3 text-lime font-semibold">
-            First Trial Class — Completely Free
-          </span>
         </motion.p>
 
         {/* ── CTAs ─────────────────────────────────────────────────────── */}

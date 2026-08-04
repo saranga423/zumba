@@ -16,26 +16,47 @@ import {
   VolumeX,
 } from 'lucide-react';
 
+// ─── Vite asset imports (fixes broken image paths) ────────────────────────────
+import g1  from '../../assets/g1.jpg';
+import g2  from '../../assets/g2.jpg';
+import g3  from '../../assets/g3.jpg';
+import g4  from '../../assets/g4.jpg';
+import g5  from '../../assets/g5.jpg';
+import g7  from '../../assets/g7.jpg';
+import g8  from '../../assets/g8.jpeg';
+import i1  from '../../assets/i1.jpg';
+import i2  from '../../assets/i2.jpg';
+import v1  from '../../assets/videos/v1.mp4';
+import v2  from '../../assets/videos/v2.mp4';
+import v3  from '../../assets/videos/v3.mp4';
+import v4  from '../../assets/videos/v4.mp4';
+import v5  from '../../assets/videos/v5.mp4';
+import v6  from '../../assets/videos/v6.mp4';
+import v7  from '../../assets/videos/v7.mp4';
+import v8  from '../../assets/videos/v8.mp4';
+import v9  from '../../assets/videos/v9.mp4';
+import v10 from '../../assets/videos/v10.mp4';
+
 const galleryItems = [
-  { id: 1,  type: 'photo', src: '../../assets/g1.jpg',    alt: 'Zumba class energy',          tag: 'High Energy'   },
-  { id: 2,  type: 'reel',  src: '../../assets/videos/v1.mp4', alt: 'Class highlight reel',     tag: 'Choreography'  },
-  { id: 3,  type: 'photo', src: '../../assets/g2.jpg',    alt: 'Music and movement',             tag: 'Vibes'         },
-  { id: 4,  type: 'reel',  src: '../../assets/videos/v2.mp4', alt: 'Workout reel',             tag: 'High Energy'   },
-  { id: 5,  type: 'photo', src: '../../assets/g3.jpg',    alt: 'Dancing together',               tag: 'Community'     },
-  { id: 6,  type: 'reel',  src: '../../assets/videos/v3.mp4', alt: 'Dance combo reel',         tag: 'Choreography'  },
-  { id: 7,  type: 'photo', src: '../../assets/g4.jpg',    alt: 'High energy moves',              tag: 'High Energy'   },
-  { id: 8,  type: 'reel',  src: '../../assets/videos/v4.mp4', alt: 'Studio session reel',      tag: 'Vibes'         },
-  { id: 9,  type: 'photo', src: '../../assets/g5.jpg',    alt: 'Workout intensity',              tag: 'High Energy'   },
-  { id: 10, type: 'reel',  src: '../../assets/videos/v5.mp4', alt: 'Choreography reel',        tag: 'Choreography'  },
-  { id: 12, type: 'reel',  src: '../../assets/videos/v6.mp4', alt: 'Full class energy reel',   tag: 'Community'     },
-  { id: 13, type: 'photo', src: '../../assets/g7.jpg',    alt: 'More class moments',             tag: 'Vibes'         },
-  { id: 14, type: 'reel',  src: '../../assets/videos/v7.mp4', alt: 'Weekend warrior reel',     tag: 'High Energy'   },
-  { id: 15, type: 'reel',  src: '../../assets/videos/v8.mp4', alt: 'Zumba Gold reel',          tag: 'Community'     },
-  { id: 16, type: 'reel',  src: '../../assets/videos/v9.mp4', alt: 'Studio vibe reel',         tag: 'Vibes'         },
-  { id: 17, type: 'reel',  src: '../../assets/videos/v10.mp4',alt: 'Member moments reel',      tag: 'Community'     },
-  { id: 18, type: 'photo', src: '../../assets/g8.jpeg',   alt: 'Additional class moment',        tag: 'Vibes'         },
-  { id: 19, type: 'photo', src: '../../assets/i1.jpg',    alt: 'Instructor leading class',       tag: 'Choreography'  },
-  { id: 20, type: 'photo', src: '../../assets/i2.jpg',    alt: 'Instructor demonstrating moves', tag: 'Choreography'  },
+  { id: 1,  type: 'photo', src: g1,  alt: 'Zumba class energy',          tag: 'High Energy'   },
+  { id: 2,  type: 'reel',  src: v1,  alt: 'Class highlight reel',        tag: 'Choreography'  },
+  { id: 3,  type: 'photo', src: g2,  alt: 'Music and movement',           tag: 'Vibes'         },
+  { id: 4,  type: 'reel',  src: v2,  alt: 'Workout reel',                tag: 'High Energy'   },
+  { id: 5,  type: 'photo', src: g3,  alt: 'Dancing together',             tag: 'Community'     },
+  { id: 6,  type: 'reel',  src: v3,  alt: 'Dance combo reel',            tag: 'Choreography'  },
+  { id: 7,  type: 'photo', src: g4,  alt: 'High energy moves',            tag: 'High Energy'   },
+  { id: 8,  type: 'reel',  src: v4,  alt: 'Studio session reel',         tag: 'Vibes'         },
+  { id: 9,  type: 'photo', src: g5,  alt: 'Workout intensity',            tag: 'High Energy'   },
+  { id: 10, type: 'reel',  src: v5,  alt: 'Choreography reel',           tag: 'Choreography'  },
+  { id: 12, type: 'reel',  src: v6,  alt: 'Full class energy reel',      tag: 'Community'     },
+  { id: 13, type: 'photo', src: g7,  alt: 'More class moments',           tag: 'Vibes'         },
+  { id: 14, type: 'reel',  src: v7,  alt: 'Weekend warrior reel',        tag: 'High Energy'   },
+  { id: 15, type: 'reel',  src: v8,  alt: 'Zumba Gold reel',             tag: 'Community'     },
+  { id: 16, type: 'reel',  src: v9,  alt: 'Studio vibe reel',            tag: 'Vibes'         },
+  { id: 17, type: 'reel',  src: v10, alt: 'Member moments reel',         tag: 'Community'     },
+  { id: 18, type: 'photo', src: g8,  alt: 'Additional class moment',      tag: 'Vibes'         },
+  { id: 19, type: 'photo', src: i1,  alt: 'Instructor leading class',     tag: 'Choreography'  },
+  { id: 20, type: 'photo', src: i2,  alt: 'Instructor demonstrating moves', tag: 'Choreography' },
 ]
 
 const categories = ['All', 'Reels', 'Photos', 'High Energy', 'Choreography', 'Community', 'Vibes']
