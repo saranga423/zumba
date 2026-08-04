@@ -80,13 +80,13 @@ function CopyableLine({ display, copyValue, label }) {
       type="button"
       onClick={handleCopy}
       aria-label={`Copy ${label}: ${copyValue}`}
-      className="group/copy relative inline-flex items-center gap-1.5 text-[#FF9736] text-[15px] font-medium hover:text-[#E23F73] transition-colors focus-visible:outline-2 focus-visible:outline-[#C8F03C] focus-visible:outline-offset-2 rounded cursor-pointer"
+      className="group/copy relative inline-flex items-center gap-1.5 text-mango text-[15px] font-medium hover:text-hibiscus transition-colors focus-visible:outline-2 focus-visible:outline-lime focus-visible:outline-offset-2 rounded cursor-pointer"
     >
       {display}
       <span className="opacity-40 group-hover/copy:opacity-100 transition-opacity">
         <AnimatePresence mode="wait" initial={false}>
           {copied ? (
-            <motion.span key="check" initial={{ scale: 0.6, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.6, opacity: 0 }} className="text-[#C8F03C]">
+            <motion.span key="check" initial={{ scale: 0.6, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.6, opacity: 0 }} className="text-lime">
               <Check size={13} strokeWidth={2.5} />
             </motion.span>
           ) : (
@@ -100,7 +100,7 @@ function CopyableLine({ display, copyValue, label }) {
         {copied && (
           <motion.span
             initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-            className="absolute -top-7 left-0 text-[11px] font-bold text-[#FAF4E9] bg-[#2B1330] border border-[#3a2040] px-2 py-0.5 rounded-full shadow-lg whitespace-nowrap z-20"
+            className="absolute -top-7 left-0 text-[11px] font-bold text-cream bg-plum border border-plum-border px-2 py-0.5 rounded-full shadow-lg whitespace-nowrap z-20"
           >
             Copied!
           </motion.span>
@@ -123,7 +123,7 @@ export default function Location() {
     <section
       id="location"
       ref={ref}
-      className="relative overflow-hidden py-28 bg-[#2B1330] text-[#FAF4E9] selection:bg-[#C8F03C] selection:text-[#2B1330]"
+      className="relative overflow-hidden py-28 bg-plum text-cream selection:bg-lime selection:text-plum"
     >
       {/* Dot grid */}
       <div
@@ -152,12 +152,12 @@ export default function Location() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <span className="inline-block uppercase tracking-[8px] text-[#FF9736] text-xs font-bold font-mono mb-3 px-3 py-1 rounded-full bg-[#FF9736]/10 border border-[#FF9736]/25">
+          <span className="inline-block uppercase tracking-[8px] text-mango text-xs font-bold font-mono mb-3 px-3 py-1 rounded-full bg-mango/10 border border-mango/25">
             Find Us
           </span>
-          <h2 className="font-bricolage text-4xl sm:text-6xl font-black tracking-tight mb-4 text-[#FAF4E9]">
+          <h2 className="font-bricolage text-4xl sm:text-6xl font-black tracking-tight mb-4 text-cream">
             COME DANCE<br />
-            <span className="bg-linear-to-r from-[#FF9736] via-[#E23F73] to-[#C8F03C] bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-mango via-hibiscus to-lime bg-clip-text text-transparent">
               WITH US
             </span>
           </h2>
@@ -172,7 +172,7 @@ export default function Location() {
             animate={inView ? 'show' : 'hidden'}
             className="flex flex-col gap-5"
           >
-            <p className="text-[11px] text-[#FAF4E9]/40 font-bold tracking-widest uppercase font-mono">
+            <p className="text-[11px] text-cream/40 font-bold tracking-widest uppercase font-mono">
               Our studios
             </p>
 
@@ -183,7 +183,7 @@ export default function Location() {
                 <motion.div
                   key={loc.name}
                   variants={rowVariants}
-                  className="relative rounded-3xl overflow-hidden bg-[#38203f] border border-[#3a2040] hover:border-[#FF9736]/30 shadow-xl shadow-black/30 transition-all duration-300"
+                  className="relative rounded-3xl overflow-hidden bg-plum-light border border-plum-border hover:border-mango/30 shadow-xl shadow-black/30 transition-all duration-300"
                 >
                   <div className="flex items-center gap-4 px-6 py-6">
 
@@ -192,7 +192,7 @@ export default function Location() {
                       {!prefersReduced && [0, 1].map((r) => (
                         <motion.span
                           key={r}
-                          className="absolute inset-0 rounded-full border-2 border-[#FF9736]/35"
+                          className="absolute inset-0 rounded-full border-2 border-mango/35"
                           animate={{ scale: [1, 2.1], opacity: [0.6, 0] }}
                           transition={{ duration: 2.2, repeat: Infinity, delay: r * 1.1 + i * 0.4, ease: 'easeOut' }}
                         />
@@ -206,10 +206,10 @@ export default function Location() {
                     </div>
 
                     <div className="text-left flex-1 min-w-0">
-                      <p className="text-[#FAF4E9] font-bold text-base leading-snug font-bricolage">
+                      <p className="text-cream font-bold text-base leading-snug font-bricolage">
                         {loc.shortName}
                       </p>
-                      <p className="text-[#FAF4E9]/50 text-xs leading-relaxed mt-1 font-inter">
+                      <p className="text-cream/50 text-xs leading-relaxed mt-1 font-inter">
                         {loc.address}
                       </p>
 
@@ -219,7 +219,7 @@ export default function Location() {
                           href={directionsUrl(loc.address)}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-[#2B1330] bg-[#C8F03C] hover:bg-[#d4f94e] transition-colors px-4 py-2 rounded-xl shadow-md focus-visible:outline-2 focus-visible:outline-[#C8F03C] focus-visible:outline-offset-2"
+                          className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-plum bg-[#bg-limer:bg-[#d4f94e] transition-colors px-4 py-2 rounded-xl shadow-md focus-visible:outline-2 focus-visible:outline-lime focus-visible:outline-offset-2"
                         >
                           <Navigation size={13} strokeWidth={2.5} />
                           Get directions
@@ -230,7 +230,7 @@ export default function Location() {
                           type="button"
                           onClick={() => toggleMap(i)}
                           aria-expanded={mapOpen}
-                          className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-[#FAF4E9]/60 bg-[#2B1330]/50 hover:text-[#FAF4E9] hover:bg-[#2B1330] transition-colors px-4 py-2 rounded-xl border border-[#3a2040] focus-visible:outline-2 focus-visible:outline-[#C8F03C] focus-visible:outline-offset-2 cursor-pointer"
+                          className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-cream/60 bg-plum/50 hover:text-cream hover:bg-plum transition-colors px-4 py-2 rounded-xl border border-plum-border focus-visible:outline-2 focus-visible:outline-lime focus-visible:outline-offset-2 cursor-pointer"
                         >
                           <MapIcon size={13} strokeWidth={2.5} />
                           {mapOpen ? 'Hide map' : 'View map'}
@@ -251,7 +251,7 @@ export default function Location() {
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.35, ease: 'easeInOut' }}
-                        className="overflow-hidden border-t border-[#3a2040]"
+                        className="overflow-hidden border-t border-plum-border"
                       >
                         <iframe
                           src={mapEmbedUrl(loc.address)}
@@ -274,7 +274,7 @@ export default function Location() {
             variants={containerVariants}
             initial="hidden"
             animate={inView ? 'show' : 'hidden'}
-            className="flex flex-col gap-6 bg-[#38203f] border border-[#3a2040] p-8 rounded-3xl shadow-xl shadow-black/30"
+            className="flex flex-col gap-6 bg-plum-light border border-plum-border p-8 rounded-3xl shadow-xl shadow-black/30"
           >
             {contactRows.map((row) => {
               const Icon        = row.icon
@@ -293,7 +293,7 @@ export default function Location() {
                   </div>
 
                   <div>
-                    <p className="text-[11px] text-[#FAF4E9]/40 font-bold tracking-widest uppercase mb-1 font-mono">
+                    <p className="text-[11px] text-cream/40 font-bold tracking-widest uppercase mb-1 font-mono">
                       {row.label}
                     </p>
                     {copyTargets.length ? (
@@ -308,7 +308,7 @@ export default function Location() {
                         ))}
                       </div>
                     ) : (
-                      <p className="text-[#FAF4E9]/70 text-[15px] font-medium whitespace-pre-line leading-relaxed font-inter">
+                      <p className="text-cream/70 text-[15px] font-medium whitespace-pre-line leading-relaxed font-inter">
                         {row.value}
                       </p>
                     )}
@@ -333,9 +333,9 @@ export default function Location() {
             {/* Booking note */}
             <motion.p
               variants={rowVariants}
-              className="text-[#FAF4E9]/40 text-xs sm:text-sm leading-relaxed border-t border-[#3a2040] pt-4 font-inter"
+              className="text-cream/40 text-xs sm:text-sm leading-relaxed border-t border-plum-border pt-4 font-inter"
             >
-              Walk-ins always welcome. For busy morning sessions book ahead via WhatsApp — classes fill up fast.
+              Walk-ins always welcome. For busy morning sessions book ahead via  — classes fill up fast.
             </motion.p>
           </motion.div>
 

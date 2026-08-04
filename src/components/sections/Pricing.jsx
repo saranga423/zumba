@@ -90,7 +90,7 @@ export default function Pricing() {
       </motion.div>
 
       <p className="text-center text-gray-400 text-sm mt-10">
-        🎉 First class is always free — no card required.{' '}
+         First class is always free — no card required.{' '}
         <a href="#faq" className="text-pink underline">Read our FAQ</a>
       </p>
     </section>

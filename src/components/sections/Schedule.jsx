@@ -4,7 +4,7 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import {
   Clock3, X, Share2, Check, Search, Filter,
-  Calendar, ArrowRight, MapPin, Sparkles, Phone, Mail,
+  Calendar, ArrowRight, MapPin, Sparkles, Mail,
 } from "lucide-react";
 
 // ─── Schedule Data (real) ────────────────────────────────────────────────────
@@ -100,16 +100,10 @@ const CONTACT = {
   phone: "+94703444430",
   phoneDisplay: "+94 70 344 4430",
   email: "hannawaththalage39@gmail.com",
-  whatsappBase: "https://wa.me/94703444430",
 };
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
-function whatsappLink(cls) {
-  const msg = encodeURIComponent(
-    `Hi Hanna! I'd like to join the ${cls.name} class on ${cls.dayFull} (${cls.time}) at ${cls.location}. Please let me know how to reserve my spot.`
-  );
-  return `${CONTACT.whatsappBase}?text=${msg}`;
-}
+
 
 function mailtoLink(cls) {
   const subject = encodeURIComponent(`Booking – ${cls.name} ${cls.dayFull}`);
@@ -242,17 +236,6 @@ function BookModal({ cls, onClose }) {
               <p className="font-body text-sm text-cream/60 leading-relaxed mb-6">
                 Message Hanna directly to confirm your place — she'll get back to you quickly.
               </p>
-
-              {/* WhatsApp CTA */}
-              <a
-                href={whatsappLink(cls)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl bg-lime text-plum font-mono text-xs uppercase tracking-[0.18em] font-bold hover:bg-[#d4f94e] transition-all shadow-lg shadow-[#C8F03C]/20 mb-3"
-              >
-                <Phone size={15} /> WhatsApp Hanna
-              </a>
-
               {/* Email CTA */}
               <a
                 href={mailtoLink(cls)}
