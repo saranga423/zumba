@@ -3,8 +3,8 @@ import { useState } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import {
-  MapPin, Clock, Phone, ParkingSquare,
-  Copy, Check, Navigation, MessageCircle,
+  MapPin, Clock, Mail, ParkingSquare,
+  Copy, Check, Navigation,
   Map as MapIcon, ChevronDown,
 } from 'lucide-react'
 import SectionLabel from '../ui/SectionLabel'
@@ -39,10 +39,10 @@ const contactRows = [
     value: 'Tue & Thu: 9:00 AM – 11:00 AM / 5:00 PM – 7:00 PM\nMon, Wed & Fri: 9:00 AM – 11:00 AM\nSun: 9:00 AM – 11:00 AM',
   },
   {
-    icon:  Phone,
-    label: 'Phone & Email',
-    value: '+94 70 344 4430\nhannawaththalage39@gmail.com',
-    copy:  ['+94703444430', 'hannawaththalage39@gmail.com'],
+    icon:  Mail,
+    label: 'Email',
+    value: 'hannawaththalage39@gmail.com',
+    copy:  ['hannawaththalage39@gmail.com'],
   },
   {
     icon:  ParkingSquare,
@@ -219,7 +219,7 @@ export default function Location() {
                           href={directionsUrl(loc.address)}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-plum bg-[#bg-limer:bg-[#d4f94e] transition-colors px-4 py-2 rounded-xl shadow-md focus-visible:outline-2 focus-visible:outline-lime focus-visible:outline-offset-2"
+                          className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-plum bg-lime hover:bg-[#d4f94e] transition-colors px-4 py-2 rounded-xl shadow-md focus-visible:outline-2 focus-visible:outline-lime focus-visible:outline-offset-2"
                         >
                           <Navigation size={13} strokeWidth={2.5} />
                           Get directions
@@ -317,25 +317,12 @@ export default function Location() {
               )
             })}
 
-            {/* WhatsApp CTA */}
-            <motion.div variants={rowVariants} className="pt-2">
-              <Button
-                variant="whatsapp"
-                href="https://wa.me/94703444430"
-                size="md"
-                className="w-full justify-center inline-flex items-center gap-2 shadow-lg"
-              >
-                <MessageCircle size={18} strokeWidth={2.5} />
-                Chat on WhatsApp
-              </Button>
-            </motion.div>
-
             {/* Booking note */}
             <motion.p
               variants={rowVariants}
               className="text-cream/40 text-xs sm:text-sm leading-relaxed border-t border-plum-border pt-4 font-inter"
             >
-              Walk-ins always welcome. For busy morning sessions book ahead via  — classes fill up fast.
+              Walk-ins always welcome. For busy morning sessions book ahead via email — classes fill up fast.
             </motion.p>
           </motion.div>
 
