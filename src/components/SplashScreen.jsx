@@ -1,228 +1,168 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import zumba90 from '../../public/ZUMBA90.png';
 
-// ─── Timings (ms) ─────────────────────────────────────────────────────────────
-const LOGO_RISE_MS  = 1100;
-const HOLD_MS       = 1600;
-const EXIT_MS       = 800;
-const REDIRECT_MS   = LOGO_RISE_MS + HOLD_MS + EXIT_MS - 150;
-
-// ─── Static particle data ─────────────────────────────────────────────────────
-const PARTICLES = [
-  { id:1,  x:10,  y:72, size:4,  color:'#E23F73', delay:0.2,  dur:3.0 },
-  { id:2,  x:22,  y:80, size:3,  color:'#C8F03C', delay:0.7,  dur:2.6 },
-  { id:3,  x:36,  y:76, size:5,  color:'#FF9736', delay:1.1,  dur:3.2 },
-  { id:4,  x:50,  y:84, size:3,  color:'#E23F73', delay:0.4,  dur:2.8 },
-  { id:5,  x:63,  y:74, size:4,  color:'#C8F03C', delay:0.9,  dur:3.5 },
-  { id:6,  x:76,  y:79, size:6,  color:'#FF9736', delay:0.1,  dur:2.5 },
-  { id:7,  x:88,  y:69, size:3,  color:'#E23F73', delay:1.4,  dur:3.1 },
-  { id:8,  x:6,   y:58, size:4,  color:'#C8F03C', delay:0.6,  dur:2.9 },
-  { id:9,  x:93,  y:62, size:3,  color:'#FF9736', delay:0.5,  dur:3.3 },
-  { id:10, x:44,  y:89, size:4,  color:'#E23F73', delay:1.2,  dur:2.7 },
-  { id:11, x:70,  y:86, size:3,  color:'#C8F03C', delay:0.3,  dur:3.4 },
-  { id:12, x:18,  y:90, size:5,  color:'#FF9736', delay:1.6,  dur:2.6 },
-  { id:13, x:55,  y:68, size:3,  color:'#E23F73', delay:0.8,  dur:3.0 },
-  { id:14, x:82,  y:92, size:4,  color:'#C8F03C', delay:1.0,  dur:2.8 },
-];
-
-function Particle({ x, y, size, color, delay, dur }) {
-  return (
-    <motion.div
-      className="absolute rounded-full pointer-events-none"
-      style={{
-        width: size, height: size,
-        background: color,
-        left: `${x}%`, top: `${y}%`,
-        boxShadow: `0 0 ${size * 2}px ${color}`,
-      }}
-      initial={{ opacity: 0, scale: 0, y: 0 }}
-      animate={{ opacity: [0, 0.9, 0], scale: [0, 1, 0.5], y: -70 }}
-      transition={{ duration: dur, delay, repeat: Infinity, repeatDelay: 0.8, ease: 'easeOut' }}
-    />
-  );
-}
+const DISPLAY_TIME = 3400;
+const EXIT_TIME = 800;
 
 export default function SplashScreen() {
   const navigate = useNavigate();
   const [exiting, setExiting] = useState(false);
 
-  useEffect(() => {
-    const t1 = setTimeout(() => setExiting(true), LOGO_RISE_MS + HOLD_MS);
-    const t2 = setTimeout(() => navigate('/home', { replace: true }), REDIRECT_MS);
-    return () => { clearTimeout(t1); clearTimeout(t2); };
+  const handleSkip = useCallback(() => {
+    setExiting(true);
+    setTimeout(() => navigate('/home', { replace: true }), EXIT_TIME);
   }, [navigate]);
+
+  useEffect(() => {
+    const timer = setTimeout(handleSkip, DISPLAY_TIME);
+    return () => clearTimeout(timer);
+  }, [handleSkip]);
 
   return (
     <AnimatePresence>
       {!exiting && (
         <motion.div
-          key="splash"
-          initial={{ opacity: 1 }}
-          exit={{ opacity: 0, scale: 1.05 }}
-          transition={{ duration: EXIT_MS / 1000, ease: [0.4, 0, 1, 1] }}
-          className="fixed inset-0 z-9999 flex flex-col items-center justify-center overflow-hidden select-none"
-          style={{ background: 'radial-gradient(ellipse at 50% 65%, #3e1448 0%, #2B1330 50%, #180a1c 100%)' }}
+          key="splash-v4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ 
+            opacity: 0, 
+            scale: 0.96, 
+            filter: 'blur(20px) brightness(0.8)' 
+          }}
+          transition={{ duration: EXIT_TIME / 1000, ease: [0.16, 1, 0.3, 1] }}
+          className="fixed inset-0 z-9999 flex flex-col items-center justify-center overflow-hidden bg-[#07030A] select-none"
         >
-          {/* ── floor warm glow ── */}
-          <div className="absolute inset-x-0 bottom-0 h-2/5 pointer-events-none"
-            style={{ background: 'linear-gradient(to top, rgba(226,63,115,0.13) 0%, transparent 100%)' }} />
-
-          {/* ── spotlight cone ── */}
-          <motion.div
-            className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none origin-top"
-            style={{
-              width: 420,
-              height: '68%',
-              background: 'conic-gradient(from 180deg at 50% 0%, transparent 68deg, rgba(255,210,90,0.09) 90deg, transparent 112deg)',
-            }}
-            initial={{ opacity: 0, scaleY: 0.6 }}
-            animate={{ opacity: 1, scaleY: 1 }}
-            transition={{ duration: 1.4, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          />
-
-          {/* ── scanlines ── */}
-          <div className="absolute inset-0 pointer-events-none"
-            style={{
-              opacity: 0.022,
-              backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, #fff 2px, #fff 3px)',
-            }} />
-
-          {/* ── horizontal light streaks ── */}
-          {[
-            { top: '28%', delay: 0.4, colors: 'rgba(200,240,60,0.18), rgba(226,63,115,0.28), rgba(200,240,60,0.18)' },
-            { top: '50%', delay: 0.65, colors: 'rgba(226,63,115,0.12), rgba(255,151,54,0.22), rgba(226,63,115,0.12)' },
-            { top: '70%', delay: 0.85, colors: 'rgba(200,240,60,0.10), rgba(226,63,115,0.18), rgba(200,240,60,0.10)' },
-          ].map(({ top, delay, colors }, i) => (
+          {/* ── 1. AMBIENT FLUID MESH BACKGROUND ── */}
+          <div className="absolute inset-0 pointer-events-none opacity-80">
+            {/* Blob 1 - Vibrant Pink */}
             <motion.div
-              key={i}
-              className="absolute left-0 right-0 h-px pointer-events-none"
-              style={{ top, background: `linear-gradient(90deg, transparent 0%, ${colors} 100%)` }}
-              initial={{ scaleX: 0, opacity: 0 }}
-              animate={{ scaleX: 1, opacity: [0, 1, 0] }}
-              transition={{ duration: 2.0, delay, ease: 'easeInOut' }}
-            />
-          ))}
-
-          {/* ── particles ── */}
-          {PARTICLES.map((p) => <Particle key={p.id} {...p} />)}
-
-          {/* ── pink pulse rings ── */}
-          {[0, 1, 2].map((i) => (
-            <motion.div
-              key={i}
-              className="absolute rounded-full pointer-events-none"
-              initial={{ width: 160, height: 160, opacity: 0.7 }}
-              animate={{ width: 640 + i * 100, height: 640 + i * 100, opacity: 0 }}
-              transition={{ duration: 2.8, delay: 0.5 + i * 0.6, ease: 'easeOut', repeat: Infinity, repeatDelay: 0.2 }}
+              className="absolute -top-1/4 -left-1/4 w-[70vw] h-[70vw] rounded-full"
               style={{
-                top: '50%', left: '50%',
-                transform: 'translate(-50%, -50%)',
-                border: `1px solid rgba(226,63,115,${0.28 - i * 0.07})`,
+                background: 'radial-gradient(circle, rgba(226,63,115,0.45) 0%, transparent 65%)',
+                filter: 'blur(80px)',
               }}
-            />
-          ))}
-
-          {/* ── lime accent ring ── */}
-          <motion.div
-            className="absolute rounded-full pointer-events-none"
-            initial={{ width: 200, height: 200, opacity: 0.5 }}
-            animate={{ width: 520, height: 520, opacity: 0 }}
-            transition={{ duration: 2.2, delay: 1.2, ease: 'easeOut', repeat: Infinity, repeatDelay: 1.0 }}
-            style={{
-              top: '50%', left: '50%',
-              transform: 'translate(-50%, -50%)',
-              border: '1px solid rgba(200,240,60,0.22)',
-            }}
-          />
-
-          {/* ── logo + tagline ── */}
-          <motion.div
-            className="relative z-10 flex flex-col items-center"
-            initial={{ opacity: 0, y: 48, scale: 0.80 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: LOGO_RISE_MS / 1000, ease: [0.22, 1, 0.36, 1] }}
-          >
-            {/* triple-layer glow halo */}
-            <div className="absolute inset-0 -z-10 pointer-events-none">
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
-                style={{ width: 420, height: 420, background: 'radial-gradient(circle, rgba(210,170,30,0.20) 0%, transparent 68%)', filter: 'blur(32px)' }} />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
-                style={{ width: 240, height: 240, background: 'radial-gradient(circle, rgba(226,63,115,0.22) 0%, transparent 72%)', filter: 'blur(22px)' }} />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
-                style={{ width: 160, height: 160, background: 'radial-gradient(circle, rgba(200,240,60,0.14) 0%, transparent 75%)', filter: 'blur(18px)' }} />
-            </div>
-
-            {/* logo */}
-            <motion.img
-              src={zumba90}
-              alt="Zumba with Hanna"
-              className="relative w-52 sm:w-64 md:w-80 drop-shadow-2xl"
-              draggable={false}
               animate={{
-                filter: [
-                  'brightness(1.0) drop-shadow(0 0 0px rgba(226,63,115,0))',
-                  'brightness(1.14) drop-shadow(0 0 28px rgba(226,63,115,0.60))',
-                  'brightness(1.0) drop-shadow(0 0 0px rgba(226,63,115,0))',
-                ],
+                x: [0, 80, -40, 0],
+                y: [0, -60, 40, 0],
+                scale: [1, 1.15, 0.9, 1],
               }}
-              transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }}
+              transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
             />
 
-            {/* tagline with side lines */}
+            {/* Blob 2 - Lime Accent */}
             <motion.div
-              className="flex items-center gap-3 mt-6"
+              className="absolute -bottom-1/4 -right-1/4 w-[65vw] h-[65vw] rounded-full"
+              style={{
+                background: 'radial-gradient(circle, rgba(200,240,60,0.3) 0%, transparent 65%)',
+                filter: 'blur(90px)',
+              }}
+              animate={{
+                x: [0, -70, 50, 0],
+                y: [0, 50, -30, 0],
+                scale: [0.9, 1.1, 1, 0.9],
+              }}
+              transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
+            />
+
+            {/* Blob 3 - Warm Orange Center */}
+            <motion.div
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50vw] h-[50vw] rounded-full"
+              style={{
+                background: 'radial-gradient(circle, rgba(255,151,54,0.25) 0%, transparent 70%)',
+                filter: 'blur(70px)',
+              }}
+              animate={{
+                scale: [0.8, 1.2, 0.8],
+                opacity: [0.3, 0.7, 0.3],
+              }}
+              transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+            />
+          </div>
+
+          {/* Noise Texture Overlay */}
+          <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#fff_1px,transparent_1px)] bg-size-[16px_16px] pointer-events-none" />
+
+          {/* ── 2. FROSTED GLASS HERO CARD ── */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="relative z-10 flex flex-col items-center p-10 sm:p-14 rounded-[2.5rem] bg-white/3 border border-white/10 backdrop-blur-3xl shadow-[0_30px_100px_rgba(0,0,0,0.6)] max-w-md w-[90%]"
+          >
+            {/* Shimmer Border Light */}
+            <motion.div
+              className="absolute -inset-px rounded-[2.5rem] opacity-60 pointer-events-none"
+              style={{
+                background: 'linear-gradient(135deg, rgba(226,63,115,0.6), transparent 40%, rgba(200,240,60,0.6))',
+              }}
+              animate={{ rotate: [0, 360] }}
+              transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
+            />
+
+            {/* Logo Display */}
+            <motion.div
+              className="relative z-10"
+              initial={{ filter: 'blur(10px)', opacity: 0 }}
+              animate={{ filter: 'blur(0px)', opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <motion.img
+                src={zumba90}
+                alt="Zumba with Hanna"
+                className="w-64 sm:w-80 object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.5)]"
+                draggable={false}
+                animate={{ y: [-4, 4, -4] }}
+                transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
+              />
+            </motion.div>
+
+            {/* Minimalist Divider */}
+            <motion.div
+              className="w-12 h-0.5 bg-linear-to-r from-hibiscus to-lime rounded-full my-6"
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ delay: 0.5, duration: 0.6 }}
+            />
+
+            {/* Typography */}
+            <motion.p
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.75, delay: (LOGO_RISE_MS / 1000) * 0.72, ease: 'easeOut' }}
+              transition={{ delay: 0.6, duration: 0.6 }}
+              className="text-[10px] sm:text-[11px] font-mono font-bold tracking-[0.4em] uppercase text-white/70 text-center"
             >
-              <span className="w-8 h-px block"
-                style={{ background: 'linear-gradient(90deg, transparent, rgba(226,63,115,0.6))' }} />
-              <p className="text-[10px] uppercase tracking-[7px] font-black font-mono"
-                style={{ color: 'rgba(250,244,233,0.50)' }}>
-                Dance · Energy · Community
-              </p>
-              <span className="w-8 h-px block"
-                style={{ background: 'linear-gradient(90deg, rgba(200,240,60,0.6), transparent)' }} />
-            </motion.div>
+              Dance <span className="text-hibiscus">•</span> Energy <span className="text-lime">•</span> Community
+            </motion.p>
           </motion.div>
 
-          {/* ── progress bar ── */}
+          {/* ── 3. BOTTOM CONTROLS & TIMELINE ── */}
           <motion.div
-            className="absolute bottom-12 left-1/2 -translate-x-1/2 rounded-full overflow-hidden"
-            style={{ width: 150, height: 2, background: 'rgba(250,244,233,0.07)' }}
+            className="absolute bottom-10 flex flex-col items-center gap-5 z-20"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
+            transition={{ delay: 0.8 }}
           >
-            <motion.div
-              className="h-full rounded-full"
-              style={{ background: 'linear-gradient(90deg, #b8860b, #E23F73 50%, #C8F03C)' }}
-              initial={{ width: '0%' }}
-              animate={{ width: '100%' }}
-              transition={{ duration: (LOGO_RISE_MS + HOLD_MS) / 1000, ease: 'linear' }}
-            />
-            <motion.div
-              className="absolute top-0 bottom-0 w-6 rounded-full pointer-events-none"
-              style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.65), transparent)' }}
-              initial={{ left: '-20%' }}
-              animate={{ left: '110%' }}
-              transition={{ duration: 1.1, repeat: Infinity, ease: 'easeInOut', repeatDelay: 0.3 }}
-            />
+            {/* Glowing Pill Indicator */}
+            <div className="w-24 h-0.75 bg-white/10 rounded-full overflow-hidden">
+              <motion.div
+                className="h-full bg-linear-to-r from-hibiscus via-mango to-lime"
+                initial={{ width: '0%' }}
+                animate={{ width: '100%' }}
+                transition={{ duration: DISPLAY_TIME / 1000, ease: 'easeInOut' }}
+              />
+            </div>
+
+            {/* Skip Action Button */}
+            <button
+              onClick={handleSkip}
+              className="px-6 py-2 rounded-full bg-white/4 hover:bg-white/10 border border-white/10 text-[10px] font-mono tracking-[0.25em] text-white/60 hover:text-white transition-all duration-300 backdrop-blur-md cursor-pointer"
+            >
+              ENTER NOW
+            </button>
           </motion.div>
-
-          {/* ── micro brand label ── */}
-          <motion.p
-            className="absolute bottom-5 left-1/2 -translate-x-1/2 text-[9px] font-mono uppercase tracking-[5px] whitespace-nowrap"
-            style={{ color: 'rgba(250,244,233,0.18)' }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.9 }}
-          >
-            Zumba with Hanna
-          </motion.p>
-
         </motion.div>
       )}
     </AnimatePresence>
