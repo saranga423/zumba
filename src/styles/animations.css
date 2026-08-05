@@ -14,6 +14,20 @@
   animation-play-state: paused;
 }
 
+/* Infinite horizontal scroll — left to right (reverse direction) */
+@keyframes marquee-reverse {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+
+.animate-marquee-reverse {
+  animation: marquee-reverse 25s linear infinite;
+}
+
+.animate-marquee-reverse:hover {
+  animation-play-state: paused;
+}
+
 /* Gentle float — for decorative elements, badges, icons
    NOTE: named `float-soft` (not `float`) because src/index.css already
    defines its own `@keyframes float` with different motion (rotate +
@@ -45,6 +59,7 @@
    loaded on whatever page/bundle pulls this file in. */
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee,
+  .animate-marquee-reverse,
   .animate-float-soft,
   .animate-fade-in-up {
     animation-duration: 0.01ms !important;

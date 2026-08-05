@@ -12,18 +12,24 @@ export default {
         orange: '#FF6B35',
         dark: '#1A1A2E',
       },
+
       fontFamily: {
         bebas: ['"Bebas Neue"', 'sans-serif'],
       },
       keyframes: {
-        pulseSlow: {
-          '0%, 100%': { transform: 'scale(1)', opacity: '0.12' },
-          '50%': { transform: 'scale(1.08)', opacity: '0.2' },
-        },
+        marquee: {
+        "0%":   { transform: "translateX(0%)" },
+        "100%": { transform: "translateX(-50%)" },
+      },
+          "marquee-reverse": {
+        "0%":   { transform: "translateX(-50%)" },
+        "100%": { transform: "translateX(0%)" },
+      },
       },
       animation: {
-        pulseSlow: 'pulseSlow 6s ease-in-out infinite',
-      },
+      "marquee":         "marquee 30s linear infinite",
+      "marquee-reverse": "marquee-reverse 30s linear infinite",
+    },
     },
   },
   plugins: [],

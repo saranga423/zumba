@@ -1,14 +1,15 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 
 // ─── Data ──────────────────────────────────────────────────────────────────
 
 const footerLinks = [
+  { label: "Classes",  href: "#classes" },
   { label: "Schedule", href: "#schedule" },
   { label: "About",    href: "#about" },
   { label: "Gallery",  href: "#gallery" },
   { label: "Contact",  href: "#location" },
   { label: "FAQ",      href: "#faq" },
-  { label: "Privacy Policy", href: "#Privacy" },
 ];
 
 const socials = [
@@ -88,7 +89,6 @@ function SocialIcon({ social, index }) {
         overflow-hidden
       "
     >
-      {/* Animated glow behind icon */}
       <span
         aria-hidden="true"
         className="
@@ -98,8 +98,6 @@ function SocialIcon({ social, index }) {
         "
         style={{ background: social.glowColor }}
       />
-
-      {/* Fill layer for brand colors on hover — driven by inline style per social */}
       <span
         aria-hidden="true"
         className="
@@ -112,7 +110,6 @@ function SocialIcon({ social, index }) {
             : { background: social.hoverBg, borderColor: social.hoverBorder }
         }
       />
-
       <span className="relative z-10">{social.icon}</span>
     </motion.a>
   );
@@ -153,6 +150,89 @@ function BackToTop() {
   );
 }
 
+// ─── NewsletterSignup ───────────────────────────────────────────────────────
+
+function NewsletterSignup() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState("idle"); // idle | success | error
+
+  const handleSubmit = () => {
+    if (!email || !email.includes("@")) {
+      setStatus("error");
+      return;
+    }
+    // TODO: wire up to your email service (Mailchimp, EmailJS, etc.)
+    console.log("Newsletter signup:", email);
+    setStatus("success");
+    setEmail("");
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: 12 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: 0.25 }}
+      className="flex flex-col items-center md:items-start gap-3"
+    >
+      <p className="uppercase tracking-[4px] text-white/25 text-[10px]">
+        Stay in the loop
+      </p>
+      <p className="text-white/40 text-sm leading-relaxed text-center md:text-left max-w-52">
+        Get class updates & new schedule alerts — no spam, ever.
+      </p>
+
+      {status === "success" ? (
+        <motion.p
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-pink text-sm font-medium"
+        >
+          🎉 You're in! See you on the dance floor.
+        </motion.p>
+      ) : (
+        <div className="flex flex-col gap-2 w-full max-w-56">
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              if (status === "error") setStatus("idle");
+            }}
+            placeholder="your@email.com"
+            className="
+              w-full px-3 py-2 rounded-lg text-sm
+              bg-white/5 border border-white/15
+              text-white placeholder-white/25
+              focus:outline-none focus:border-pink/50 focus:bg-white/8
+              transition-all duration-200
+            "
+          />
+          {status === "error" && (
+            <p className="text-pink/70 text-xs">Please enter a valid email.</p>
+          )}
+          <motion.button
+            onClick={handleSubmit}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.97 }}
+            className="
+              w-full py-2 rounded-lg text-sm font-semibold
+              text-white tracking-wide
+              transition-all duration-200
+              focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-pink
+            "
+            style={{
+              background: "linear-gradient(to right, #ec4899, #f97316)",
+            }}
+          >
+            Notify Me
+          </motion.button>
+        </div>
+      )}
+    </motion.div>
+  );
+}
+
 // ─── Footer ────────────────────────────────────────────────────────────────
 
 export default function Footer() {
@@ -187,16 +267,15 @@ export default function Footer() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="relative z-10 max-w-5xl mx-auto"
+        className="relative z-10 max-w-6xl mx-auto"
       >
-        {/* ── Tagline block — the visual anchor ── */}
+        {/* ── Tagline block ── */}
         <div className="text-center mb-12">
           <p className="font-times text-3xl sm:text-4xl text-white/80 tracking-wide mb-1">
             Dance.{" "}
             <span className="text-pink">Sweat.</span>{" "}
             Repeat.
           </p>
-          {/* Gradient rule that echoes the brand palette */}
           <div
             aria-hidden="true"
             className="mx-auto mt-4 h-px w-24 rounded-full"
@@ -206,8 +285,8 @@ export default function Footer() {
           />
         </div>
 
-        {/* ── Three-column layout ── */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 items-start mb-14">
+        {/* ── Four-column layout ── */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 items-start mb-14">
 
           {/* Col 1 — Brand identity */}
           <motion.div
@@ -218,7 +297,7 @@ export default function Footer() {
             className="flex flex-col items-center md:items-start gap-3"
           >
             <p className="uppercase tracking-[5px] text-pink text-[11px] font-semibold">
-              ZumbaFit Studio
+              ZUMBA with HANNA
             </p>
             <p className="text-white/40 text-sm leading-relaxed text-center md:text-left max-w-55">
               Sri Lanka's vibrant Zumba community — every beat, every move, every class.
@@ -226,13 +305,13 @@ export default function Footer() {
           </motion.div>
 
           {/* Col 2 — Navigation */}
-          <nav aria-label="Footer navigation" className="flex justify-center">
+          <nav aria-label="Footer navigation" className="flex justify-center md:justify-start">
             <motion.ul
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.15 }}
-              className="flex flex-col items-center gap-2.5 list-none"
+              className="flex flex-col items-center md:items-start gap-2.5 list-none"
             >
               {footerLinks.map((l) => (
                 <li key={l.href}>
@@ -258,22 +337,25 @@ export default function Footer() {
 
           {/* Col 3 — Socials + back-to-top */}
           <motion.div
-            initial={{ opacity: 0, x: 12 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex flex-col items-center md:items-end gap-5"
+            className="flex flex-col items-center md:items-start gap-5"
           >
             <p className="uppercase tracking-[4px] text-white/25 text-[10px]">
               Follow along
             </p>
-            <div className="flex gap-3">
+            <div className="flex gap-3 flex-wrap">
               {socials.map((s, i) => (
                 <SocialIcon key={s.label} social={s} index={i} />
               ))}
             </div>
             <BackToTop />
           </motion.div>
+
+          {/* Col 4 — Newsletter */}
+          <NewsletterSignup />
 
         </div>
 
@@ -286,7 +368,6 @@ export default function Footer() {
             © {new Date().getFullYear()} ZUMBA with HANNA. All rights reserved.
             <br className="sm:hidden" />
             <span className="hidden sm:inline"> · </span>
-            ZUMBA® is a registered trademark of Zumba Fitness, LLC.
             ZUMBA with HANNA is independently owned and operated.
           </p>
         </div>

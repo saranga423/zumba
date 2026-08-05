@@ -110,3 +110,11 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+@keyframes marquee-reverse {
+  0%   { transform: translateX(-50%); }
+  100% { transform: translateX(0%); }
+}
+.animate-marquee-reverse {
+  animation: marquee-reverse 30s linear infinite;
+}
