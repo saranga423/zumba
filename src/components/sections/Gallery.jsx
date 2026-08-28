@@ -119,10 +119,10 @@ function ReelCard({ item, onOpen, isLiked, onToggleLike }) {
       />
 
       <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-black/10" />
-      <div className="absolute inset-0 bg-linear-to-br from-[#E23F73]/10 via-transparent to-[#C8F03C]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <div className="absolute inset-0 bg-linear-to-br from-hibiscus/10 via-transparent to-[#C8F03C]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
       <div className="absolute top-3 left-3 flex items-center gap-1.5 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">
-        <span className={`w-1.5 h-1.5 rounded-full ${playing ? 'bg-[#E23F73] animate-pulse' : 'bg-white/30'}`} />
+        <span className={`w-1.5 h-1.5 rounded-full ${playing ? 'bg-hibiscus animate-pulse' : 'bg-white/30'}`} />
         <span className="text-[8px] font-mono uppercase tracking-[0.15em] text-white/70">Reel</span>
       </div>
 
@@ -174,7 +174,7 @@ function ReelCard({ item, onOpen, isLiked, onToggleLike }) {
         type="button"
         onClick={() => onOpen(item.id)}
         aria-label={`View ${item.alt}`}
-        className="absolute inset-0 focus-visible:outline-2 focus-visible:outline-[#C8F03C]"
+        className="absolute inset-0 focus-visible:outline-2 focus-visible:outline-lime"
       />
     </motion.div>
   );
@@ -232,7 +232,7 @@ function PhotoCard({ item, onOpen, isLiked, onToggleLike, delay = 0 }) {
         type="button"
         onClick={() => onOpen(item.id)}
         aria-label={`View ${item.alt}`}
-        className="absolute inset-0 focus-visible:outline-2 focus-visible:outline-[#C8F03C]"
+        className="absolute inset-0 focus-visible:outline-2 focus-visible:outline-lime"
       />
     </motion.div>
   );

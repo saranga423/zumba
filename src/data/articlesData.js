@@ -1,11 +1,11 @@
 // src/data/articlesData.js
 
 export const categoryColors = {
-  Zumba: { bg: "#E23F73", text: "#FAF4E9" }, // hibiscus
-  Nutrition: { bg: "#FF9736", text: "#2B1330" }, // mango
-  Fitness: { bg: "#C8F03C", text: "#2B1330" }, // lime
-  Wellness: { bg: "#2B1330", text: "#FAF4E9" }, // plum
-  Lifestyle: { bg: "#FAF4E9", text: "#2B1330" }, // cream
+  Zumba:     { bg: "#E23F73", text: "#FAF4E9" }, // hibiscus
+  Nutrition:  { bg: "#FF9736", text: "#2B1330" }, // mango
+  Fitness:    { bg: "#C8F03C", text: "#2B1330" }, // lime
+  Wellness:   { bg: "#2B1330", text: "#FAF4E9" }, // plum
+  Lifestyle:  { bg: "#FAF4E9", text: "#2B1330" }, // cream
 };
 
 const articles = [
@@ -20,6 +20,7 @@ const articles = [
     image: null,
     slug: "why-zumba-you-will-stick-to",
     featured: true,
+    tags: ["motivation", "science", "beginners"],
     content: [
       {
         type: "paragraph",
@@ -39,7 +40,7 @@ const articles = [
       },
       {
         type: "heading",
-        text: "Key Factors That Driving Long-Term Adherence"
+        text: "Key Factors That Drive Long-Term Adherence"
       },
       {
         type: "list",
@@ -68,6 +69,7 @@ const articles = [
     image: null,
     slug: "what-to-eat-before-after-zumba",
     featured: false,
+    tags: ["pre-workout", "post-workout", "hydration"],
     content: [
       {
         type: "paragraph",
@@ -119,6 +121,7 @@ const articles = [
     image: null,
     slug: "5-full-body-moves-at-home",
     featured: false,
+    tags: ["home workout", "no equipment", "strength"],
     content: [
       {
         type: "paragraph",
@@ -185,6 +188,7 @@ const articles = [
     image: null,
     slug: "dancing-changed-my-relationship-with-body",
     featured: false,
+    tags: ["body positivity", "mindset", "personal"],
     content: [
       {
         type: "paragraph",
@@ -228,6 +232,7 @@ const articles = [
     image: null,
     slug: "meal-prep-for-busy-class-days",
     featured: false,
+    tags: ["meal prep", "time-saving", "recovery"],
     content: [
       {
         type: "paragraph",
@@ -267,6 +272,7 @@ const articles = [
     image: null,
     slug: "beginners-guide-first-zumba-class",
     featured: false,
+    tags: ["beginners", "first class", "tips"],
     content: [
       {
         type: "paragraph",
@@ -317,6 +323,7 @@ const articles = [
     image: null,
     slug: "mental-health-benefits-dance-exercise",
     featured: false,
+    tags: ["mental health", "stress relief", "science"],
     content: [
       {
         type: "paragraph",
@@ -360,6 +367,7 @@ const articles = [
     image: null,
     slug: "sustainable-fitness-routine-zumba",
     featured: false,
+    tags: ["habits", "consistency", "mindset"],
     content: [
       {
         type: "paragraph",
@@ -395,6 +403,7 @@ const articles = [
     image: null,
     slug: "latin-rhythms-behind-zumba-music",
     featured: false,
+    tags: ["music", "dance styles", "culture"],
     content: [
       {
         type: "paragraph",
