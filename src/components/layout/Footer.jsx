@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import { motion } from "framer-motion";
 
 // ─── Data ──────────────────────────────────────────────────────────────────
@@ -43,6 +43,7 @@ const socials = [
     glowColor: "rgba(214,36,159,0.45)",
     hoverGradient:
       "radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%)",
+    hoverBorder: "transparent",
     icon: (
       <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5" aria-hidden="true">
         <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.31.975.975 1.248 2.242 1.31 3.608.058 1.266.069 1.645.069 4.849s-.012 3.584-.07 4.85c-.062 1.366-.334 2.633-1.31 3.608-.975.975-2.242 1.248-3.608 1.31-1.266.058-1.645.069-4.849.069s-3.584-.012-4.85-.07c-1.366-.062-2.633-.334-3.608-1.31-.975-.975-1.248-2.242-1.31-3.608C2.175 15.747 2.163 15.368 2.163 12s.012-3.584.07-4.85c.062-1.366.334-2.633 1.31-3.608C4.518 2.497 5.785 2.225 7.151 2.163 8.417 2.105 8.796 2.163 12 2.163zm0-2.163C8.741 0 8.332.013 7.052.072 5.775.132 4.602.443 3.678 1.367c-.924.924-1.235 2.097-1.295 3.375C3.013 8.332 3 8.741 3 12s.013 3.668.072 4.948c.06 1.278.371 2.451 1.295 3.375s2.097 1.235 3.375 1.295C8.332 20.987 8.741 21 12 21s3.668-.013 4.948-.072c1.278-.06 2.451-.371 3.375-1.295s1.235-2.097 1.295-3.375C20.987 15.668 21 15.259 21 12s-.013-3.668-.072-4.948c-.06-1.278-.371-2.451-1.295-3.375s-2.097-1.235-3.375-1.295C15.668.013 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324A6.162 6.162 0 0 0 12 5.838zm0 10.162a3.999 3.999 0 1 1 0-7.998A3.999 3.999 0 0 1 12 16zm6.406-11.845a1.44 1.44 0 1 0-2.881-.001A1.44 1.44 0 0 0 18.406 4z" />
@@ -63,12 +64,15 @@ const socials = [
   },
 ];
 
+// Shared, visible keyboard-focus ring for every interactive element in the footer.
+const FOCUS_RING =
+  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow";
+
 // ─── SocialIcon ────────────────────────────────────────────────────────────
 
 function SocialIcon({ social, index }) {
   return (
     <motion.a
-      key={social.label}
       href={social.href}
       target={social.href.startsWith("mailto") ? undefined : "_blank"}
       rel="noopener noreferrer"
@@ -79,16 +83,22 @@ function SocialIcon({ social, index }) {
       transition={{ duration: 0.4, delay: index * 0.07 }}
       whileHover={{ scale: 1.15, y: -3 }}
       whileTap={{ scale: 0.92 }}
-      style={{ "--glow": social.glowColor }}
-      className="
+      style={{
+        "--glow": social.glowColor,
+        "--hover-border": social.hoverBorder || "transparent",
+      }}
+      className={`
         group relative w-11 h-11 rounded-full
         border border-white/20
         flex items-center justify-center
         text-white transition-all duration-250
-        focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-yellow
+        group-hover:border-(--hover-border)
+        hover:border-(--hover-border)
         overflow-hidden
-      "
+        ${FOCUS_RING}
+      `}
     >
+      {/* Blurred ambient glow behind the icon */}
       <span
         aria-hidden="true"
         className="
@@ -96,8 +106,10 @@ function SocialIcon({ social, index }) {
           group-hover:opacity-100 transition-opacity duration-300
           blur-md scale-110
         "
-        style={{ background: social.glowColor }}
+        style={{ background: "var(--glow)" }}
       />
+
+      {/* Solid or gradient fill that swaps in on hover */}
       <span
         aria-hidden="true"
         className="
@@ -107,9 +119,10 @@ function SocialIcon({ social, index }) {
         style={
           social.hoverGradient
             ? { background: social.hoverGradient }
-            : { background: social.hoverBg, borderColor: social.hoverBorder }
+            : { background: social.hoverBg }
         }
       />
+
       <span className="relative z-10">{social.icon}</span>
     </motion.a>
   );
@@ -120,17 +133,18 @@ function SocialIcon({ social, index }) {
 function BackToTop() {
   return (
     <motion.button
+      type="button"
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       aria-label="Back to top"
       whileHover={{ y: -3 }}
       whileTap={{ scale: 0.92 }}
-      className="
+      className={`
         group flex flex-col items-center gap-1.5
         text-white/30 hover:text-yellow
         transition-colors duration-200
-        focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-yellow
         rounded
-      "
+        ${FOCUS_RING}
+      `}
     >
       <span
         aria-hidden="true"
@@ -153,14 +167,18 @@ function BackToTop() {
 // ─── NewsletterSignup ───────────────────────────────────────────────────────
 
 function NewsletterSignup() {
+  const inputId = useId();
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("idle"); // idle | success | error
 
-  const handleSubmit = () => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
     if (!email || !email.includes("@")) {
       setStatus("error");
       return;
     }
+
     // TODO: wire up to your email service (Mailchimp, EmailJS, etc.)
     console.log("Newsletter signup:", email);
     setStatus("success");
@@ -182,53 +200,73 @@ function NewsletterSignup() {
         Get class updates & new schedule alerts — no spam, ever.
       </p>
 
-      {status === "success" ? (
-        <motion.p
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-pink text-sm font-medium"
-        >
-          🎉 You're in! See you on the dance floor.
-        </motion.p>
-      ) : (
-        <div className="flex flex-col gap-2 w-full max-w-56">
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-              if (status === "error") setStatus("idle");
-            }}
-            placeholder="your@email.com"
-            className="
-              w-full px-3 py-2 rounded-lg text-sm
-              bg-white/5 border border-white/15
-              text-white placeholder-white/25
-              focus:outline-none focus:border-pink/50 focus:bg-white/8
-              transition-all duration-200
-            "
-          />
-          {status === "error" && (
-            <p className="text-pink/70 text-xs">Please enter a valid email.</p>
-          )}
-          <motion.button
-            onClick={handleSubmit}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.97 }}
-            className="
-              w-full py-2 rounded-lg text-sm font-semibold
-              text-white tracking-wide
-              transition-all duration-200
-              focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-pink
-            "
-            style={{
-              background: "linear-gradient(to right, #ec4899, #f97316)",
-            }}
+      <div aria-live="polite">
+        {status === "success" ? (
+          <motion.p
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-pink text-sm font-medium"
           >
-            Notify Me
-          </motion.button>
-        </div>
-      )}
+            🎉 You're in! See you on the dance floor.
+          </motion.p>
+        ) : (
+          <form
+            onSubmit={handleSubmit}
+            noValidate
+            className="flex flex-col gap-2 w-full max-w-56"
+          >
+            <label htmlFor={inputId} className="sr-only">
+              Email address
+            </label>
+
+            <input
+              id={inputId}
+              type="email"
+              name="email"
+              autoComplete="email"
+              inputMode="email"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                if (status === "error") setStatus("idle");
+              }}
+              aria-invalid={status === "error"}
+              aria-describedby={status === "error" ? `${inputId}-error` : undefined}
+              placeholder="your@email.com"
+              className="
+                w-full px-3 py-2 rounded-lg text-sm
+                bg-white/5 border border-white/15
+                text-white placeholder-white/25
+                focus:outline-none focus:border-pink/50 focus:bg-white/8
+                transition-all duration-200
+              "
+            />
+
+            {status === "error" && (
+              <p id={`${inputId}-error`} className="text-pink/70 text-xs">
+                Please enter a valid email.
+              </p>
+            )}
+
+            <motion.button
+              type="submit"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.97 }}
+              className={`
+                w-full py-2 rounded-lg text-sm font-semibold
+                text-white tracking-wide
+                transition-all duration-200
+                ${FOCUS_RING}
+              `}
+              style={{
+                background: "linear-gradient(to right, #ec4899, #f97316)",
+              }}
+            >
+              Notify Me
+            </motion.button>
+          </form>
+        )}
+      </div>
     </motion.div>
   );
 }
@@ -317,16 +355,16 @@ export default function Footer() {
                 <li key={l.href}>
                   <a
                     href={l.href}
-                    className="
+                    className={`
                       relative text-white/45 hover:text-yellow text-sm
                       transition-colors duration-200
                       after:content-[''] after:absolute after:left-0 after:-bottom-0.5
                       after:w-0 after:h-px after:bg-yellow
                       after:transition-[width] after:duration-300
                       hover:after:w-full
-                      focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-yellow
                       rounded-sm
-                    "
+                      ${FOCUS_RING}
+                    `}
                   >
                     {l.label}
                   </a>
@@ -361,14 +399,15 @@ export default function Footer() {
 
         {/* ── Bottom bar ── */}
         <div
-          className="border-t pt-6 text-center"
+          className="border-t pt-6 flex flex-col sm:flex-row sm:justify-center sm:items-center gap-1 sm:gap-2 text-center"
           style={{ borderColor: "rgba(255,255,255,0.08)" }}
         >
-          <p className="text-white/25 text-xs leading-relaxed">
+          <p className="text-white/25 text-xs">
             © {new Date().getFullYear()} ZUMBA with HANNA. All rights reserved.
-            <br className="sm:hidden" />
-            <span className="hidden sm:inline"> · </span>
-            ZUMBA with HANNA is independently owned and operated.
+          </p>
+          <span className="hidden sm:inline text-white/15 text-xs">·</span>
+          <p className="text-white/25 text-xs">
+            Independently owned and operated.
           </p>
         </div>
 

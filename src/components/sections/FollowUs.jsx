@@ -1,8 +1,8 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, forwardRef } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { QRCodeSVG } from "qrcode.react";
 import { FaInstagram, FaTiktok, FaYoutube, FaFacebook } from "react-icons/fa";
-import { HiOutlineClipboardCopy, HiCheck } from "react-icons/hi";
+import { HiOutlineClipboardCopy, HiCheck, HiOutlineDownload } from "react-icons/hi";
 
 // ─── Brand Tokens ─────────────────────────────────────────────────────────────
 // cream: #FAF4E9  hibiscus: #E23F73  mango: #FF9736  plum: #2B1330  lime: #C8F03C
@@ -21,7 +21,7 @@ const SOCIAL_LINKS = [
   },
   {
     id: "youtube", label: "YouTube", icon: FaYoutube, color: "#FF9736",
-    href: "https://www.youtube.com/@hannawaththalage",
+    href: "https://youtube.com/@hannawaththalage-y3z?si=k1NT_HDupzC0wLbi",
   },
   {
     id: "facebook", label: "Facebook", icon: FaFacebook, color: "#4F9EF8",
@@ -37,6 +37,45 @@ const DEFAULT_STATS = [
 ];
 
 const ease = [0.16, 1, 0.3, 1];
+
+// ─── QR export helper ─────────────────────────────────────────────────────────
+// Renders the on-screen QR <svg> to a higher-resolution PNG so "Save QR" gives
+// people something print- or story-quality, not a 190px screenshot.
+async function downloadQRCode(svgElement, filename) {
+  if (!svgElement) return;
+
+  const serializer = new XMLSerializer();
+  const svgString = serializer.serializeToString(svgElement);
+  const svgBlob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
+  const url = URL.createObjectURL(svgBlob);
+
+  try {
+    const image = new Image();
+    const exportSize = 800;
+
+    await new Promise((resolve, reject) => {
+      image.onload = resolve;
+      image.onerror = reject;
+      image.src = url;
+    });
+
+    const canvas = document.createElement("canvas");
+    canvas.width = exportSize;
+    canvas.height = exportSize;
+
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#FAF4E9";
+    ctx.fillRect(0, 0, exportSize, exportSize);
+    ctx.drawImage(image, 0, 0, exportSize, exportSize);
+
+    const link = document.createElement("a");
+    link.href = canvas.toDataURL("image/png");
+    link.download = filename;
+    link.click();
+  } finally {
+    URL.revokeObjectURL(url);
+  }
+}
 
 // ─── CopyButton ───────────────────────────────────────────────────────────────
 function CopyButton({ text }) {
@@ -55,6 +94,7 @@ function CopyButton({ text }) {
 
   return (
     <button
+      type="button"
       onClick={handleCopy}
       aria-label={copied ? "Copied!" : `Copy ${text} to clipboard`}
       className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold border border-lime/40 text-lime hover:bg-lime/10 transition-all duration-200 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-lime"
@@ -67,6 +107,38 @@ function CopyButton({ text }) {
         ) : (
           <motion.span key="copy" initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.5, opacity: 0 }} transition={{ duration: 0.2, ease }} className="flex items-center gap-1">
             <HiOutlineClipboardCopy size={14} />Copy
+          </motion.span>
+        )}
+      </AnimatePresence>
+    </button>
+  );
+}
+
+// ─── DownloadButton ───────────────────────────────────────────────────────────
+function DownloadButton({ onDownload }) {
+  const [saved, setSaved] = useState(false);
+
+  const handleClick = async () => {
+    await onDownload();
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={handleClick}
+      aria-label={saved ? "QR code saved" : "Save QR code as an image"}
+      className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold border border-mango/40 text-mango hover:bg-mango/10 transition-all duration-200 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-mango"
+    >
+      <AnimatePresence mode="wait" initial={false}>
+        {saved ? (
+          <motion.span key="saved" initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.5, opacity: 0 }} transition={{ duration: 0.2, ease }} className="flex items-center gap-1">
+            <HiCheck size={14} /><span>Saved!</span>
+          </motion.span>
+        ) : (
+          <motion.span key="save" initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.5, opacity: 0 }} transition={{ duration: 0.2, ease }} className="flex items-center gap-1">
+            <HiOutlineDownload size={14} />Save QR
           </motion.span>
         )}
       </AnimatePresence>
@@ -88,7 +160,7 @@ function EditableStat({ stat, onChange }) {
           aria-label={`Edit ${stat.label} value`}
         />
       ) : (
-        <button onClick={() => setEditing("value")} title="Click to edit"
+        <button type="button" onClick={() => setEditing("value")} title="Click to edit"
           className="text-2xl font-black tracking-tight leading-none text-lime hover:opacity-70 transition-opacity cursor-text">
           {stat.value}
         </button>
@@ -101,7 +173,7 @@ function EditableStat({ stat, onChange }) {
           aria-label={`Edit ${stat.label} label`}
         />
       ) : (
-        <button onClick={() => setEditing("label")} title="Click to edit label"
+        <button type="button" onClick={() => setEditing("label")} title="Click to edit label"
           className="text-[10px] uppercase tracking-widest text-cream/50 font-semibold mt-1.5 hover:text-mango transition-colors cursor-text">
           {stat.label}
         </button>
@@ -143,11 +215,24 @@ function PulseRings({ color = "#FF9736", count = 3 }) {
 }
 
 // ─── SocialCard ───────────────────────────────────────────────────────────────
-function SocialCard({ social, isActive, onClick }) {
+// Behaves as a tab in a vertical tablist: only the active card sits in the
+// natural tab order, and Arrow Up/Down/Left/Right roam and select between
+// the rest — the standard keyboard pattern for a set of mutually-exclusive
+// options, not just a row of independent buttons.
+const SocialCard = forwardRef(function SocialCard(
+  { social, isActive, onClick, onKeyDown },
+  ref
+) {
   const Icon = social.icon;
   return (
-    <motion.button onClick={onClick} aria-pressed={isActive}
-      aria-label={`${social.label}${isActive ? " (active)" : ""}`}
+    <motion.button
+      ref={ref}
+      role="tab"
+      aria-selected={isActive}
+      tabIndex={isActive ? 0 : -1}
+      onClick={onClick}
+      onKeyDown={onKeyDown}
+      aria-label={social.label}
       whileHover={{ y: -3 }} whileTap={{ scale: 0.97 }}
       transition={{ duration: 0.22, ease }}
       className="w-full text-left flex items-center gap-3 px-4 py-3.5 rounded-2xl border transition-all duration-300 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-lime"
@@ -175,11 +260,12 @@ function SocialCard({ social, isActive, onClick }) {
       </AnimatePresence>
     </motion.button>
   );
-}
+});
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 export default function FollowUs() {
   const qrRef = useRef(null);
+  const cardRefs = useRef([]);
   const shouldReduceMotion = useReducedMotion();
   const [stats, setStats] = useState(DEFAULT_STATS);
   const [activeSocial, setActiveSocial] = useState("instagram");
@@ -187,6 +273,32 @@ export default function FollowUs() {
   const active    = SOCIAL_LINKS.find(s => s.id === activeSocial) ?? SOCIAL_LINKS[0];
   const qrTarget  = active.href;
   const qrLabel   = active.label;
+
+  const handleCardKeyDown = useCallback((event, index) => {
+    const lastIndex = SOCIAL_LINKS.length - 1;
+    let nextIndex = null;
+
+    if (event.key === "ArrowDown" || event.key === "ArrowRight") {
+      nextIndex = index === lastIndex ? 0 : index + 1;
+    } else if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
+      nextIndex = index === 0 ? lastIndex : index - 1;
+    } else if (event.key === "Home") {
+      nextIndex = 0;
+    } else if (event.key === "End") {
+      nextIndex = lastIndex;
+    }
+
+    if (nextIndex !== null) {
+      event.preventDefault();
+      setActiveSocial(SOCIAL_LINKS[nextIndex].id);
+      cardRefs.current[nextIndex]?.focus();
+    }
+  }, []);
+
+  const handleDownloadQR = useCallback(async () => {
+    const svg = qrRef.current?.querySelector("svg");
+    await downloadQRCode(svg, `zumba-with-hanna-${activeSocial}-qr.png`);
+  }, [activeSocial]);
 
   const container = {
     hidden: {},
@@ -261,11 +373,18 @@ export default function FollowUs() {
                   </motion.div>
                 </AnimatePresence>
 
-                {/* QR code */}
-                <div ref={qrRef}
-                  className="relative group p-4 rounded-2xl shadow-inner"
+                {/* QR code — the whole tile is a real link now, not just a
+                    hover-only overlay, so it also works for anyone tapping
+                    on their own phone rather than scanning with a second
+                    device. */}
+                <a
+                  ref={qrRef}
+                  href={qrTarget}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Open ${active.label} in a new tab, or scan this code with another device`}
+                  className="relative group block p-4 rounded-2xl shadow-inner focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-lime"
                   style={{ background: "#FAF4E9" }}
-                  aria-label={`QR code linking to ${active.label} profile`}
                 >
                   <AnimatePresence mode="wait">
                     <motion.div key={activeSocial}
@@ -274,19 +393,20 @@ export default function FollowUs() {
                       <QRCodeSVG value={qrTarget} size={190} bgColor="#FAF4E9" fgColor="#2B1330" level="H" includeMargin={false} />
                     </motion.div>
                   </AnimatePresence>
-                  {/* Hover overlay */}
-                  <div aria-hidden="true"
-                    className="absolute inset-0 flex items-center justify-center rounded-2xl backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300"
+
+                  {/* Hover / keyboard-focus affordance (decorative — the
+                      whole tile is already the link) */}
+                  <span aria-hidden="true"
+                    className="absolute inset-0 flex items-center justify-center rounded-2xl backdrop-blur-sm opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-all duration-300"
                     style={{ background: "#2B1330CC" }}>
-                    <a href={qrTarget} target="_blank" rel="noopener noreferrer" tabIndex={-1}
-                      className="text-xs font-black uppercase tracking-widest px-4 py-2 rounded-xl shadow-lg hover:opacity-80 transition-opacity"
+                    <span className="text-xs font-black uppercase tracking-widest px-4 py-2 rounded-xl shadow-lg"
                       style={{ background: active.color, color: "#FAF4E9" }}>
                       Open {qrLabel}
-                    </a>
-                  </div>
-                </div>
+                    </span>
+                  </span>
+                </a>
 
-                {/* Handle + copy */}
+                {/* Handle + copy + save */}
                 <div className="flex flex-col sm:flex-row items-center gap-3 px-5 py-3 rounded-2xl border w-full justify-center"
                   style={{ background: "#FAF4E908", borderColor: "#FAF4E915" }}>
                   <a href={qrTarget} target="_blank" rel="noopener noreferrer"
@@ -300,10 +420,12 @@ export default function FollowUs() {
                   </a>
                   <div className="hidden sm:block h-4 w-px bg-cream/20" />
                   <CopyButton text={HANDLE} />
+                  <div className="hidden sm:block h-4 w-px bg-cream/20" />
+                  <DownloadButton onDownload={handleDownloadQR} />
                 </div>
 
                 <p className="text-[11px] text-cream/25 tracking-wider text-center font-mono">
-                  Scan to open · {active.label}
+                  Tap to open, or scan with another device · {active.label}
                 </p>
               </div>
             </div>
@@ -314,17 +436,29 @@ export default function FollowUs() {
             whileInView="show" viewport={{ once: true }}
             className="flex flex-col gap-4"
           >
-            <motion.p variants={item}
+            <motion.p variants={item} id="platform-tablist-label"
               className="text-[10px] font-bold uppercase tracking-widest text-cream/30 font-mono">
               Choose a platform
             </motion.p>
 
-            {SOCIAL_LINKS.map(social => (
-              <motion.div key={social.id} variants={item}>
-                <SocialCard social={social} isActive={activeSocial === social.id}
-                  onClick={() => setActiveSocial(social.id)} />
-              </motion.div>
-            ))}
+            <div
+              role="tablist"
+              aria-labelledby="platform-tablist-label"
+              aria-orientation="vertical"
+              className="flex flex-col gap-4"
+            >
+              {SOCIAL_LINKS.map((social, i) => (
+                <motion.div key={social.id} variants={item}>
+                  <SocialCard
+                    ref={el => (cardRefs.current[i] = el)}
+                    social={social}
+                    isActive={activeSocial === social.id}
+                    onClick={() => setActiveSocial(social.id)}
+                    onKeyDown={e => handleCardKeyDown(e, i)}
+                  />
+                </motion.div>
+              ))}
+            </div>
 
             <motion.div variants={item} className="pt-2">
               <p className="text-[10px] font-bold uppercase tracking-widest text-cream/30 mb-3 font-mono">

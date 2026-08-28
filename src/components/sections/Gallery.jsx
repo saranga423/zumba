@@ -119,7 +119,7 @@ function ReelCard({ item, onOpen, isLiked, onToggleLike }) {
       />
 
       <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-black/10" />
-      <div className="absolute inset-0 bg-linear-to-br from-hibiscus/10 via-transparent to-[#C8F03C]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <div className="absolute inset-0 bg-linear-to-br from-hibiscus/10 via-transparent to-lime/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
       <div className="absolute top-3 left-3 flex items-center gap-1.5 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">
         <span className={`w-1.5 h-1.5 rounded-full ${playing ? 'bg-hibiscus animate-pulse' : 'bg-white/30'}`} />
@@ -282,7 +282,7 @@ function Lightbox({ items, activeId, onClose, onNavigate, likedIds, onToggleLike
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="absolute top-5 right-5 z-30 w-11 h-11 rounded-full flex items-center justify-center text-white bg-white/10 border border-white/15 hover:bg-[#E23F73] transition-colors"
+            className="absolute top-5 right-5 z-30 w-11 h-11 rounded-full flex items-center justify-center text-white bg-white/10 border border-white/15 hover:bg-hibiscus transition-colors"
           >
             <X size={20} />
           </button>
@@ -421,9 +421,9 @@ export default function Gallery() {
   const col3 = useMemo(() => photos.filter((_, i) => i % 3 === 2), [photos]);
 
   return (
-    <section id="gallery" className="relative min-h-screen py-24 bg-[#0e0516] text-[#FAF4E9] overflow-hidden">
+    <section id="gallery" className="relative min-h-screen py-24 bg-[#0e0516] text-cream overflow-hidden">
       {/* Background Decor */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] pointer-events-none rounded-full blur-[160px] bg-[#E23F73]/10" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-200 h-100 pointer-events-none rounded-full blur-[160px] bg-hibiscus/10" />
 
       {/* Header */}
       <div ref={headerRef} className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 mb-12">
@@ -438,7 +438,7 @@ export default function Gallery() {
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={headerInView ? { opacity: 1, y: 0 } : {}}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest text-[#C8F03C] bg-[#C8F03C]/10 border border-[#C8F03C]/20 mb-4"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest text-lime bg-lime/10 border border-lime/20 mb-4"
           >
             <Sparkles size={11} /> Studio Gallery
           </motion.div>
@@ -448,7 +448,7 @@ export default function Gallery() {
             animate={headerInView ? { opacity: 1, y: 0 } : {}}
             className="text-5xl sm:text-7xl font-extrabold tracking-tight mb-4"
           >
-            REAL CLASSES, <span className="bg-linear-to-r from-[#E23F73] via-[#FF9736] to-[#C8F03C] bg-clip-text text-transparent">REAL ENERGY</span>
+            REAL CLASSES, <span className="bg-linear-to-r from-hibiscus via-mango to-lime bg-clip-text text-transparent">REAL ENERGY</span>
           </motion.h1>
 
           <p className="max-w-md mx-auto text-white/50 text-sm sm:text-base">
@@ -468,7 +468,7 @@ export default function Gallery() {
                 onClick={() => { setActiveCategory(cat); setActiveId(null); }}
                 className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap ${
                   active
-                    ? 'bg-linear-to-r from-[#E23F73] to-[#FF9736] text-white shadow-lg'
+                    ? 'bg-linear-to-r from-hibiscus to-mango text-white shadow-lg'
                     : 'bg-white/5 text-white/60 border border-white/10 hover:bg-white/10 hover:text-white'
                 }`}
               >
@@ -484,7 +484,7 @@ export default function Gallery() {
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 mb-16">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
-              <Film size={18} className="text-[#E23F73]" />
+              <Film size={18} className="text-hibiscus" />
               <span className="font-extrabold text-sm uppercase tracking-widest">Reels</span>
               <span className="text-white/30 text-xs">({reels.length})</span>
             </div>
@@ -531,7 +531,7 @@ export default function Gallery() {
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
-              <Camera size={18} className="text-[#C8F03C]" />
+              <Camera size={18} className="text-lime" />
               <span className="font-extrabold text-sm uppercase tracking-widest">Photos</span>
               <span className="text-white/30 text-xs">({photos.length})</span>
             </div>
