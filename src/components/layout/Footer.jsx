@@ -50,18 +50,6 @@ const socials = [
       </svg>
     ),
   },
-  {
-    label: "Email",
-    href: "mailto:hannawaththalage39@gmail.com",
-    glowColor: "rgba(255,255,255,0.15)",
-    hoverBg: "rgba(255,255,255,0.1)",
-    hoverBorder: "rgba(255,255,255,0.2)",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5" aria-hidden="true">
-        <path d="M12 12.713l11.985-9.713H.015L12 12.713zm0 2.574L.015 5.001v13.998h23.97V5.001L12 15.287z" />
-      </svg>
-    ),
-  },
 ];
 
 // Shared, visible keyboard-focus ring for every interactive element in the footer.
@@ -219,28 +207,7 @@ function NewsletterSignup() {
               Email address
             </label>
 
-            <input
-              id={inputId}
-              type="email"
-              name="email"
-              autoComplete="email"
-              inputMode="email"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-                if (status === "error") setStatus("idle");
-              }}
-              aria-invalid={status === "error"}
-              aria-describedby={status === "error" ? `${inputId}-error` : undefined}
-              placeholder="your@email.com"
-              className="
-                w-full px-3 py-2 rounded-lg text-sm
-                bg-white/5 border border-white/15
-                text-white placeholder-white/25
-                focus:outline-none focus:border-pink/50 focus:bg-white/8
-                transition-all duration-200
-              "
-            />
+            
 
             {status === "error" && (
               <p id={`${inputId}-error`} className="text-pink/70 text-xs">

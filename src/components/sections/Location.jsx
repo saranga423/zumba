@@ -38,12 +38,7 @@ const contactRows = [
     label: 'Studio Hours',
     value: 'Tue & Thu: 9:00 AM – 11:00 AM / 5:00 PM – 7:00 PM\nMon, Wed & Fri: 9:00 AM – 11:00 AM\nSun: 9:00 AM – 11:00 AM',
   },
-  {
-    icon:  Mail,
-    label: 'Email',
-    value: 'hannawaththalage39@gmail.com',
-    copy:  ['hannawaththalage39@gmail.com'],
-  },
+  
   {
     icon:  ParkingSquare,
     label: 'Parking',
