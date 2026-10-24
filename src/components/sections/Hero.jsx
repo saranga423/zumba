@@ -1,30 +1,50 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
+/**
+ * Add to your index.html <head> (or global CSS) for best results:
+ * <link rel="preconnect" href="https://fonts.googleapis.com" />
+ * <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
+ *
+ * Color tokens:
+ *   --cream:  #FAFAF8   page background
+ *   --ink:    #150A16   primary text
+ *   --pink:   #E8295E   primary accent
+ *   --lime:   #B5DB1A   secondary accent
+ *   --coral:  #FF6B35   tertiary accent
+ */
+
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import {
   motion,
   AnimatePresence,
-  useMotionValue,
-  useSpring,
-  useTransform,
   useReducedMotion,
   useInView,
 } from "framer-motion";
 import { Play, X, Users, CalendarCheck, Flame, Trophy } from "lucide-react";
-import previewReel from "../../assets/videos/v1.mp4";
+import previewReel from "../../assets/videos/v14.mp4";
 
-const heroSlides = [
-  "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=1600&q=80",
-  "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1600&q=80",
-  "https://images.unsplash.com/photo-1524594152303-9fd13543fe6e?w=1600&q=80",
+/* ── Palette ────────────────────────────────────────────────────────────────── */
+const C = {
+  cream:  "#FAFAF8",
+  ink:    "#150A16",
+  pink:   "#E8295E",
+  lime:   "#B5DB1A",
+  coral:  "#FF6B35",
+};
+
+/* ── Data ───────────────────────────────────────────────────────────────────── */
+const heroImages = [
+  "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=1200&q=85",
+  "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1200&q=85",
+  "https://images.unsplash.com/photo-1524594152303-9fd13543fe6e?w=1200&q=85",
 ];
 const SLIDE_INTERVAL_MS = 7000;
 
 const stats = [
-  { num: "4+",   label: "Years",    icon: CalendarCheck },
-  { num: "100+", label: "Members",  icon: Users         },
-  { num: "8",    label: "Classes",  icon: Flame         },
-  { num: "4.9★", label: "Rating",  icon: Trophy        },
+  { num: "4+",   label: "Years Active",   icon: CalendarCheck },
+  { num: "100+", label: "Members",        icon: Users         },
+  { num: "8",    label: "Weekly Classes", icon: Flame         },
+  { num: "4.9★", label: "Rated",         icon: Trophy        },
 ];
 
 const allClasses = [
@@ -52,195 +72,106 @@ function getNextClass(now = new Date()) {
   return null;
 }
 
-function useHoverCapable() {
-  const [can, setCan] = useState(
-    () => typeof window !== "undefined" && window.matchMedia("(hover: hover) and (pointer: fine)").matches
-  );
-  useEffect(() => {
-    const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
-    const fn = (e) => setCan(e.matches);
-    mq.addEventListener("change", fn);
-    return () => mq.removeEventListener("change", fn);
-  }, []);
-  return can;
-}
-
-/* ── Ticker tape ────────────────────────────────────────────────────────────── */
-const tickerItems = [
-  "Zumba Fitness", "Mon 9–11 AM", "Tue 9–11 AM", "Tue 5–7 PM",
-  "Wed 9–11 AM", "Thu 9–11 AM", "Thu 5–7 PM", "Fri 9–11 AM", "Sun 9–11 AM",
-  "Studio Se Kala", "Studio Resh", "Kandy, Sri Lanka",
-];
-
-function TickerTape({ prefersReduced }) {
-  const items = [...tickerItems, ...tickerItems];
-  return (
-    <div
-      className="overflow-hidden whitespace-nowrap"
-      style={{ borderTop: "1px solid rgba(255,255,255,0.08)", borderBottom: "1px solid rgba(255,255,255,0.08)", padding: "10px 0" }}
-    >
-      <motion.div
-        className="inline-flex gap-0"
-        animate={prefersReduced ? {} : { x: ["0%", "-50%"] }}
-        transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
-      >
-        {items.map((item, i) => (
-          <span key={i} className="inline-flex items-center text-sm font-semibold uppercase tracking-[3px]" style={{ color: "rgba(250,244,233,0.45)", paddingRight: "3rem" }}>
-            {item}
-            <span className="ml-3 inline-block w-1.5 h-1.5 rounded-full" style={{ background: "#FF9736", opacity: 0.7 }} />
-          </span>
-        ))}
-      </motion.div>
-    </div>
-  );
-}
-
-/* ── Ghost ZUMBA watermark ──────────────────────────────────────────────────── */
-function GhostText({ mouseX, mouseY, prefersReduced }) {
-  const x = useTransform(mouseX, (v) => v * 30);
-  const y = useTransform(mouseY, (v) => v * 20);
+/* ── Live Pill ──────────────────────────────────────────────────────────────── */
+function LivePill({ nextClass, prefersReduced }) {
+  if (!nextClass) return null;
+  const isLive = nextClass.status === "live";
   return (
     <motion.div
-      className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden"
-      aria-hidden="true"
+      initial={{ opacity: 0, y: -12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      className="inline-flex items-center gap-2 rounded-full text-xs font-semibold px-4 py-2 mb-8"
+      style={{
+        background: isLive ? "rgba(232,41,94,0.08)" : "rgba(181,219,26,0.15)",
+        border:     `1.5px solid ${isLive ? "rgba(232,41,94,0.3)" : "rgba(181,219,26,0.5)"}`,
+        color:      isLive ? C.pink : "#5A7A00",
+        fontFamily: "'DM Sans', sans-serif",
+        letterSpacing: "0.03em",
+      }}
     >
       <motion.span
-        style={{
-          x: prefersReduced ? 0 : x,
-          y: prefersReduced ? 0 : y,
-          fontSize: "clamp(8rem,30vw,24rem)",
-          fontWeight: 900,
-          letterSpacing: "-0.08em",
-          color: "transparent",
-          WebkitTextStroke: "2px rgba(255,255,255,0.04)",
-          transform: "rotate(-8deg)",
-          userSelect: "none",
-          lineHeight: 1,
-        }}
-        animate={prefersReduced ? {} : { rotate: [-8, -6, -8] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-      >
-        ZUMBA
-      </motion.span>
+        className="inline-block w-1.5 h-1.5 rounded-full shrink-0"
+        style={{ background: isLive ? C.pink : "#79BE00" }}
+        animate={isLive && !prefersReduced ? { scale: [1, 1.9, 1], opacity: [1, 0.35, 1] } : {}}
+        transition={{ duration: 1.3, repeat: Infinity }}
+      />
+      {isLive ? "Class live now" : "Up next"} · {nextClass.label} · {nextClass.time}
     </motion.div>
   );
 }
 
-/* ── Spotlight SVG cone ─────────────────────────────────────────────────────── */
-function Spotlight({ prefersReduced }) {
-  return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-      <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-        <defs>
-          <radialGradient id="spotlight" cx="50%" cy="0%" r="75%">
-            <stop offset="0%"   stopColor="#FF9736" stopOpacity="0.12" />
-            <stop offset="40%"  stopColor="#E23F73" stopOpacity="0.06" />
-            <stop offset="100%" stopColor="#2B1330" stopOpacity="0"    />
-          </radialGradient>
-        </defs>
-        <motion.rect
-          x="0" y="0" width="100%" height="100%"
-          fill="url(#spotlight)"
-          animate={prefersReduced ? {} : { opacity: [0.7, 1, 0.7] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        />
-      </svg>
-
-      {/* Narrow cone beam */}
-      <svg className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-        <defs>
-          <linearGradient id="coneBeam" x1="50%" y1="0%" x2="50%" y2="100%">
-            <stop offset="0%"   stopColor="#FF9736" stopOpacity="0.1" />
-            <stop offset="100%" stopColor="#E23F73" stopOpacity="0"   />
-          </linearGradient>
-        </defs>
-        <motion.polygon
-          points="50%,0 10%,100% 90%,100%"
-          fill="url(#coneBeam)"
-          animate={prefersReduced ? {} : { opacity: [0.5, 0.8, 0.5] }}
-          transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-        />
-      </svg>
-    </div>
-  );
-}
-
-/* ── Outline-stroke headline ─────────────────────────────────────────────────── */
-function StageHeadline({ prefersReduced }) {
-  const styles = [
-    // "FEEL IT." — outline only (stroke, transparent fill)
+/* ── Display Headline ───────────────────────────────────────────────────────── */
+function Headline({ prefersReduced }) {
+  const lines = [
     {
-      color:               "transparent",
-      WebkitTextStroke:    "2px #FAF4E9",
+      text: "FEEL IT.",
+      style: {
+        color: "transparent",
+        WebkitTextStroke: "2.5px " + C.ink,
+      },
     },
-    // "MOVE IT." — gradient fill
     {
-      backgroundImage:      "linear-gradient(135deg,#FF9736,#E23F73 50%,#C8F03C)",
-      backgroundClip:       "text",
-      WebkitBackgroundClip: "text",
-      color:                "transparent",
-      WebkitTextStroke:     "0px",
+      text: "MOVE IT.",
+      style: {
+        backgroundImage: `linear-gradient(100deg, ${C.pink} 0%, ${C.coral} 50%, ${C.lime} 100%)`,
+        backgroundClip: "text",
+        WebkitBackgroundClip: "text",
+        color: "transparent",
+        WebkitTextStroke: "0px",
+      },
     },
-    // "LOVE IT." — cream, but with a hibiscus stroke accent
     {
-      color:            "#FAF4E9",
-      WebkitTextStroke: "0px",
+      text: "LOVE IT.",
+      style: { color: C.ink, WebkitTextStroke: "0px" },
     },
   ];
 
-  const containerVariants = {
-    hidden: {},
-    show: { transition: { staggerChildren: prefersReduced ? 0 : 0.22, delayChildren: 0.2 } },
-  };
-  const wordVariants = {
-    hidden: { opacity: 0, y: 80, filter: "blur(14px)" },
-    show: {
-      opacity: 1, y: 0, filter: "blur(0px)",
-      transition: { duration: prefersReduced ? 0.01 : 0.85, ease: [0.22, 1, 0.36, 1] },
-    },
-  };
-
   return (
-    <motion.h1
-      variants={containerVariants}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true }}
-      className="font-extrabold text-[clamp(3.8rem,11vw,9rem)] leading-[0.88] tracking-tight"
+    <h1
+      className="font-black leading-[0.9] tracking-tight"
+      style={{
+        fontFamily: "'Syne', sans-serif",
+        fontSize: "clamp(3.4rem, 9.5vw, 8rem)",
+      }}
     >
-      {["FEEL IT.", "MOVE IT.", "LOVE IT."].map((word, i) => (
+      {lines.map((line, i) => (
         <motion.span
-          key={word}
-          variants={wordVariants}
+          key={line.text}
           className="block"
-          style={styles[i]}
+          style={line.style}
+          initial={{ opacity: 0, x: -48, filter: "blur(10px)" }}
+          animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+          transition={{
+            duration: prefersReduced ? 0.01 : 0.75,
+            delay: prefersReduced ? 0 : 0.15 + i * 0.18,
+            ease: [0.22, 1, 0.36, 1],
+          }}
         >
-          {word}
+          {line.text}
         </motion.span>
       ))}
-    </motion.h1>
+    </h1>
   );
 }
 
-/* ── Scoreboard stats strip ──────────────────────────────────────────────────── */
-function ScoreboardStrip() {
+/* ── Stats Strip ────────────────────────────────────────────────────────────── */
+function StatsStrip() {
   const ref    = useRef(null);
   const inView = useInView(ref, { once: true });
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 24 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-      className="flex items-stretch divide-x"
+      transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+      className="flex items-stretch mt-12"
       style={{
-        background:   "rgba(255,255,255,0.05)",
-        border:       "1px solid rgba(255,255,255,0.09)",
-        borderRadius: "16px",
-        backdropFilter: "blur(20px)",
+        background:   "rgba(21,10,22,0.04)",
+        border:       `1px solid rgba(21,10,22,0.09)`,
+        borderRadius: "18px",
         overflow:     "hidden",
-        divide:       "rgba(255,255,255,0.09)",
       }}
     >
       {stats.map((item, i) => {
@@ -250,24 +181,25 @@ function ScoreboardStrip() {
             key={item.label}
             initial={{ opacity: 0, scale: 0.8 }}
             animate={inView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.5, delay: 0.5 + i * 0.1, ease: [0.34, 1.4, 0.64, 1] }}
-            whileHover={{ background: "rgba(255,255,255,0.1)" }}
-            className="flex-1 flex flex-col items-center justify-center py-5 px-4 gap-1.5 transition-colors cursor-default"
-            style={{ borderRight: i < stats.length - 1 ? "1px solid rgba(255,255,255,0.08)" : "none" }}
+            transition={{ duration: 0.45, delay: 0.35 + i * 0.1, ease: [0.34, 1.5, 0.64, 1] }}
+            className="flex-1 flex flex-col items-center py-5 px-2 gap-1 cursor-default select-none"
+            style={{
+              borderRight: i < stats.length - 1
+                ? "1px solid rgba(21,10,22,0.07)"
+                : "none",
+            }}
           >
-            <Icon size={18} style={{ color: "#FF9736", opacity: 0.85 }} strokeWidth={1.8} />
+            <Icon size={15} style={{ color: C.pink, opacity: 0.85 }} strokeWidth={1.8} />
             <div
-              className="font-extrabold text-2xl md:text-3xl tabular-nums"
-              style={{
-                backgroundImage:      "linear-gradient(135deg,#FF9736,#E23F73)",
-                backgroundClip:       "text",
-                WebkitBackgroundClip: "text",
-                color:                "transparent",
-              }}
+              className="font-black text-xl md:text-2xl tabular-nums"
+              style={{ fontFamily: "'Syne', sans-serif", color: C.ink }}
             >
               {item.num}
             </div>
-            <div className="text-[10px] tracking-[2.5px] uppercase" style={{ color: "rgba(250,244,233,0.45)" }}>
+            <div
+              className="text-[9px] tracking-widest uppercase text-center"
+              style={{ color: "rgba(21,10,22,0.38)", fontFamily: "'DM Sans', sans-serif" }}
+            >
               {item.label}
             </div>
           </motion.div>
@@ -277,37 +209,158 @@ function ScoreboardStrip() {
   );
 }
 
-/* ── Live pill ──────────────────────────────────────────────────────────────── */
-function LivePill({ nextClass, prefersReduced }) {
-  if (!nextClass) return null;
-  const isLive = nextClass.status === "live";
+/* ── Floating Image Panel ───────────────────────────────────────────────────── */
+function ImagePanel({ slideIndex, prefersReduced }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5, delay: 0.2, type: "spring", stiffness: 300 }}
-      className="inline-flex items-center gap-2 rounded-full text-xs font-bold uppercase tracking-[2px] px-4 py-2 mb-6"
-      style={{
-        background:  isLive ? "rgba(226,63,115,0.2)" : "rgba(200,240,60,0.15)",
-        border:      `1px solid ${isLive ? "rgba(226,63,115,0.5)" : "rgba(200,240,60,0.4)"}`,
-        color:       isLive ? "#E23F73" : "#C8F03C",
-      }}
-    >
-      <motion.span
-        className="inline-block w-1.5 h-1.5 rounded-full"
-        style={{ background: isLive ? "#E23F73" : "#C8F03C" }}
-        animate={isLive && !prefersReduced ? { scale: [1, 1.8, 1], opacity: [1, 0.5, 1] } : {}}
-        transition={{ duration: 1.2, repeat: Infinity }}
+    <div className="relative flex items-center justify-center" style={{ minHeight: 420 }}>
+
+      {/* Soft background blob */}
+      <div
+        className="absolute"
+        style={{
+          inset: "-10%",
+          borderRadius: "50%",
+          background: `radial-gradient(ellipse at 60% 40%, rgba(232,41,94,0.1) 0%, rgba(181,219,26,0.08) 55%, transparent 75%)`,
+          filter: "blur(24px)",
+        }}
+        aria-hidden="true"
       />
-      {isLive ? "Live Now" : "Up Next"} · {nextClass.label} · {nextClass.time}
-    </motion.div>
+
+      {/* Image blob — organic pill shape */}
+      <motion.div
+        className="relative overflow-hidden z-10"
+        style={{
+          width:  "min(380px, 78vw)",
+          height: "min(460px, 82vw)",
+          borderRadius: "48% 52% 44% 56% / 42% 38% 62% 58%",
+          boxShadow: `0 40px 100px rgba(232,41,94,0.18), 0 8px 28px rgba(0,0,0,0.1)`,
+        }}
+        animate={prefersReduced ? {} : {
+          borderRadius: [
+            "48% 52% 44% 56% / 42% 38% 62% 58%",
+            "52% 48% 56% 44% / 58% 62% 38% 42%",
+            "48% 52% 44% 56% / 42% 38% 62% 58%",
+          ],
+          y: [0, -10, 0],
+        }}
+        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <AnimatePresence initial={false}>
+          <motion.div
+            key={slideIndex}
+            className="absolute inset-0"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.3, ease: "easeInOut" }}
+          >
+            <div
+              className="absolute inset-0 bg-cover bg-center"
+              style={{ backgroundImage: `url(${heroImages[slideIndex]})` }}
+            />
+            {/* Subtle warm tint */}
+            <div
+              className="absolute inset-0"
+              style={{
+                background: `linear-gradient(
+                  160deg,
+                  rgba(232,41,94,0.12) 0%,
+                  rgba(255,107,53,0.06) 50%,
+                  rgba(181,219,26,0.08) 100%
+                )`,
+              }}
+            />
+          </motion.div>
+        </AnimatePresence>
+      </motion.div>
+
+      {/* Badge — members */}
+      <motion.div
+        className="absolute bottom-8 -left-2 md:left-2 flex items-center gap-3 rounded-2xl px-4 py-3 z-20"
+        style={{
+          background:  "#FFFFFF",
+          boxShadow:   "0 8px 32px rgba(0,0,0,0.1), 0 2px 8px rgba(232,41,94,0.06)",
+          border:      "1px solid rgba(232,41,94,0.1)",
+          fontFamily:  "'DM Sans', sans-serif",
+        }}
+        initial={{ opacity: 0, x: -24 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 1.1, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <div
+          className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
+          style={{ background: "rgba(232,41,94,0.1)" }}
+        >
+          <Users size={16} style={{ color: C.pink }} />
+        </div>
+        <div>
+          <div
+            className="font-black text-lg leading-none"
+            style={{ color: C.ink, fontFamily: "'Syne', sans-serif" }}
+          >
+            100+
+          </div>
+          <div className="text-[11px] mt-0.5" style={{ color: "rgba(21,10,22,0.45)" }}>
+            Active Members
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Badge — rating */}
+      <motion.div
+        className="absolute top-6 -right-2 md:right-2 flex items-center gap-2.5 rounded-2xl px-4 py-3 z-20"
+        style={{
+          background:  C.pink,
+          boxShadow:   `0 12px 40px rgba(232,41,94,0.4)`,
+          fontFamily:  "'DM Sans', sans-serif",
+        }}
+        initial={{ opacity: 0, x: 24 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 1.3, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <Trophy size={16} style={{ color: "#FFFFFF", opacity: 0.9 }} />
+        <div>
+          <div
+            className="font-black text-lg leading-none text-white"
+            style={{ fontFamily: "'Syne', sans-serif" }}
+          >
+            4.9★
+          </div>
+          <div className="text-[11px] mt-0.5" style={{ color: "rgba(255,255,255,0.65)" }}>
+            Rated Kandy
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Decorative dots */}
+      <motion.div
+        className="absolute -top-4 left-12 w-14 h-14 rounded-full z-0"
+        style={{ background: C.lime, opacity: 0.75 }}
+        animate={prefersReduced ? {} : { scale: [1, 1.18, 1] }}
+        transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+        aria-hidden="true"
+      />
+      <motion.div
+        className="absolute bottom-20 right-2 w-9 h-9 rounded-full z-0"
+        style={{ background: C.coral, opacity: 0.55 }}
+        animate={prefersReduced ? {} : { y: [0, -10, 0], scale: [1, 1.15, 1] }}
+        transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
+        aria-hidden="true"
+      />
+      <div
+        className="absolute top-24 right-10 w-5 h-5 rounded-full z-0"
+        style={{ background: C.pink, opacity: 0.35 }}
+        aria-hidden="true"
+      />
+    </div>
   );
 }
 
-/* ── VideoModal ─────────────────────────────────────────────────────────────── */
+/* ── Video Modal ────────────────────────────────────────────────────────────── */
 function VideoModal({ isOpen, onClose, triggerRef }) {
   const closeRef = useRef(null);
   const videoRef = useRef(null);
+
   useEffect(() => {
     if (!isOpen) return;
     closeRef.current?.focus();
@@ -320,7 +373,11 @@ function VideoModal({ isOpen, onClose, triggerRef }) {
       triggerRef.current?.focus();
     };
   }, [isOpen, onClose, triggerRef]);
-  const handleClose = useCallback(() => { videoRef.current?.pause(); onClose(); }, [onClose]);
+
+  const handleClose = useCallback(() => {
+    videoRef.current?.pause();
+    onClose();
+  }, [onClose]);
 
   return (
     <AnimatePresence>
@@ -331,31 +388,42 @@ function VideoModal({ isOpen, onClose, triggerRef }) {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.22 }}
           className="fixed inset-0 z-50 flex items-center justify-center px-6"
-          style={{ backdropFilter: "blur(14px)", background: "rgba(0,0,0,0.92)" }}
+          style={{
+            backdropFilter: "blur(18px)",
+            background:     "rgba(21,10,22,0.8)",
+          }}
           onClick={handleClose}
-          role="dialog" aria-modal="true" aria-label="Studio preview video"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Studio preview video"
         >
           <motion.div
-            initial={{ opacity: 0, scale: 0.84, rotateX: "8deg" }}
-            animate={{ opacity: 1, scale: 1,    rotateX: "0deg" }}
-            exit={{   opacity: 0, scale: 0.92 }}
-            transition={{ type: "spring", stiffness: 300, damping: 26 }}
+            initial={{ opacity: 0, scale: 0.86, y: 24 }}
+            animate={{ opacity: 1, scale: 1,    y: 0  }}
+            exit={{   opacity: 0, scale: 0.93 }}
+            transition={{ type: "spring", stiffness: 310, damping: 28 }}
             className="relative w-full max-w-md"
-            style={{ perspective: "800px" }}
             onClick={(e) => e.stopPropagation()}
           >
             <button
-              ref={closeRef} type="button" onClick={handleClose} aria-label="Close video"
-              className="absolute -top-12 right-0 md:-right-12 w-10 h-10 rounded-full flex items-center justify-center text-white"
-              style={{ background: "rgba(255,255,255,0.1)" }}
+              ref={closeRef}
+              type="button"
+              onClick={handleClose}
+              aria-label="Close video"
+              className="absolute -top-12 right-0 w-10 h-10 rounded-full flex items-center justify-center"
+              style={{ background: "rgba(255,255,255,0.12)", color: "#FFFFFF" }}
             >
               <X size={20} />
             </button>
             <video
-              ref={videoRef} src={previewReel}
+              ref={videoRef}
+              src={previewReel}
               className="w-full max-h-[80vh] rounded-2xl"
-              style={{ boxShadow: "0 0 100px rgba(226,63,115,0.35), 0 0 40px rgba(255,151,54,0.2)" }}
-              autoPlay controls loop playsInline
+              style={{ boxShadow: `0 0 80px rgba(232,41,94,0.3), 0 0 30px rgba(0,0,0,0.4)` }}
+              autoPlay
+              controls
+              loop
+              playsInline
             />
           </motion.div>
         </motion.div>
@@ -366,218 +434,180 @@ function VideoModal({ isOpen, onClose, triggerRef }) {
 
 /* ── Hero ───────────────────────────────────────────────────────────────────── */
 export default function Hero() {
-  const [isVideoOpen, setIsVideoOpen] = useState(false);
-  const watchButtonRef                = useRef(null);
-  const prefersReducedMotion          = useReducedMotion();
-  const canHover                      = useHoverCapable();
-  const enableParallax                = canHover && !prefersReducedMotion;
-  const nextClass                     = useMemo(() => getNextClass(), []);
+  const [isVideoOpen, setIsVideoOpen]   = useState(false);
+  const watchButtonRef                  = useRef(null);
+  const prefersReducedMotion            = useReducedMotion();
+  const nextClass                       = useMemo(() => getNextClass(), []);
 
   const [slideIndex, setSlideIndex] = useState(0);
   useEffect(() => {
-    if (prefersReducedMotion || heroSlides.length < 2) return;
-    const id = setTimeout(() => setSlideIndex((i) => (i + 1) % heroSlides.length), SLIDE_INTERVAL_MS);
+    if (prefersReducedMotion) return;
+    const id = setTimeout(
+      () => setSlideIndex((i) => (i + 1) % heroImages.length),
+      SLIDE_INTERVAL_MS
+    );
     return () => clearTimeout(id);
   }, [prefersReducedMotion, slideIndex]);
 
-  const mouseX  = useMotionValue(0);
-  const mouseY  = useMotionValue(0);
-  const springX = useSpring(mouseX, { stiffness: 45, damping: 16 });
-  const springY = useSpring(mouseY, { stiffness: 45, damping: 16 });
-  const rotateX = useTransform(springY, [-0.5, 0.5], ["6deg", "-6deg"]);
-  const rotateY = useTransform(springX, [-0.5, 0.5], ["-6deg", "6deg"]);
-
-  const handleMouseMove = useCallback(
-    (e) => {
-      if (!enableParallax) return;
-      mouseX.set(e.clientX / window.innerWidth  - 0.5);
-      mouseY.set(e.clientY / window.innerHeight - 0.5);
-    },
-    [enableParallax, mouseX, mouseY]
-  );
-
   const handleBookClick = useCallback(() => {
-    document.getElementById("schedule")?.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth" });
+    document.getElementById("schedule")?.scrollIntoView({
+      behavior: prefersReducedMotion ? "auto" : "smooth",
+    });
   }, [prefersReducedMotion]);
 
   return (
     <section
       id="hero"
-      onMouseMove={handleMouseMove}
-      className="relative isolate min-h-screen flex flex-col overflow-hidden"
-      style={{ background: "#0E060F" }}
+      className="relative isolate min-h-screen overflow-hidden"
+      style={{ background: C.cream }}
     >
-      {/* Background image */}
-      <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
-        <AnimatePresence initial={false}>
-          <motion.div
-            key={slideIndex}
-            className="absolute inset-0"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{   opacity: 0 }}
-            transition={{ duration: 1.4, ease: "easeInOut" }}
-          >
-            <div
-              className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: `url(${heroSlides[slideIndex]})`, opacity: 0.18 }}
-            />
-          </motion.div>
-        </AnimatePresence>
-        {/* Deep vignette */}
+      {/* ── Background layer ───────────────────────────────────────────────── */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+        {/* Top-right pink halo */}
+        <motion.div
+          className="absolute -top-48 -right-48 w-170 h-170 rounded-full"
+          style={{
+            background: `radial-gradient(circle, rgba(232,41,94,0.09) 0%, transparent 65%)`,
+          }}
+          animate={prefersReducedMotion ? {} : { scale: [1, 1.06, 1] }}
+          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+        />
+        {/* Bottom-left lime halo */}
+        <motion.div
+          className="absolute -bottom-32 -left-32 w-125 h-125 rounded-full"
+          style={{
+            background: `radial-gradient(circle, rgba(181,219,26,0.11) 0%, transparent 60%)`,
+          }}
+          animate={prefersReducedMotion ? {} : { scale: [1, 1.08, 1] }}
+          transition={{ duration: 11, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+        />
+        {/* Subtle dot grid */}
         <div
           className="absolute inset-0"
           style={{
-            background:
-              "radial-gradient(ellipse 80% 80% at 50% 50%,transparent 30%,rgba(14,6,15,0.7) 65%,rgba(14,6,15,1) 100%)",
+            backgroundImage: `radial-gradient(circle, rgba(21,10,22,0.12) 1px, transparent 1px)`,
+            backgroundSize:  "30px 30px",
+            opacity: 0.4,
           }}
         />
+        {/* Ghost "ZUMBA" watermark — very faint on light bg */}
         <div
-          className="absolute inset-0"
-          style={{ background: "rgba(14,6,15,0.55)" }}
-        />
-      </div>
-
-      {/* Ghost ZUMBA watermark */}
-      <GhostText mouseX={springX} mouseY={springY} prefersReduced={prefersReducedMotion} />
-
-      {/* Spotlight */}
-      <Spotlight prefersReduced={prefersReducedMotion} />
-
-      {/* Ambient glow */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        <motion.div
-          animate={prefersReducedMotion ? {} : { opacity: [0.5, 0.8, 0.5] }}
-          transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-          className="absolute -top-64 left-1/2 -translate-x-1/2 w-225 h-150 rounded-[50%]"
-          style={{ background: "radial-gradient(ellipse,rgba(255,151,54,0.12) 0%,rgba(226,63,115,0.08) 40%,transparent 70%)", filter: "blur(40px)" }}
-        />
-        <motion.div
-          animate={prefersReducedMotion ? {} : { x: [0, -30, 0], y: [0, 30, 0] }}
-          transition={{ repeat: Infinity, duration: 7, ease: "easeInOut" }}
-          className="absolute bottom-40 left-10 w-72 h-72 rounded-full"
-          style={{ background: "radial-gradient(circle,rgba(200,240,60,0.1),transparent 65%)", filter: "blur(35px)" }}
-        />
-        <motion.div
-          animate={prefersReducedMotion ? {} : { x: [0, 25, 0], y: [0, -20, 0] }}
-          transition={{ repeat: Infinity, duration: 9, ease: "easeInOut" }}
-          className="absolute bottom-40 right-10 w-72 h-72 rounded-full"
-          style={{ background: "radial-gradient(circle,rgba(226,63,115,0.1),transparent 65%)", filter: "blur(35px)" }}
-        />
-      </div>
-
-      {/* Fine dot grid */}
-      <div
-        className="absolute inset-0 opacity-[0.06]"
-        style={{
-          backgroundImage: "radial-gradient(circle,rgba(250,244,233,0.3) 1px,transparent 1px)",
-          backgroundSize:  "36px 36px",
-        }}
-        aria-hidden="true"
-      />
-
-      {/* ── Main content — 3D tilt card ──────────────────────────────────── */}
-      <div className="flex-1 flex flex-col items-center justify-center relative z-20 px-6 pt-28 pb-16">
-        <motion.div
-          className="text-center w-full max-w-3xl mx-auto"
-          style={
-            enableParallax
-              ? { rotateX, rotateY, transformStyle: "preserve-3d", transformPerspective: "1000px" }
-              : {}
-          }
+          className="absolute inset-0 flex items-center justify-center"
+          style={{
+            fontSize:          "clamp(7rem,28vw,22rem)",
+            fontFamily:        "'Syne', sans-serif",
+            fontWeight:        900,
+            letterSpacing:     "-0.07em",
+            color:             "transparent",
+            WebkitTextStroke:  "1.5px rgba(21,10,22,0.05)",
+            userSelect:        "none",
+            lineHeight:        1,
+            pointerEvents:     "none",
+          }}
         >
+          ZUMBA
+        </div>
+      </div>
+
+      {/* ── Main layout ────────────────────────────────────────────────────── */}
+      <div className="relative z-10 flex flex-col lg:flex-row items-center min-h-screen max-w-7xl mx-auto px-6 md:px-12 xl:px-16 pt-28 pb-20 gap-10 lg:gap-16">
+
+        {/* Left column — text content */}
+        <div className="flex-1 flex flex-col items-start" style={{ maxWidth: 580 }}>
+
           <LivePill nextClass={nextClass} prefersReduced={prefersReducedMotion} />
-          <StageHeadline prefersReduced={prefersReducedMotion} />
 
-          {/* Ticker */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.9 }}
-            className="mt-8 -mx-6 md:-mx-16"
-          >
-            <TickerTape prefersReduced={prefersReducedMotion} />
-          </motion.div>
+          <Headline prefersReduced={prefersReducedMotion} />
 
-          {/* Subtitle */}
           <motion.p
             initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
-            className="mx-auto mt-8 max-w-xl text-base md:text-lg leading-relaxed"
-            style={{ color: "rgba(250,244,233,0.55)" }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.75, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-7 text-base md:text-lg leading-relaxed"
+            style={{
+              color:      "rgba(21,10,22,0.52)",
+              maxWidth:   "42ch",
+              fontFamily: "'DM Sans', sans-serif",
+            }}
           >
             Kandy's most energetic Zumba classes — Latin rhythms, great music,
-            and a community that lifts you every session.
+            and a community that lifts you every single session.
           </motion.p>
 
-          {/* CTAs */}
+          {/* CTA row */}
           <motion.div
             initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 1.1, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-10 flex flex-wrap justify-center gap-4"
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.95, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-9 flex flex-wrap gap-3"
           >
-            {/* Primary neon lime */}
+            {/* Primary — pink */}
             <motion.button
               type="button"
               onClick={handleBookClick}
-              whileHover={{ scale: 1.05, boxShadow: "0 0 40px rgba(200,240,60,0.6), 0 0 80px rgba(200,240,60,0.3)" }}
+              whileHover={{ scale: 1.04, boxShadow: `0 0 0 5px rgba(232,41,94,0.18), 0 12px 40px rgba(232,41,94,0.4)` }}
               whileTap={{ scale: 0.97 }}
-              className="inline-flex items-center gap-2 rounded-full px-9 py-4 text-sm font-black uppercase tracking-widest"
+              className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-bold text-white"
               style={{
-                background:  "#C8F03C",
-                color:       "#0E060F",
-                boxShadow:   "0 0 24px rgba(200,240,60,0.45), 0 4px 16px rgba(0,0,0,0.4)",
-                border:      "1px solid rgba(200,240,60,0.6)",
+                fontFamily: "'DM Sans', sans-serif",
+                background: C.pink,
+                boxShadow:  `0 8px 28px rgba(232,41,94,0.38)`,
+                letterSpacing: "0.01em",
               }}
             >
               Book a Class
             </motion.button>
 
-            {/* Secondary glass */}
+            {/* Secondary — ghost outline */}
             <motion.button
               ref={watchButtonRef}
               type="button"
               onClick={() => setIsVideoOpen(true)}
-              whileHover={{
-                scale: 1.05,
-                background: "rgba(255,255,255,0.15)",
-                borderColor: "rgba(255,255,255,0.4)",
-              }}
+              whileHover={{ scale: 1.04, background: "rgba(21,10,22,0.05)" }}
               whileTap={{ scale: 0.97 }}
-              className="inline-flex items-center gap-2 rounded-full px-9 py-4 text-sm font-semibold uppercase tracking-widest text-white"
+              className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-semibold"
               style={{
-                background:     "rgba(255,255,255,0.07)",
-                border:         "1px solid rgba(255,255,255,0.18)",
-                backdropFilter: "blur(20px)",
+                fontFamily: "'DM Sans', sans-serif",
+                background: "transparent",
+                border:     `1.5px solid rgba(21,10,22,0.18)`,
+                color:      C.ink,
+                letterSpacing: "0.01em",
               }}
             >
-              <Play size={17} />
-              Watch In Action
+              <span
+                className="inline-flex items-center justify-center w-6 h-6 rounded-full"
+                style={{ background: C.pink }}
+              >
+                <Play size={11} fill="white" color="white" />
+              </span>
+              Watch in Action
             </motion.button>
           </motion.div>
-        </motion.div>
 
-        {/* Scoreboard */}
+          {/* Stats */}
+          <StatsStrip />
+        </div>
+
+        {/* Right column — image panel */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.65, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="w-full max-w-2xl mx-auto mt-14"
+          className="flex-1 w-full lg:w-auto shrink-0"
+          style={{ maxWidth: 520 }}
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
         >
-          <ScoreboardStrip />
+          <ImagePanel slideIndex={slideIndex} prefersReduced={prefersReducedMotion} />
         </motion.div>
       </div>
 
-      {/* Bottom slide nav */}
-      {heroSlides.length > 1 && (
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2" role="tablist" aria-label="Slides">
-          {heroSlides.map((_, i) => (
+      {/* Slide navigation dots */}
+      {heroImages.length > 1 && (
+        <div
+          className="absolute bottom-7 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2"
+          role="tablist"
+          aria-label="Slides"
+        >
+          {heroImages.map((_, i) => (
             <motion.button
               key={i}
               type="button"
@@ -586,18 +616,22 @@ export default function Hero() {
               aria-label={`Slide ${i + 1}`}
               onClick={() => setSlideIndex(i)}
               animate={{
-                width:   i === slideIndex ? 28 : 6,
+                width:   i === slideIndex ? 26 : 6,
                 opacity: i === slideIndex ? 1 : 0.3,
               }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
+              transition={{ duration: 0.28, ease: "easeInOut" }}
               className="h-1.5 rounded-full"
-              style={{ background: i === slideIndex ? "#C8F03C" : "rgba(255,255,255,0.5)" }}
+              style={{ background: i === slideIndex ? C.pink : "rgba(21,10,22,0.4)" }}
             />
           ))}
         </div>
       )}
 
-      <VideoModal isOpen={isVideoOpen} onClose={() => setIsVideoOpen(false)} triggerRef={watchButtonRef} />
+      <VideoModal
+        isOpen={isVideoOpen}
+        onClose={() => setIsVideoOpen(false)}
+        triggerRef={watchButtonRef}
+      />
     </section>
   );
 }

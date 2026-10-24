@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import zumba90 from '../../public/ZUMBA90.png';
+import zumba90 from '../../public/logo.png';
 
 const DISPLAY_TIME = 4200;
 const EXIT_TIME = 900;
@@ -9,7 +9,6 @@ const EXIT_TIME = 900;
 export default function SplashScreen() {
   const navigate = useNavigate();
   const reducedMotion = useReducedMotion();
-
   const [isExiting, setIsExiting] = useState(false);
 
   const exitTimeout = useRef(null);
@@ -18,28 +17,18 @@ export default function SplashScreen() {
 
   const enterWebsite = useCallback(() => {
     if (hasNavigated.current) return;
-
     hasNavigated.current = true;
     setIsExiting(true);
-
     exitTimeout.current = setTimeout(() => {
       navigate('/home', { replace: true });
     }, EXIT_TIME);
   }, [navigate]);
 
   useEffect(() => {
-    autoTimeout.current = setTimeout(() => {
-      enterWebsite();
-    }, DISPLAY_TIME);
-
+    autoTimeout.current = setTimeout(() => enterWebsite(), DISPLAY_TIME);
     return () => {
-      if (autoTimeout.current) {
-        clearTimeout(autoTimeout.current);
-      }
-
-      if (exitTimeout.current) {
-        clearTimeout(exitTimeout.current);
-      }
+      if (autoTimeout.current) clearTimeout(autoTimeout.current);
+      if (exitTimeout.current) clearTimeout(exitTimeout.current);
     };
   }, [enterWebsite]);
 
@@ -47,260 +36,94 @@ export default function SplashScreen() {
     <AnimatePresence mode="wait">
       {!isExiting && (
         <motion.main
-          key="cinematic-splash"
+          key="splash"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={
             reducedMotion
               ? { opacity: 0 }
-              : {
-                  opacity: 0,
-                  scale: 1.04,
-                  filter: 'blur(14px)',
-                }
+              : { opacity: 0, scale: 1.03, filter: 'blur(12px)' }
           }
           transition={{
             duration: reducedMotion ? 0.2 : EXIT_TIME / 1000,
             ease: [0.76, 0, 0.24, 1],
           }}
-          className="
-            fixed
-            inset-0
-            z-[9999]
-            overflow-hidden
-            bg-[#050505]
-            text-white
-            select-none
-          "
+          className="fixed inset-0 z-[9999] overflow-hidden bg-white select-none"
         >
           {/* =====================================================
-              BACKGROUND
+              BACKGROUND — clean white with a single sharp tint
           ====================================================== */}
 
-          <div className="absolute inset-0 bg-[#050505]" />
-
-          {/* Large pink glow */}
-          <motion.div
-            className="
-              pointer-events-none
-              absolute
-              -left-[25vw]
-              top-[5vh]
-              h-[70vw]
-              w-[70vw]
-              max-h-[900px]
-              max-w-[900px]
-              rounded-full
-            "
+          {/* Subtle vignette: top-left pink, bottom-right stay white */}
+          <div
+            className="pointer-events-none absolute inset-0"
             style={{
               background:
-                'radial-gradient(circle, rgba(226,63,115,0.35) 0%, rgba(226,63,115,0.08) 35%, transparent 70%)',
-              filter: 'blur(70px)',
+                'radial-gradient(ellipse 70% 60% at 0% 0%, rgba(226,63,115,0.07) 0%, transparent 70%)',
             }}
-            animate={
-              reducedMotion
-                ? undefined
-                : {
-                    x: [0, 100, -30, 0],
-                    y: [0, -60, 30, 0],
-                    scale: [1, 1.15, 0.95, 1],
-                  }
-            }
-            transition={{
-              duration: 11,
-              repeat: Infinity,
-              ease: 'easeInOut',
+          />
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background:
+                'radial-gradient(ellipse 55% 50% at 100% 100%, rgba(30,30,30,0.035) 0%, transparent 70%)',
             }}
           />
 
-          {/* Lime glow */}
-          <motion.div
-            className="
-              pointer-events-none
-              absolute
-              -right-[25vw]
-              bottom-[0]
-              h-[65vw]
-              w-[65vw]
-              max-h-[850px]
-              max-w-[850px]
-              rounded-full
-            "
+          {/* Fine dot grid — very restrained */}
+          <div
+            className="pointer-events-none absolute inset-0"
             style={{
-              background:
-                'radial-gradient(circle, rgba(200,240,60,0.28) 0%, rgba(200,240,60,0.06) 35%, transparent 70%)',
-              filter: 'blur(80px)',
-            }}
-            animate={
-              reducedMotion
-                ? undefined
-                : {
-                    x: [0, -80, 40, 0],
-                    y: [0, 40, -30, 0],
-                    scale: [0.9, 1.1, 0.95, 0.9],
-                  }
-            }
-            transition={{
-              duration: 13,
-              repeat: Infinity,
-              ease: 'easeInOut',
-            }}
-          />
-
-          {/* Orange center flash */}
-          <motion.div
-            className="
-              pointer-events-none
-              absolute
-              left-1/2
-              top-1/2
-              h-[35vw]
-              w-[35vw]
-              -translate-x-1/2
-              -translate-y-1/2
-              rounded-full
-            "
-            style={{
-              background:
-                'radial-gradient(circle, rgba(255,151,54,0.15), transparent 70%)',
-              filter: 'blur(70px)',
-            }}
-            animate={
-              reducedMotion
-                ? undefined
-                : {
-                    scale: [0.7, 1.3, 0.7],
-                    opacity: [0.2, 0.6, 0.2],
-                  }
-            }
-            transition={{
-              duration: 6,
-              repeat: Infinity,
-              ease: 'easeInOut',
+              backgroundImage: 'radial-gradient(circle, rgba(0,0,0,0.12) 1px, transparent 1px)',
+              backgroundSize: '32px 32px',
+              opacity: 0.35,
             }}
           />
 
           {/* =====================================================
-              GRID
+              TOP RULE + NAV
           ====================================================== */}
 
-          <div
-            className="
-              pointer-events-none
-              absolute
-              inset-0
-              opacity-[0.045]
-              bg-[linear-gradient(rgba(255,255,255,0.8)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.8)_1px,transparent_1px)]
-              bg-[size:55px_55px]
-            "
+          {/* Pink top rule */}
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: reducedMotion ? 0 : 1.1, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute top-0 left-0 right-0 h-0.75 origin-left bg-[#E23F73] z-40"
           />
-
-          {/* Noise */}
-          <div
-            className="
-              pointer-events-none
-              absolute
-              inset-0
-              opacity-[0.035]
-              bg-[radial-gradient(#fff_1px,transparent_1px)]
-              bg-[size:13px_13px]
-            "
-          />
-
-          {/* =====================================================
-              TOP NAV
-          ====================================================== */}
 
           <motion.header
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: -16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.7,
-              delay: reducedMotion ? 0 : 0.2,
-            }}
+            transition={{ duration: 0.6, delay: reducedMotion ? 0 : 0.3 }}
             className="
-              absolute
-              left-0
-              right-0
-              top-0
-              z-30
-              flex
-              items-center
-              justify-between
-              px-6
-              py-6
-              sm:px-10
-              sm:py-8
+              absolute left-0 right-0 top-0 z-30
+              flex items-center justify-between
+              px-8 pt-7 pb-0 sm:px-12 sm:pt-9
             "
           >
             <div className="flex items-center gap-3">
-              <span
-                className="
-                  h-2
-                  w-2
-                  rounded-full
-                  bg-[#E23F73]
-                  shadow-[0_0_15px_rgba(226,63,115,0.8)]
-                "
-              />
-
-              <span
-                className="
-                  text-[9px]
-                  font-bold
-                  uppercase
-                  tracking-[0.35em]
-                  text-white/60
-                "
-              >
+              <span className="h-[6px] w-[6px] rounded-full bg-[#E23F73]" />
+              <span className="text-[9px] font-semibold uppercase tracking-[0.38em] text-neutral-800">
                 Zumba With Hanna
               </span>
             </div>
-
-            <span
-              className="
-                text-[8px]
-                font-mono
-                uppercase
-                tracking-[0.3em]
-                text-white/25
-              "
-            >
+            <span className="text-[8px] font-mono uppercase tracking-[0.28em] text-neutral-300">
               Est. Energy
             </span>
           </motion.header>
 
           {/* =====================================================
-              DECORATIVE SIDE TEXT
+              SIDE TEXT
           ====================================================== */}
 
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{
-              delay: reducedMotion ? 0 : 0.8,
-              duration: 0.8,
-            }}
-            className="
-              absolute
-              left-5
-              top-1/2
-              z-20
-              hidden
-              -translate-y-1/2
-              -rotate-90
-              md:block
-            "
+            transition={{ delay: reducedMotion ? 0 : 0.9, duration: 0.7 }}
+            className="absolute left-5 top-1/2 z-20 hidden -translate-y-1/2 -rotate-90 md:block"
           >
-            <span
-              className="
-                text-[8px]
-                font-mono
-                uppercase
-                tracking-[0.6em]
-                text-white/20
-              "
-            >
+            <span className="text-[7px] font-mono uppercase tracking-[0.65em] text-neutral-300">
               Feel The Rhythm
             </span>
           </motion.div>
@@ -308,30 +131,10 @@ export default function SplashScreen() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{
-              delay: reducedMotion ? 0 : 0.9,
-              duration: 0.8,
-            }}
-            className="
-              absolute
-              right-5
-              top-1/2
-              z-20
-              hidden
-              translate-y-1/2
-              rotate-90
-              md:block
-            "
+            transition={{ delay: reducedMotion ? 0 : 1.0, duration: 0.7 }}
+            className="absolute right-5 top-1/2 z-20 hidden translate-y-1/2 rotate-90 md:block"
           >
-            <span
-              className="
-                text-[8px]
-                font-mono
-                uppercase
-                tracking-[0.6em]
-                text-white/20
-              "
-            >
+            <span className="text-[7px] font-mono uppercase tracking-[0.65em] text-neutral-300">
               Move Your Body
             </span>
           </motion.div>
@@ -340,254 +143,105 @@ export default function SplashScreen() {
               MAIN CONTENT
           ====================================================== */}
 
-          <div
-            className="
-              absolute
-              inset-0
-              z-10
-              flex
-              items-center
-              justify-center
-              px-5
-            "
-          >
-            <div
-              className="
-                relative
-                flex
-                w-full
-                max-w-[900px]
-                flex-col
-                items-center
-                justify-center
-              "
-            >
-              {/* =================================================
-                  KINETIC WORD 01
-              ================================================== */}
+          <div className="absolute inset-0 z-10 flex items-center justify-center px-5">
+            <div className="relative flex w-full max-w-[860px] flex-col items-center justify-center">
 
+              {/* KINETIC WORD — MOVE */}
               <motion.div
-                initial={
-                  reducedMotion
-                    ? { opacity: 0 }
-                    : {
-                        opacity: 0,
-                        x: -120,
-                        skewX: -12,
-                      }
-                }
-                animate={{
-                  opacity: 1,
-                  x: 0,
-                  skewX: 0,
-                }}
+                initial={reducedMotion ? { opacity: 0 } : { opacity: 0, x: -100, skewX: -10 }}
+                animate={{ opacity: 1, x: 0, skewX: 0 }}
                 transition={{
-                  duration: reducedMotion ? 0.3 : 1,
-                  delay: reducedMotion ? 0 : 0.35,
+                  duration: reducedMotion ? 0.3 : 0.95,
+                  delay: reducedMotion ? 0 : 0.3,
                   ease: [0.16, 1, 0.3, 1],
                 }}
                 className="
-                  absolute
-                  -top-[125px]
-                  left-1/2
-                  -translate-x-1/2
-                  whitespace-nowrap
-                  sm:-top-[150px]
-                  md:-top-[175px]
+                  absolute -top-[120px] left-1/2 -translate-x-1/2 whitespace-nowrap
+                  sm:-top-[148px] md:-top-[172px]
                 "
               >
                 <span
                   className="
-                    text-[clamp(4rem,16vw,10rem)]
-                    font-black
-                    uppercase
-                    leading-none
-                    tracking-[-0.08em]
-                    text-white/[0.035]
+                    text-[clamp(4rem,15vw,9.5rem)]
+                    font-black uppercase leading-none tracking-[-0.06em]
                   "
+                  style={{ color: 'rgba(15,15,15,0.06)' }}
                 >
                   MOVE
                 </span>
               </motion.div>
 
-              {/* =================================================
-                  LOGO
-              ================================================== */}
-
+              {/* LOGO — mix-blend-mode: multiply removes the white box */}
               <motion.div
                 initial={
                   reducedMotion
                     ? { opacity: 0 }
-                    : {
-                        opacity: 0,
-                        scale: 0.65,
-                        rotate: -4,
-                        filter: 'blur(16px)',
-                      }
+                    : { opacity: 0, scale: 0.72, filter: 'blur(12px)' }
                 }
-                animate={{
-                  opacity: 1,
-                  scale: 1,
-                  rotate: 0,
-                  filter: 'blur(0px)',
-                }}
+                animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
                 transition={{
-                  duration: reducedMotion ? 0.3 : 1.25,
-                  delay: reducedMotion ? 0 : 0.5,
+                  duration: reducedMotion ? 0.3 : 1.1,
+                  delay: reducedMotion ? 0 : 0.45,
                   ease: [0.16, 1, 0.3, 1],
                 }}
                 className="relative z-20"
               >
-                {/* Glow behind logo */}
-                <div
-                  className="
-                    absolute
-                    left-1/2
-                    top-1/2
-                    -z-10
-                    h-[70%]
-                    w-[70%]
-                    -translate-x-1/2
-                    -translate-y-1/2
-                    rounded-full
-                  "
-                  style={{
-                    background:
-                      'radial-gradient(circle, rgba(226,63,115,0.28), transparent 68%)',
-                    filter: 'blur(35px)',
-                  }}
-                />
-
                 <motion.img
                   src={zumba90}
                   alt="Zumba With Hanna"
                   draggable={false}
-                  className="
-                    relative
-                    w-[250px]
-                    object-contain
-                    drop-shadow-[0_25px_50px_rgba(0,0,0,0.7)]
-                    sm:w-[330px]
-                    md:w-[390px]
-                  "
-                  animate={
-                    reducedMotion
-                      ? undefined
-                      : {
-                          y: [-7, 7, -7],
-                        }
-                  }
-                  transition={{
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                  }}
+                  className="relative w-[240px] object-contain sm:w-[310px] md:w-[370px]"
+                  style={{ mixBlendMode: 'multiply' }}
+                  animate={reducedMotion ? undefined : { y: [-6, 6, -6] }}
+                  transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut' }}
                 />
               </motion.div>
 
-              {/* =================================================
-                  KINETIC WORD 02
-              ================================================== */}
-
+              {/* KINETIC WORD — DANCE */}
               <motion.div
-                initial={
-                  reducedMotion
-                    ? { opacity: 0 }
-                    : {
-                        opacity: 0,
-                        x: 120,
-                        skewX: 12,
-                      }
-                }
-                animate={{
-                  opacity: 1,
-                  x: 0,
-                  skewX: 0,
-                }}
+                initial={reducedMotion ? { opacity: 0 } : { opacity: 0, x: 100, skewX: 10 }}
+                animate={{ opacity: 1, x: 0, skewX: 0 }}
                 transition={{
-                  duration: reducedMotion ? 0.3 : 1,
-                  delay: reducedMotion ? 0 : 0.65,
+                  duration: reducedMotion ? 0.3 : 0.95,
+                  delay: reducedMotion ? 0 : 0.6,
                   ease: [0.16, 1, 0.3, 1],
                 }}
                 className="
-                  absolute
-                  -bottom-[100px]
-                  left-1/2
-                  -translate-x-1/2
-                  whitespace-nowrap
-                  sm:-bottom-[125px]
-                  md:-bottom-[145px]
+                  absolute -bottom-[95px] left-1/2 -translate-x-1/2 whitespace-nowrap
+                  sm:-bottom-[118px] md:-bottom-[140px]
                 "
               >
                 <span
                   className="
-                    text-[clamp(4rem,16vw,10rem)]
-                    font-black
-                    uppercase
-                    leading-none
-                    tracking-[-0.08em]
-                    text-white/[0.035]
+                    text-[clamp(4rem,15vw,9.5rem)]
+                    font-black uppercase leading-none tracking-[-0.06em]
                   "
+                  style={{ color: 'rgba(15,15,15,0.06)' }}
                 >
                   DANCE
                 </span>
               </motion.div>
 
-              {/* =================================================
-                  PULSE RINGS
-              ================================================== */}
-
+              {/* PULSE RINGS */}
               {!reducedMotion && (
                 <>
                   <motion.div
                     className="
-                      pointer-events-none
-                      absolute
-                      left-1/2
-                      top-1/2
-                      h-[260px]
-                      w-[260px]
-                      -translate-x-1/2
-                      -translate-y-1/2
-                      rounded-full
-                      border
-                      border-[#E23F73]/20
+                      pointer-events-none absolute left-1/2 top-1/2
+                      h-[240px] w-[240px] -translate-x-1/2 -translate-y-1/2
+                      rounded-full border border-[#E23F73]/20
                     "
-                    animate={{
-                      scale: [0.8, 1.45],
-                      opacity: [0.5, 0],
-                    }}
-                    transition={{
-                      duration: 2.4,
-                      repeat: Infinity,
-                      ease: 'easeOut',
-                    }}
+                    animate={{ scale: [0.85, 1.5], opacity: [0.6, 0] }}
+                    transition={{ duration: 2.6, repeat: Infinity, ease: 'easeOut' }}
                   />
-
                   <motion.div
                     className="
-                      pointer-events-none
-                      absolute
-                      left-1/2
-                      top-1/2
-                      h-[260px]
-                      w-[260px]
-                      -translate-x-1/2
-                      -translate-y-1/2
-                      rounded-full
-                      border
-                      border-[#C8F03C]/15
+                      pointer-events-none absolute left-1/2 top-1/2
+                      h-[240px] w-[240px] -translate-x-1/2 -translate-y-1/2
+                      rounded-full border border-neutral-300/60
                     "
-                    animate={{
-                      scale: [0.8, 1.45],
-                      opacity: [0.45, 0],
-                    }}
-                    transition={{
-                      duration: 2.4,
-                      delay: 1.2,
-                      repeat: Infinity,
-                      ease: 'easeOut',
-                    }}
+                    animate={{ scale: [0.85, 1.5], opacity: [0.4, 0] }}
+                    transition={{ duration: 2.6, delay: 1.3, repeat: Infinity, ease: 'easeOut' }}
                   />
                 </>
               )}
@@ -599,48 +253,19 @@ export default function SplashScreen() {
           ====================================================== */}
 
           <motion.div
-            initial={{ opacity: 0, y: 15 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.7,
-              delay: reducedMotion ? 0 : 1.2,
-            }}
-            className="
-              absolute
-              bottom-[105px]
-              left-1/2
-              z-30
-              -translate-x-1/2
-              text-center
-            "
+            transition={{ duration: 0.6, delay: reducedMotion ? 0 : 1.15 }}
+            className="absolute bottom-[100px] left-1/2 z-30 -translate-x-1/2 text-center"
           >
-            <p
-              className="
-                whitespace-nowrap
-                text-[9px]
-                font-bold
-                uppercase
-                tracking-[0.45em]
-                text-white/55
-                sm:text-[10px]
-              "
-            >
+            <p className="whitespace-nowrap text-[9px] font-semibold uppercase tracking-[0.5em] text-neutral-400 sm:text-[10px]">
               Sweat
-              <span className="mx-2 text-[#E23F73]">•</span>
+              <span className="mx-2 text-[#E23F73]">·</span>
               Smile
-              <span className="mx-2 text-[#FF9736]">•</span>
+              <span className="mx-2 text-[#E23F73]">·</span>
               Repeat
             </p>
-
-            <p
-              className="
-                mt-2
-                text-[7px]
-                uppercase
-                tracking-[0.3em]
-                text-white/20
-              "
-            >
+            <p className="mt-2 text-[7px] uppercase tracking-[0.3em] text-neutral-300">
               Your energy starts here
             </p>
           </motion.div>
@@ -652,70 +277,25 @@ export default function SplashScreen() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{
-              duration: 0.7,
-              delay: reducedMotion ? 0 : 1.3,
-            }}
+            transition={{ duration: 0.6, delay: reducedMotion ? 0 : 1.25 }}
             className="
-              absolute
-              bottom-7
-              left-1/2
-              z-30
-              flex
-              w-[calc(100%-40px)]
-              max-w-[420px]
-              -translate-x-1/2
-              items-center
-              gap-4
+              absolute bottom-6 left-1/2 z-30
+              flex w-[calc(100%-48px)] max-w-[400px]
+              -translate-x-1/2 items-center gap-4
             "
           >
-            <span
-              className="
-                text-[8px]
-                font-mono
-                tracking-[0.2em]
-                text-white/25
-              "
-            >
-              01
-            </span>
+            <span className="text-[8px] font-mono tracking-[0.18em] text-neutral-300">01</span>
 
-            <div
-              className="
-                relative
-                h-[2px]
-                flex-1
-                overflow-hidden
-                bg-white/[0.10]
-              "
-            >
+            <div className="relative h-[1.5px] flex-1 overflow-hidden bg-neutral-200">
               <motion.div
                 initial={{ width: '0%' }}
                 animate={{ width: '100%' }}
-                transition={{
-                  duration: DISPLAY_TIME / 1000,
-                  ease: 'linear',
-                }}
-                className="
-                  h-full
-                  bg-gradient-to-r
-                  from-[#E23F73]
-                  via-[#FF9736]
-                  to-[#C8F03C]
-                "
+                transition={{ duration: DISPLAY_TIME / 1000, ease: 'linear' }}
+                className="h-full bg-[#E23F73]"
               />
             </div>
 
-            <span
-              className="
-                text-[8px]
-                font-mono
-                tracking-[0.2em]
-                text-white/25
-              "
-            >
-              100
-            </span>
+            <span className="text-[8px] font-mono tracking-[0.18em] text-neutral-300">100</span>
           </motion.div>
 
           {/* =====================================================
@@ -725,113 +305,44 @@ export default function SplashScreen() {
           <motion.button
             type="button"
             onClick={enterWebsite}
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.7,
-              delay: reducedMotion ? 0 : 1.45,
-            }}
-            whileHover={
-              reducedMotion
-                ? undefined
-                : {
-                    scale: 1.05,
-                  }
-            }
-            whileTap={
-              reducedMotion
-                ? undefined
-                : {
-                    scale: 0.95,
-                  }
-            }
-            className="
-              group
-              absolute
-              bottom-[52px]
-              right-6
-              z-40
-              cursor-pointer
-              sm:right-10
-            "
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: reducedMotion ? 0 : 1.4 }}
+            whileHover={reducedMotion ? undefined : { scale: 1.04 }}
+            whileTap={reducedMotion ? undefined : { scale: 0.96 }}
+            className="group absolute bottom-[48px] right-7 z-40 cursor-pointer sm:right-12"
             aria-label="Enter Zumba With Hanna"
           >
             <span
               className="
-                flex
-                items-center
-                gap-2
-                text-[8px]
-                font-bold
-                uppercase
-                tracking-[0.3em]
-                text-white/45
-                transition-colors
-                duration-300
-                group-hover:text-white
+                flex items-center gap-2
+                text-[8px] font-semibold uppercase tracking-[0.32em]
+                text-neutral-400
+                transition-colors duration-200
+                group-hover:text-[#E23F73]
               "
             >
               Enter
-              <span
-                className="
-                  text-[#C8F03C]
-                  transition-transform
-                  duration-300
-                  group-hover:translate-x-1
-                "
-              >
-                →
-              </span>
+              <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
             </span>
           </motion.button>
 
           {/* =====================================================
-              CENTER DECORATIVE CROSS
+              BOTTOM-LEFT THIN RULE DETAIL
           ====================================================== */}
 
-          <div
-            className="
-              pointer-events-none
-              absolute
-              left-1/2
-              top-1/2
-              z-0
-              -translate-x-1/2
-              -translate-y-1/2
-            "
-          >
-            <span
-              className="
-                absolute
-                left-1/2
-                top-1/2
-                h-px
-                w-[300px]
-                -translate-x-1/2
-                bg-gradient-to-r
-                from-transparent
-                via-white/[0.04]
-                to-transparent
-                sm:w-[500px]
-              "
-            />
-
-            <span
-              className="
-                absolute
-                left-1/2
-                top-1/2
-                h-[300px]
-                w-px
-                -translate-y-1/2
-                bg-gradient-to-b
-                from-transparent
-                via-white/[0.04]
-                to-transparent
-                sm:h-[500px]
-              "
-            />
-          </div>
+          <motion.div
+            initial={{ opacity: 0, scaleY: 0 }}
+            animate={{ opacity: 1, scaleY: 1 }}
+            transition={{ duration: reducedMotion ? 0 : 0.8, delay: reducedMotion ? 0 : 0.6 }}
+            className="absolute bottom-0 left-8 z-20 h-[90px] w-px origin-bottom bg-gradient-to-t from-transparent via-neutral-300 to-transparent sm:left-12"
+          />
+          <motion.div
+            initial={{ opacity: 0, scaleY: 0 }}
+            animate={{ opacity: 1, scaleY: 1 }}
+            transition={{ duration: reducedMotion ? 0 : 0.8, delay: reducedMotion ? 0 : 0.7 }}
+            className="absolute bottom-0 right-8 z-20 h-[90px] w-px origin-bottom bg-gradient-to-t from-transparent via-neutral-300 to-transparent sm:right-12"
+          />
 
           {/* Accessibility */}
           <span className="sr-only">
