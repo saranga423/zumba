@@ -6,7 +6,7 @@ import About from './About'
 import Schedule from './Schedule'
 // import Pricing from './Pricing'
 // import Gallery from './Gallery'
-import Testimonials from './Testimonials'
+// import Testimonials from './Testimonials'
 import Location from './Location'
 import FAQ from './FAQ'
 import FollowUs from './FollowUs'
@@ -23,7 +23,7 @@ export default function HomePage() {
         <Schedule />
         {/* <Pricing /> */}
         {/* <Gallery /> */}
-        <Testimonials />
+        {/*<Testimonials />*/}
         <Location />
         <FAQ />
         <FollowUs />

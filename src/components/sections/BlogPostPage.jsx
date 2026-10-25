@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import {
@@ -391,7 +391,10 @@ export default function BlogPostPage() {
 
   const normalizedSlug = slug?.toLowerCase().trim();
   const article = (articles || []).find((a) => a.slug?.toLowerCase().trim() === normalizedSlug);
-  const headings = article ? extractHeadings(article.content) : [];
+  const headings = useMemo(
+    () => (article ? extractHeadings(article.content) : []),
+    [article]
+  );
 
   // ── Global scroll progress ────────────────────────────────────────────────
   useEffect(() => {
@@ -455,7 +458,7 @@ export default function BlogPostPage() {
     <div className="min-h-screen selection:bg-lime selection:text-plum" style={{ backgroundColor: "#FAF4E9" }}>
 
       {/* ── Global reading progress bar (top of viewport) ─────────────────── */}
-      <div className="fixed top-0 left-0 right-0 z-50 h-[3px]" style={{ background: "rgba(43,19,48,0.08)" }}>
+      <div className="fixed top-0 left-0 right-0 z-50 h-0.75" style={{ background: "rgba(43,19,48,0.08)" }}>
         <motion.div
           className="h-full origin-left"
           style={{
@@ -678,7 +681,7 @@ export default function BlogPostPage() {
               <div className="flex items-center gap-3 mb-4">
                 {/* Avatar + progress ring */}
                 <div className="relative shrink-0" style={{ width: 46, height: 46 }}>
-                  <div className="w-[46px] h-[46px] rounded-full flex items-center justify-center font-bricolage font-extrabold text-xl"
+                  <div className="w-11.5 h-11.5 rounded-full flex items-center justify-center font-bricolage font-extrabold text-xl"
                     style={{ background: "linear-gradient(135deg, #E23F73, #FF9736)", color: "#FAF4E9" }}>H</div>
                   <ProgressRing progress={scrollProgress} size={52} stroke={3} />
                 </div>
