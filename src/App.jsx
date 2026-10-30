@@ -5,6 +5,7 @@ import InstructorPage  from './components/sections/InstructorPage'
 import Gallery         from './components/sections/Gallery'
 import BlogPage        from './components/sections/BlogPage'
 import BlogPostPage    from './components/sections/BlogPostPage'
+import ExerciseLibrary from './components/sections/ExerciseLibrary'
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
       <Route path="/home"          element={<HomePage />} />
       <Route path="/instructor"    element={<InstructorPage />} />
       <Route path="/gallery"       element={<Gallery />} />
+      <Route path="/exercises"     element={<ExerciseLibrary />} />
       <Route path="/blog"          element={<BlogPage />} />
       <Route path="/blog/:slug"    element={<BlogPostPage />} />  
     </Routes>

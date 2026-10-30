@@ -13,6 +13,7 @@ import slide8 from "../../assets/i27.jpg";
 import slide9 from "../../assets/i4.jpg";
 import slide10 from "../../assets/i5.jpg";
 
+
 const photos = [
   { src: slide1, alt: "Hanna leading a Zumba class" },
   { src: slide2, alt: "Hanna sharing her love of dance" },
@@ -89,17 +90,17 @@ export default function InstructorPage() {
         </div>
       </header>
 
-      <section className="relative isolate min-h-[720px] overflow-hidden bg-[#2B1330] text-white sm:min-h-[780px]">
+      <section className="relative isolate min-h-180 overflow-hidden bg-plum text-white sm:min-h-195">
         <img
           src={instructorImg}
           alt="Zumba instructor Hanna Waththalage"
           className="absolute inset-0 -z-20 h-full w-full object-cover object-[center_28%]"
           fetchPriority="high"
         />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#1c0b20]/95 via-[#1c0b20]/65 to-[#1c0b20]/10" />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[#1c0b20]/80 via-transparent to-[#1c0b20]/15" />
+        <div className="absolute inset-0 -z-10 bg-linear-to-r from-[#1c0b20]/95 via-[#1c0b20]/65 to-[#1c0b20]/10" />
+        <div className="absolute inset-0 -z-10 bg-linear-to-t from-[#1c0b20]/80 via-transparent to-[#1c0b20]/15" />
 
-        <div className="mx-auto flex min-h-[720px] max-w-7xl items-end px-6 pb-20 pt-32 sm:min-h-[780px] sm:px-10 sm:pb-24">
+        <div className="mx-auto flex min-h-180 max-w-7xl items-end px-6 pb-20 pt-32 sm:min-h-195 sm:px-10 sm:pb-24">
           <motion.div
             variants={fadeUp}
             initial={prefersReducedMotion ? false : "hidden"}
@@ -107,14 +108,14 @@ export default function InstructorPage() {
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             className="max-w-3xl"
           >
-            <p className="mb-5 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.28em] text-[#C8F03C] sm:text-sm">
-              <span className="h-px w-9 bg-[#C8F03C]" />
+            <p className="mb-5 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.28em] text-lime sm:text-sm">
+              <span className="h-px w-9 bg-lime" />
               Meet your instructor
             </p>
             <h1 className="font-bricolage text-6xl font-extrabold leading-[0.9] tracking-[-0.06em] sm:text-8xl md:text-[7.5rem]">
               Hanna
               <br />
-              <span className="text-[#FF9736]">Waththalage</span>
+              <span className="text-mango">Waththalage</span>
             </h1>
             <p className="mt-7 max-w-xl text-base leading-7 text-white/80 sm:text-lg sm:leading-8">
               Good music, feel-good movement, and a room where everyone belongs.
@@ -122,14 +123,14 @@ export default function InstructorPage() {
             </p>
             <a
               href="#hanna-story"
-              className="mt-9 inline-flex items-center gap-3 rounded-full bg-[#C8F03C] px-6 py-3.5 text-sm font-bold text-[#2B1330] transition hover:-translate-y-0.5 hover:bg-white"
+              className="mt-9 inline-flex items-center gap-3 rounded-full bg-lime px-6 py-3.5 text-sm font-bold text-plum transition hover:-translate-y-0.5 hover:bg-white"
             >
               Get to know Hanna <ArrowDown size={17} aria-hidden="true" />
             </a>
           </motion.div>
         </div>
 
-        <div className="absolute bottom-0 right-0 hidden w-[37%] max-w-[520px] translate-y-1/3 rotate-[-8deg] rounded-tl-[48px] bg-[#FF9736] p-8 text-[#2B1330] lg:block">
+        <div className="absolute bottom-0 right-0 hidden w-[37%] max-w-130 translate-y-1/3 rotate-[-8deg] rounded-tl-[48px] bg-mango p-8 text-plum lg:block">
           <p className="font-bricolage text-2xl font-extrabold leading-tight">
             “Movement should feel like joy, not a chore.”
           </p>
@@ -146,16 +147,16 @@ export default function InstructorPage() {
           className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-24"
         >
           <div>
-            <p className="mb-4 text-xs font-bold uppercase tracking-[0.24em] text-[#E23F73]">
+            <p className="mb-4 text-xs font-bold uppercase tracking-[0.24em] text-hibiscus">
               More than a workout
             </p>
             <h2 className="font-bricolage text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl">
               Find your
               <br />
-              <span className="text-[#E23F73]">happy pace.</span>
+              <span className="text-hibiscus">happy pace.</span>
             </h2>
           </div>
-          <div className="space-y-5 text-base leading-8 text-[#2B1330]/75 sm:text-lg">
+          <div className="space-y-5 text-base leading-8 text-plum/75 sm:text-lg">
             <p>
               What began as a way to stay active turned into a calling. Today,
               Hanna brings that same joy to every class, with movement that feels
@@ -170,9 +171,9 @@ export default function InstructorPage() {
               {["Beginner-friendly", "Music-led", "Come as you are"].map((label) => (
                 <span
                   key={label}
-                  className="inline-flex items-center gap-2 rounded-full border border-[#2B1330]/10 bg-white px-4 py-2 text-sm font-semibold text-[#2B1330]"
+                  className="inline-flex items-center gap-2 rounded-full border border-plum/10 bg-white px-4 py-2 text-sm font-semibold text-plum"
                 >
-                  <Sparkles size={14} className="text-[#E23F73]" aria-hidden="true" />
+                  <Sparkles size={14} className="text-hibiscus" aria-hidden="true" />
                   {label}
                 </span>
               ))}
@@ -181,7 +182,7 @@ export default function InstructorPage() {
         </motion.div>
       </section>
 
-      <section className="bg-[#2B1330] px-6 py-20 text-white sm:px-10 sm:py-28">
+      <section className="bg-plum px-6 py-20 text-white sm:px-10 sm:py-28">
         <div className="mx-auto max-w-6xl">
           <motion.div
             {...reveal}
@@ -190,7 +191,7 @@ export default function InstructorPage() {
             transition={{ duration: 0.6 }}
             className="mb-12 max-w-2xl"
           >
-            <p className="mb-4 text-xs font-bold uppercase tracking-[0.24em] text-[#FF9736]">
+            <p className="mb-4 text-xs font-bold uppercase tracking-[0.24em] text-mango">
               One step at a time
             </p>
             <h2 className="font-bricolage text-4xl font-extrabold leading-tight tracking-tight sm:text-6xl">
@@ -208,10 +209,10 @@ export default function InstructorPage() {
                 transition={{ duration: 0.5, delay: index * 0.08 }}
                 className="bg-[#351c3a] p-6 sm:p-7"
               >
-                <span className="mb-8 inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#E23F73]/15 text-[#FF9736]">
+                <span className="mb-8 inline-flex h-10 w-10 items-center justify-center rounded-full bg-hibiscus/15 text-mango">
                   <Trophy size={17} aria-hidden="true" />
                 </span>
-                <p className="text-sm font-bold tracking-[0.15em] text-[#C8F03C]">{item.year}</p>
+                <p className="text-sm font-bold tracking-[0.15em] text-lime">{item.year}</p>
                 <h3 className="mt-3 font-bricolage text-xl font-bold leading-snug">{item.title}</h3>
                 <p className="mt-3 text-sm leading-6 text-white/60">{item.description}</p>
               </motion.article>
@@ -228,7 +229,7 @@ export default function InstructorPage() {
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.6 }}
           >
-            <p className="mb-4 text-xs font-bold uppercase tracking-[0.24em] text-[#E23F73]">
+            <p className="mb-4 text-xs font-bold uppercase tracking-[0.24em] text-hibiscus">
               Where to find Hanna
             </p>
             <h2 className="font-bricolage text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
@@ -240,7 +241,7 @@ export default function InstructorPage() {
               href="https://web.facebook.com/Kandy-108014839219027/"
               target="_blank"
               rel="noreferrer"
-              className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-[#E23F73] transition hover:text-[#2B1330]"
+              className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-hibiscus transition hover:text-plum"
             >
               <MapPin size={17} aria-hidden="true" />
               Kandy, Sri Lanka
@@ -256,10 +257,10 @@ export default function InstructorPage() {
                 variants={fadeUp}
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.45, delay: index * 0.06 }}
-                className="flex min-h-24 items-center rounded-2xl border border-[#2B1330]/10 bg-white p-5 shadow-[0_12px_36px_rgba(43,19,48,0.05)]"
+                className="flex min-h-24 items-center rounded-2xl border border-plum/10 bg-white p-5 shadow-[0_12px_36px_rgba(43,19,48,0.05)]"
               >
-                <span className="mr-4 h-2.5 w-2.5 shrink-0 rounded-full bg-[#E23F73]" />
-                <p className="text-sm font-semibold leading-6 text-[#2B1330]">{studio}</p>
+                <span className="mr-4 h-2.5 w-2.5 shrink-0 rounded-full bg-hibiscus" />
+                <p className="text-sm font-semibold leading-6 text-plum">{studio}</p>
               </motion.div>
             ))}
           </div>
@@ -270,14 +271,14 @@ export default function InstructorPage() {
         <div className="mx-auto max-w-6xl">
           <div className="mb-10 flex flex-col justify-between gap-4 sm:mb-14 sm:flex-row sm:items-end">
             <div>
-              <p className="mb-4 text-xs font-bold uppercase tracking-[0.24em] text-[#E23F73]">
+              <p className="mb-4 text-xs font-bold uppercase tracking-[0.24em] text-hibiscus">
                 From the dance floor
               </p>
               <h2 className="font-bricolage text-4xl font-extrabold tracking-tight sm:text-6xl">
                 A little class energy.
               </h2>
             </div>
-            <p className="max-w-sm text-sm leading-6 text-[#2B1330]/65">
+            <p className="max-w-sm text-sm leading-6 text-plum/65">
               A few moments with Hanna and the community she moves with.
             </p>
           </div>
@@ -290,7 +291,7 @@ export default function InstructorPage() {
                 variants={fadeUp}
                 viewport={{ once: true, amount: 0.15 }}
                 transition={{ duration: 0.45, delay: (index % 5) * 0.05 }}
-                className={`group overflow-hidden rounded-2xl bg-[#2B1330]/10 ${
+                className={`group overflow-hidden rounded-2xl bg-plum/10 ${
                   index % 5 === 1 ? "sm:translate-y-8" : ""
                 }`}
               >
@@ -298,7 +299,7 @@ export default function InstructorPage() {
                   src={photo.src}
                   alt={photo.alt}
                   loading="lazy"
-                  className="aspect-[4/5] w-full object-cover transition duration-500 group-hover:scale-105"
+                  className="aspect-4/5 w-full object-cover transition duration-500 group-hover:scale-105"
                 />
               </motion.figure>
             ))}
@@ -306,7 +307,7 @@ export default function InstructorPage() {
         </div>
       </section>
 
-      <section className="bg-[#E23F73] px-6 py-16 text-white sm:px-10 sm:py-20">
+      <section className="bg-hibiscus px-6 py-16 text-white sm:px-10 sm:py-20">
         <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-8 sm:flex-row sm:items-center">
           <div>
             <p className="mb-3 text-xs font-bold uppercase tracking-[0.24em] text-white/75">
@@ -318,7 +319,7 @@ export default function InstructorPage() {
           </div>
           <Link
             to="/home#schedule"
-            className="inline-flex shrink-0 items-center gap-3 rounded-full bg-[#C8F03C] px-6 py-3.5 text-sm font-bold text-[#2B1330] transition hover:-translate-y-0.5 hover:bg-white"
+            className="inline-flex shrink-0 items-center gap-3 rounded-full bg-lime px-6 py-3.5 text-sm font-bold text-plum transition hover:-translate-y-0.5 hover:bg-white"
           >
             Explore class times <ArrowUpRight size={17} aria-hidden="true" />
           </Link>

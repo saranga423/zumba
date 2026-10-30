@@ -35,6 +35,7 @@ const navLinks = [
   { label: 'About',        href: '#about'         },
   { label: 'Schedule',     href: '#schedule'      },
   { label: 'Gallery',      href: '/gallery', isRoute: true },
+  { label: 'Exercise Library', href: '/exercises', isRoute: true },
   { label: 'Testimonials', href: '#testimonials'  },
   { label: 'Location',     href: '#location'      },
   { label: 'FAQ',          href: '#faq'           },

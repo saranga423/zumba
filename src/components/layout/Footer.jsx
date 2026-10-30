@@ -32,6 +32,7 @@ const footerLinks = [
   { label: "Schedule", href: "#schedule" },
   { label: "About",    href: "#about"    },
   { label: "Gallery",  href: "/gallery"  },
+  { label: "Exercise Library", href: "/exercises" },
   { label: "Location", href: "#location" },
   { label: "FAQ",      href: "#faq"      },
 ];
