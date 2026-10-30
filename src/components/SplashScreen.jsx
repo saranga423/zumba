@@ -48,7 +48,7 @@ export default function SplashScreen() {
             duration: reducedMotion ? 0.2 : EXIT_TIME / 1000,
             ease: [0.76, 0, 0.24, 1],
           }}
-          className="fixed inset-0 z-[9999] overflow-hidden bg-white select-none"
+          className="fixed inset-0 z-9999 overflow-hidden bg-white select-none"
         >
           {/* =====================================================
               BACKGROUND — clean white with a single sharp tint
@@ -89,7 +89,7 @@ export default function SplashScreen() {
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
             transition={{ duration: reducedMotion ? 0 : 1.1, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute top-0 left-0 right-0 h-0.75 origin-left bg-[#E23F73] z-40"
+            className="absolute top-0 left-0 right-0 h-0.75 origin-left bg-hibiscus z-40"
           />
 
           <motion.header
@@ -103,7 +103,7 @@ export default function SplashScreen() {
             "
           >
             <div className="flex items-center gap-3">
-              <span className="h-[6px] w-[6px] rounded-full bg-[#E23F73]" />
+              <span className="h-1.5 w-[6px] rounded-full bg-[#E23F73]" />
               <span className="text-[9px] font-semibold uppercase tracking-[0.38em] text-neutral-800">
                 Zumba With Hanna
               </span>
